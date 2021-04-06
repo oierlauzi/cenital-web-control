@@ -1,3 +1,3 @@
 module.exports = {
-	publicPath: '/cenital-control/'
+	publicPath: '/cenital-web-control/'
 }
