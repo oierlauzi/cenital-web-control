@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar toggleable="lg" type="dark" variant="primary">
-      <b-navbar-brand href="#">Cenital Web Control</b-navbar-brand>
+      <b-navbar-brand href="#">{{ $appName }}</b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -72,11 +72,14 @@
       AddMixEffect,
 
     },
+    props: {
+      inputs: { type: Array },
+      outputs: { type: Array },
+      mixEffects: { type: Array },
 
+    },
     data() {
-      return {
-
-      };
+      return {};
     }
   };
 </script>

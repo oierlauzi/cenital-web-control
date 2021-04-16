@@ -1,12 +1,16 @@
 <template>
   <div>
-    <h1>Home</h1>
+    <!-- Title bar -->
+    <b-jumbotron :header="$appName" :lead="$appVersion" />
+
+
   </div>
 </template>
 
 <script>
   export default {
     name: 'Home',
-    components: {}
+    components: {},
+    props: {}
   }
 </script>
