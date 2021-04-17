@@ -63,7 +63,7 @@
       </b-collapse>
     </b-navbar>
 
-    <AddMixEffect />
+    <AddMixEffect @ok="addMixeffect"/>
   </div>
 </template>
 
@@ -84,6 +84,11 @@
     },
     data() {
       return {};
+    },
+    methods: {
+      addMixeffect(name, inpuntCnt, uskCnt, dskCnt) {
+        console.log(name, inpuntCnt, uskCnt, dskCnt)
+      }
     }
   };
 </script>

@@ -76,22 +76,20 @@
     data() {
       return {
         name: '',
-        inputCount: 0,
-        uskCount: 0,
-        dskCount: 0,
-
-        submittedNames: [] //TODO remove
+        inputCount: 8,
+        uskCount: 4,
+        dskCount: 2
       }
     },
     methods: {
       resetModal() {
         this.name = ''
-        //this.nameState = null
-        //Do not reset counts, as they may be useful for next calls
+        //Do not reset counts, as they may be useful for future calls
       },
       handleOk(bvModalEvt) {
         //Prevent modal from closing
         bvModalEvt.preventDefault()
+
         //Trigger submit handler
         this.handleSubmit()
       },
@@ -101,8 +99,8 @@
           return
         }
 
-        //Add the mix effect
-        //TODO
+        //Emit the create event
+        this.$emit("ok", this.name, this.inputCount, this.uskCount, this.dskCount);
 
         //Hide the modal
         this.$nextTick(() => {
