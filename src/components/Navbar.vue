@@ -65,7 +65,8 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-
+          <Connection />
+          
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -76,12 +77,13 @@
 
 <script>
   import AddMixEffect from "./AddMixEffect.vue"
+  import Connection from "./Connection.vue"
 
   export default {
     name: "Navbar",
     components: {
       AddMixEffect,
-
+      Connection
     },
     props: {
       inputs: { type: Array },
