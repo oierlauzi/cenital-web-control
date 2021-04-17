@@ -14,9 +14,11 @@
         <b-navbar-nav>
           <!-- Inputs dropdown -->
           <b-nav-item-dropdown text="Inputs" right>
-            <b-dropdown-item-button v-for="(item, index) in inputs" :key="index">
-              {{ item }}
-            </b-dropdown-item-button>
+            <b-dropdown-item 
+              v-for="(item, index) in inputs" :key="index"
+            >
+              {{ item.name }}
+            </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
 
@@ -28,9 +30,11 @@
 
           <!-- Outputs dropdown -->
           <b-nav-item-dropdown text="Outputs" right>
-            <b-dropdown-item-button v-for="(item, index) in outputs" :key="index">
-              {{ item }}
-            </b-dropdown-item-button>
+            <b-dropdown-item 
+              v-for="(item, index) in outputs" :key="index"
+            >
+              {{ item.name }}
+            </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
 
@@ -42,9 +46,12 @@
 
           <!-- Mix Effects dropdown -->
           <b-nav-item-dropdown text="Mix Effects" right>
-            <b-dropdown-item-button v-for="(item, index) in mixEffects" :key="index">
-              {{ item }}
-            </b-dropdown-item-button>
+            <b-dropdown-item 
+              v-for="(item, index) in mixEffects" :key="index"
+              :to="{ name: 'mix-effect', params: { name: item.name }  }"
+            >
+              {{ item.name }}
+            </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
 

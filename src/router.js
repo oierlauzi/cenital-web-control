@@ -2,17 +2,19 @@ import Vue from "vue"
 import VueRouter from "vue-router"
 
 import Home from "./views/Home.vue"
+import MixEffect from "./views/MixEffect.vue"
 import NotFound from "./views/NotFound.vue"
 
 Vue.use(VueRouter)
 
 const routes = [
-	//	Path			//Name				//Component
-    {	path: "/", 		name: "home", 		component: Home 		},
+	//	Path						//Name				//Component
+    {	path: "/", 					name: "home", 		component: Home 		},
+	{ 	path: '/mix-effect/:name', 	name: "mix-effect", component: MixEffect 	},
 	
 	//Add here
 
-	{	path: "*", 		name: "not-found", 	component: NotFound 	}
+	{	path: "*", 					name: "not-found", 	component: NotFound 	}
 ];
 
 const router = new VueRouter({
