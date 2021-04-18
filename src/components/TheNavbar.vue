@@ -65,25 +65,21 @@
 
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
-          <Connection />
+          <NavbarConnection />
           
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
-
-    <AddMixEffect @ok="addMixeffect"/>
   </div>
 </template>
 
 <script>
-  import AddMixEffect from "./AddMixEffect.vue"
-  import Connection from "./Connection.vue"
+  import NavbarConnection from "./NavbarConnection.vue"
 
   export default {
-    name: "Navbar",
+    name: "TheNavbar",
     components: {
-      AddMixEffect,
-      Connection
+      NavbarConnection
     },
     props: {
       inputs: { type: Array },
@@ -93,11 +89,6 @@
     },
     data() {
       return {};
-    },
-    methods: {
-      addMixeffect(name, inpuntCnt, uskCnt, dskCnt) {
-        console.log(name, inpuntCnt, uskCnt, dskCnt)
-      }
     }
   };
 </script>

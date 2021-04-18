@@ -2,7 +2,6 @@
   <div>
     <b-modal
       id="add-mix-effect"
-      ref="modal"
       title="Add Mix Effect"
       @show="resetModal"
       @hidden="resetModal"
@@ -17,7 +16,7 @@
           :state="inputNameValidation"
         >
           <b-form-input
-            id="name-input"
+            ref="name-input"
             v-model="name"
             :state="inputNameValidation"
             required
@@ -30,7 +29,7 @@
           label-for="input-count-input"
         >
           <b-form-spinbutton 
-            id="input-count-input" 
+            ref="input-count-input" 
             v-model="inputCount"
             min="0"
             inline
@@ -43,7 +42,7 @@
           label-for="usk-count-input"
         >
           <b-form-spinbutton 
-            id="usk-count-input" 
+            ref="usk-count-input" 
             v-model="uskCount"
             min="0"
             inline
@@ -56,7 +55,7 @@
           label-for="dsk-count-input"
         >
           <b-form-spinbutton 
-            id="dsk-count-input" 
+            ref="dsk-count-input" 
             v-model="dskCount"
             min="0"
             inline
@@ -70,7 +69,7 @@
 
 <script>
   export default {
-    name: "AddMixEffect",
+    name: "AddMixEffectModal",
     components: {},
     props: {},
     data() {
@@ -99,8 +98,8 @@
           return
         }
 
-        //Emit the create event
-        this.$emit("ok", this.name, this.inputCount, this.uskCount, this.dskCount);
+        //Add the mix effect to the store
+        //TODO
 
         //Hide the modal
         this.$nextTick(() => {

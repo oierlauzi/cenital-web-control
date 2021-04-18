@@ -1,17 +1,20 @@
 <template>
   <div id="app">
-    <Navbar :mixEffects="[ { name: 'Test M/E' } ]"/>
+    <TheNavbar :mixEffects="[ { name: 'Test M/E' } ]"/>
+    <AddMixEffectModal/>
     <router-view />
   </div>
 </template>
 
 <script>
-  import Navbar from './components/Navbar.vue';
+  import TheNavbar from './components/TheNavbar.vue';
+  import AddMixEffectModal from './components/AddMixEffectModal.vue';
   
   export default {
     name: 'App',
     components: {
-      Navbar
+      TheNavbar,
+      AddMixEffectModal
     }
   }
 </script>
