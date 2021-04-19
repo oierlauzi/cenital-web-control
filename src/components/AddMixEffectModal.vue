@@ -78,24 +78,24 @@
         inputCount: 8,
         uskCount: 4,
         dskCount: 2
-      }
+      };
     },
     methods: {
       resetModal() {
-        this.name = ''
+        this.name = '';
         //Do not reset counts, as they may be useful for future calls
       },
       handleOk(bvModalEvt) {
         //Prevent modal from closing
-        bvModalEvt.preventDefault()
+        bvModalEvt.preventDefault();
 
         //Trigger submit handler
-        this.handleSubmit()
+        this.handleSubmit();
       },
       handleSubmit() {
         //Return when the form isn't valid
         if(!this.$refs.form.checkValidity()) {
-          return
+          return;
         }
 
         //Add the mix effect to the store
@@ -103,14 +103,14 @@
 
         //Hide the modal
         this.$nextTick(() => {
-          this.$bvModal.hide("add-mix-effect")
-        })
+          this.$bvModal.hide("add-mix-effect");
+        });
       }
     },
     computed: {
       inputNameValidation() {
-        return this.name != "" //TODO check if name already exists
+        return this.name != ""; //TODO check if name already exists
       }
     }
-  }
+  };
 </script>

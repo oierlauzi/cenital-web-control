@@ -5,4 +5,4 @@ export default {
   SET_CONNECTION(state, message) {
     state.connected = message;
   }
-}
+};

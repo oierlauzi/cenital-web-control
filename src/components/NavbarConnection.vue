@@ -37,15 +37,15 @@
     data() {
       return {
         url: ""
-      }
+      };
     },
     methods: {
       connect() {
         //Get the url if valid
-        var url = this.$refs['input-url'].checkValidity() ? this.url : ""
+        var url = this.$refs['input-url'].checkValidity() ? this.url : "";
 
         //Set the url on the store
-        this.$store.dispatch('webSocket/setURL', url)
+        this.$store.dispatch('webSocket/setURL', url);
       }
     },
     computed: {

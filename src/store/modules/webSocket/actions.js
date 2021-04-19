@@ -8,4 +8,4 @@ export default {
   connectionClosed({ commit }) {
     commit('SET_CONNECTION', false);
   }
-}
+};

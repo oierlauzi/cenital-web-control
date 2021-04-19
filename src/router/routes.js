@@ -1,6 +1,6 @@
-import Home from "../views/Home.vue"
-import MixEffect from "../views/MixEffect.vue"
-import NotFound from "../views/NotFound.vue"
+import Home from "../views/Home.vue";
+import MixEffect from "../views/MixEffect.vue";
+import NotFound from "../views/NotFound.vue";
 
 const routes = [
   //Path						            //Name				      //Component
