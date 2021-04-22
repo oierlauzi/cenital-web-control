@@ -16,7 +16,7 @@
 
       <b-button 
         ref="button-connect" 
-        :variant="getConnection ? 'success' : 'danger'"
+        :variant="getConnected ? 'success' : 'danger'"
         @click="connect"
       >
         Connect
@@ -45,11 +45,11 @@
         var url = this.$refs['input-url'].checkValidity() ? this.url : "";
 
         //Set the url on the store
-        this.$store.dispatch('webSocket/setURL', url);
+        this.$store.dispatch('webSocket/connect', url);
       }
     },
     computed: {
-      ...mapGetters('webSocket', ['getConnection'])
+      ...mapGetters('webSocket', ['getConnected'])
     }
   }
 </script>

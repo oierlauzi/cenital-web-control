@@ -1,4 +1,5 @@
 export default {
 	getURL: state => state.url,
-	getConnection: state => state.connected
+	getError: state => state.error,
+	getConnected: state => state.connected
 };
