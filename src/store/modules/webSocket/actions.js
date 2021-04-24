@@ -4,7 +4,7 @@ export default {
     commit('SET_ERROR', null); //Clear previous errors
   },
   //eslint-disable-next-line no-unused-vars
-  send({ commit }, obj) {
+  send({ commit, store }, obj) {
     return new Promise(
       (resolve, reject) => {
         var unsubscribe = store.subscribeAction((action) => {

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container class="text-center">
+    <b-container fluid="sm" class="text-center">
       <!-- Signals -->
       <b-row class="my-3" align-v="center" :cols="columns + 1">
         <b-col cols="1">
@@ -24,7 +24,7 @@
             :value="index + shift*columns" 
             v-model="pvw"
           >
-            &nbsp;&nbsp;&nbsp;
+            <p/>
           </b-form-radio>
         </b-col>
       </b-row>
@@ -42,7 +42,7 @@
             :value="index + shift*columns" 
             v-model="pgm"
           >
-            &nbsp;&nbsp;&nbsp;
+            <p/>
           </b-form-radio>
         </b-col>
       </b-row>

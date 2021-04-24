@@ -1,3 +1,5 @@
+import Vue from "vue"
+
 export default {
   ADD(state, name) {
     const me = {
@@ -13,16 +15,16 @@ export default {
   DELETE(state, name) {
     Vue.delete(state.mixEffects, name);
   },
-  SET_INPUT_COUNT(state, payload) {
-    state.mixEffects[payload.name].inputs.length = payload.inputCount;
+  SET_INPUT_COUNT(state, { name, inputCount }) {
+    state.mixEffects[name].inputs.length = inputCount;
   },
-  SET_INPUT(state, payload) {
-    state.mixEffects[payload.name].inputs[payload.index] = payload.input;
+  SET_INPUT(state, { name, index, input }) {
+    state.mixEffects[name].inputs[index] = input;
   },
-  SET_PROGRAM(state, payload) {
-    state.mixEffects[payload.name].pgm = payload.index
+  SET_PROGRAM(state, { name, index }) {
+    state.mixEffects[name].pgm = index;
   },
-  SET_PREVIEW(state, payload) {
-    state.mixEffects[payload.name].pvw = payload.index
+  SET_PREVIEW(state, { name, index }) {
+    state.mixEffects[name].pvw = index;
   },
 };

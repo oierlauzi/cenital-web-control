@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <TheNavbar :mixEffects="[ { name: 'Test M/E' } ]"/>
+    <TheNavbar/>
     <AddMixEffectModal/>
     <router-view />
   </div>

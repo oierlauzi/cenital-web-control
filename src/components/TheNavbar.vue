@@ -48,9 +48,9 @@
           <b-nav-item-dropdown text="Mix Effects" right>
             <b-dropdown-item 
               v-for="(item, index) in mixEffects" :key="index"
-              :to="{ name: 'mix-effect', params: { name: item.name }  }"
+              :to="{ name: 'mix-effect', params: { name: item }  }"
             >
-              {{ item.name }}
+              {{ item }}
             </b-dropdown-item>
 
             <b-dropdown-divider></b-dropdown-divider>
@@ -81,14 +81,20 @@
     components: {
       NavbarConnection
     },
-    props: {
-      inputs: { type: Array },
-      outputs: { type: Array },
-      mixEffects: { type: Array },
-
-    },
+    props: {},
     data() {
       return {};
+    },
+    computed: {
+      mixEffects() {
+        return this.$store.getters["mixEffect/list"];
+      },
+      inputs() {
+        return [];
+      },
+      outputs() {
+        return [];
+      }
     }
   };
 </script>
