@@ -48,17 +48,17 @@ export default store => {
   var socket = null;
 
   //Subscribe to actions
-  store.subscribeAction((action) => {
-    switch(action.type) {
-      case "webSocket/connect":
+  store.subscribe((mutation) => {
+    switch(mutation.type) {
+      case "webSocket/CONNECT":
         //We"re reconnecting
-        socket = createWebSocket(store, socket, action.payload);
+        socket = createWebSocket(store, socket, mutation.payload);
         break;
 
-        case "webSocket/send":
+        case "webSocket/SEND":
           //Send only if valid
           if(socket) {
-            socket.send(JSON.stringify(action.payload))
+            socket.send(JSON.stringify(mutation.payload))
           }
           break;
 

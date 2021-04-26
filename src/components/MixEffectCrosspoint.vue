@@ -2,8 +2,8 @@
   <div>
     <b-container fluid="sm" class="text-center">
       <!-- Signals -->
-      <b-row class="my-3" align-v="center" :cols="columns + 1">
-        <b-col cols="1">
+      <b-row class="my-3" align-v="center" :cols="columns + q">
+        <b-col cols="2">
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
         <b-col v-for="(name, index) in layer" :key="index" cols="1">
@@ -12,8 +12,8 @@
       </b-row>
 
       <!-- Preview row -->
-      <b-row class="my-3" align-v="center" :cols="columns + 1">
-        <b-col cols="1">
+      <b-row class="my-3" align-v="center" :cols="columns + 2">
+        <b-col cols="2">
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
         <b-col v-for="(name, index) in layer" :key="index" cols="1">
@@ -30,8 +30,8 @@
       </b-row>
 
       <!-- Program row -->
-      <b-row class="my-3" align-v="center" :cols="columns + 1">
-        <b-col cols="1">
+      <b-row class="my-3" align-v="center" :cols="columns + 2">
+        <b-col cols="2">
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
         <b-col v-for="(name, index) in layer" :key="index" cols="1">

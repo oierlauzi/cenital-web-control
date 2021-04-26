@@ -85,9 +85,9 @@
         this.name = '';
         //Do not reset counts, as they may be useful for future calls
       },
-      handleOk(bvModalEvt) {
+      handleOk(event) {
         //Prevent modal from closing
-        bvModalEvt.preventDefault();
+        event.preventDefault();
 
         //Trigger submit handler
         this.handleSubmit();
