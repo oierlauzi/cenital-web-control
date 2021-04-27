@@ -13,28 +13,13 @@
     transform-origin: 90px 90px;
     transform: rotate(-90deg);
   }
-
-  /* Used to create vertical progress bar */
-  .progress-bar-vertical {
-    display: inline-block;
-    width: 180px;
-    height: 15px;
-    transform-origin: 90px 90px;
-    transform: rotate(-90deg);
-  }
-
-
 </style>
 
 <template>
   <div>
     <div class="mx-4 slider-vertical">
-      <b-form-input @input="tBarMoved" type="range" min="0" max="1024" />
+      <b-form-input :value="position" @input="moved" type="range" min="0" max="1024" />
     </div>
-    <div class="mx-4 progress-bar-vertical">
-      <b-progress :value="progress*1024" min="0" max="1024" />
-    </div>
-
   </div>
 </template>
 
@@ -43,24 +28,40 @@
     name: "MixEffectTransitionTBar",
     components: {},
     props: {
-      progress: { type: Number, default: 0.5 },
-      reverse: { type: Boolean, default: false },
+      value: { type: Number, default: 0.0 }
     },
     data() {
-      return {};
+      return {
+        reverse: false
+      };
     },
     methods: {
-      tBarMoved(value) {
+      moved(value) {
         //Calculate the value to be sent
         value /= 1024;
         if(this.reverse) {
           value = 1.0 - value;
         }
 
-
+        //Emit the event
         this.$emit("input", value);
+
+        //Evaluate if it needs to be reversed
+        if(value === 1.0) {
+          this.reverse = !this.reverse;
+          this.$emit("input", 0.0);
+        }
       }
     },
-    computed: {}
+    computed: {
+      position() {
+        var result = this.value;
+        if(this.reverse) {
+          result = 1.0 - result;
+        }
+
+        return 1024*result;
+      }
+    }
   };
 </script>

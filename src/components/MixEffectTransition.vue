@@ -1,6 +1,6 @@
 <template>
   <div>
-    <MixEffectTransitionTBar />
+    <MixEffectTransitionTBar :value="progress" @input="moved"/>
 
   </div>
 </template>
@@ -17,10 +17,14 @@
       mixEffect: { type: String, required: true }
     },
     data() {
-      return {};
+      return {
+        progress: 0.0,
+      };
     },
     methods: {
-
+      moved(value) {
+        this.progress = value;
+      }
     },
     computed: {}
   };
