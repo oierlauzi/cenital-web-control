@@ -5,16 +5,16 @@
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
         <b-col>
-          <MixEffectCrosspoint :mixEffect="name" :columns="8" />
+          <MixEffectCrosspoint :key="name" :mixEffect="name" :columns="8" />
         </b-col>
         <b-col>
-          <MixEffectTransition :mixEffect="name" />
+          <MixEffectTransition :key="name" :mixEffect="name" />
         </b-col>
 
 
         <!-- Configuration -->
         <b-col>
-          <div class="accordion" role="tablist">
+          <div :key="name" class="accordion" role="tablist">
             <!-- Settings -->
             <b-card no-body class="mb-1">
               <b-card-header header-tag="header" class="p-1" role="tab">
