@@ -5,7 +5,7 @@
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
         <b-col>
-          <MixEffectCrosspoint :columns="8" :signals="signals" :pgm="pgm" :pvw="pvw"/>
+          <MixEffectCrosspoint :mixEffect="name" :columns="8" />
         </b-col>
         <b-col>
           <MixEffectTransition :mixEffect="name" />
@@ -28,7 +28,7 @@
             </b-card>
 
             <!-- Up Stream Keyers -->
-            <b-card v-for="index in 5" :key="'usk'+index"
+            <b-card v-for="index in uskCount" :key="'usk'+index"
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
@@ -42,7 +42,7 @@
             </b-card>
 
             <!-- Down Stream Keyers -->
-            <b-card v-for="index in 5" :key="'dsk'+index"
+            <b-card v-for="index in dskCount" :key="'dsk'+index"
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
@@ -59,7 +59,6 @@
         </b-col>
 
       </b-row>
-
 
     </b-container>
 
@@ -87,18 +86,15 @@
     data() {
       return {};
     },
-    methods: {
-
-    },
+    methods: {},
     computed: {
-      signals() {
-        return this.$store.getters["mixEffect/getInputs"](this.name);
+      uskCount() {
+        //return this.$store.getters["mixEffect/"] //TODO
+        return 4;
       },
-      pgm() {
-        return this.$store.getters["mixEffect/getProgram"](this.name);
-      },
-      pvw() {
-        return this.$store.getters["mixEffect/getPreview"](this.name);
+      dskCount() {
+        //return this.$store.getters["mixEffect/"] //TODO
+        return 4;
       }
     }
   }

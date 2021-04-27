@@ -2,30 +2,12 @@
   <div>
     <b-container fluid="sm" class="text-center">
       <!-- Signals -->
-      <b-row class="my-3" align-v="center" :cols="columns + q">
+      <b-row class="my-3" align-v="center" :cols="columns + 2">
         <b-col cols="2">
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
-        <b-col v-for="(name, index) in layer" :key="index" cols="1">
+        <b-col v-for="(name, index) in layer" :key="'name'+index" cols="1">
           {{ name }}  
-        </b-col>
-      </b-row>
-
-      <!-- Preview row -->
-      <b-row class="my-3" align-v="center" :cols="columns + 2">
-        <b-col cols="2">
-          <h3><b-badge variant="success">PVW</b-badge></h3>
-        </b-col>
-        <b-col v-for="(name, index) in layer" :key="index" cols="1">
-          <b-form-radio 
-            button 
-            button-variant="outline-success" 
-            size="lg" 
-            :value="index + shift*columns" 
-            v-model="pvw"
-          >
-            <p/>
-          </b-form-radio>
         </b-col>
       </b-row>
 
@@ -34,16 +16,32 @@
         <b-col cols="2">
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
-        <b-col v-for="(name, index) in layer" :key="index" cols="1">
-          <b-form-radio 
-            button 
-            button-variant="outline-danger" 
+        <b-col v-for="(name, index) in layer" :key="'pgm'+index" cols="1">
+          <b-button
+            variant="outline-danger" 
             size="lg" 
-            :value="index + shift*columns" 
-            v-model="pgm"
+            :pressed="index + shift*columns === pgm"
+            @click="pgmClick(index)"
           >
             <p/>
-          </b-form-radio>
+          </b-button>
+        </b-col>
+      </b-row>
+
+      <!-- Preview row -->
+      <b-row class="my-3" align-v="center" :cols="columns + 2">
+        <b-col cols="2">
+          <h3><b-badge variant="success">PVW</b-badge></h3>
+        </b-col>
+        <b-col v-for="(name, index) in layer" :key="'pvw'+index" cols="1">
+          <b-button
+            variant="outline-success" 
+            size="lg" 
+            :pressed="index + shift*columns === pvw"
+            @click="pvwClick(index)"
+          >
+            <p/>
+          </b-button>
         </b-col>
       </b-row>
 
@@ -52,14 +50,14 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   export default {
     name: "MixEffectCrosspoint",
     components: {},
     props: {
-      signals: { type: Array, required: true },
-      columns: { type: Number, default: 8 },
-      pgm: { type: Number, default: -1 },
-      pvw: { type: Number, default: -1 }
+      mixEffect: { type: String, required: true },
+      columns: { type: Number, default: 8 }
     },
     data() {
       return {
@@ -67,9 +65,45 @@
       };
     },
     methods: {
+      pgmClick: function(idx) {
+        //Calculate the next index
+        idx += this.shift*this.columns; //Applies the shift
+        if(this.pgm === idx) {
+          //Already in PGM. Uncheck
+          idx = -1;
+        }
+
+        this.$store.dispatch("mixEffect/setProgram", { name: this.mixEffect, index: idx });
+      },
+      pvwClick: function(idx) {
+        //Calculate the next index
+        idx += this.shift*this.columns; //Applies the shift
+        if(this.pvw === idx) {
+          //Already in PVW. Uncheck
+          idx = -1;
+        }
+
+        this.$store.dispatch("mixEffect/setPreview", { name: this.mixEffect, index: idx });
+      }
 
     },
     computed: {
+      ...mapGetters("mixEffect", [ 
+        "getInputs",
+        "getProgram",
+        "getPreview"
+      ]),
+
+
+      signals() {
+        return this.getInputs(this.mixEffect);
+      },
+      pgm() {
+        return this.getProgram(this.mixEffect);
+      },
+      pvw() {
+        return this.getPreview(this.mixEffect);
+      },
       layer() {
         var result = [];
 
