@@ -1,13 +1,46 @@
+<style scoped>
+  .dropdown-btn-multiline {
+    white-space:normal !important;
+    word-wrap: break-word;
+    text-align: center;
+  }
+
+  .crosspoint-btn {
+    width: 100%;
+    padding-bottom: 100%;
+  }
+
+</style>
+
 <template>
   <div>
-    <b-container fluid="sm" class="text-center">
+    <b-container fluid class="text-center">
       <!-- Signals -->
       <b-row class="my-3" align-v="center" :cols="columns + 2">
         <b-col cols="2">
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
-        <b-col v-for="(name, index) in layer" :key="'name'+index" cols="1">
-          {{ name }}  
+
+        <b-col v-for="(name, index) in layer" :key="'name'+index">
+          <b-dropdown 
+            variant="outline-dark"
+            block
+            menu-class="w-100"
+          >
+            <template #button-content>
+              <div class="dropdown-btn-multiline">
+                {{ name ? name : 'None' }}
+              </div>
+            </template>
+
+            <b-dropdown-item>None</b-dropdown-item>
+            <b-dropdown-divider />
+
+            <!-- TODO add available signals -->
+
+          </b-dropdown>
+
+           
         </b-col>
       </b-row>
 
@@ -16,14 +49,16 @@
         <b-col cols="2">
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
-        <b-col v-for="(name, index) in layer" :key="'pgm'+index" cols="1">
+
+        <b-col v-for="(name, index) in layer" :key="'pgm'+index">
           <b-button
+            block
+            class="w-100"
             variant="outline-danger" 
-            size="lg" 
             :pressed="index + shift*columns === pgm"
             @click="pgmClick(index)"
           >
-            <p/>
+            <div class="crosspoint-btn" />
           </b-button>
         </b-col>
       </b-row>
@@ -33,14 +68,16 @@
         <b-col cols="2">
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
-        <b-col v-for="(name, index) in layer" :key="'pvw'+index" cols="1">
+
+        <b-col v-for="(name, index) in layer" :key="'pvw'+index">
           <b-button
+            block
+            class="w-100"
             variant="outline-success" 
-            size="lg" 
             :pressed="index + shift*columns === pvw"
             @click="pvwClick(index)"
           >
-            <p/>
+            <div class="crosspoint-btn" />
           </b-button>
         </b-col>
       </b-row>
