@@ -16,5 +16,11 @@ export default {
   },
   setPreview({ commit }, { name, index }) {
     commit('SET_PREVIEW', { name, index });
-  }
+  },
+  setTransitionType({ commit }, { name, type }) {
+    commit('SET_TRANSITION_TYPE', { name, type });
+  },
+  setTransitionDuration({ commit }, { name, dur }) {
+    commit('SET_TRANSITION_DURATION', { name, dur });
+  },
 };

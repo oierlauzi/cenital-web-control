@@ -7,6 +7,8 @@ export default {
       inputs: [],
       pgm: -1,
       pvw: -1,
+      transitionType: "Mix",
+      transitionDur: 1,
     };
 
     //Push it onto the mix effect map
@@ -26,5 +28,11 @@ export default {
   },
   SET_PREVIEW(state, { name, index }) {
     state.mixEffects[name].pvw = index;
+  },
+  SET_TRANSITION_TYPE(state, { name, type }) {
+    state.mixEffects[name].transitionType = type;
+  },
+  SET_TRANSITION_DURATION(state, { name, dur }) {
+    state.mixEffects[name].transitionDur = dur;
   },
 };

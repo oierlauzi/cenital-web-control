@@ -16,8 +16,8 @@
   <div>
     <b-container fluid class="text-center">
       <!-- Signals -->
-      <b-row class="my-3" align-v="center" :cols="columns + 2">
-        <b-col cols="2">
+      <b-row class="my-3" align-v="center" :cols="columns + 1">
+        <b-col>
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
 
@@ -45,8 +45,8 @@
       </b-row>
 
       <!-- Program row -->
-      <b-row class="my-3" align-v="center" :cols="columns + 2">
-        <b-col cols="2">
+      <b-row class="my-3" align-v="center" :cols="columns + 1">
+        <b-col>
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
 
@@ -64,8 +64,8 @@
       </b-row>
 
       <!-- Preview row -->
-      <b-row class="my-3" align-v="center" :cols="columns + 2">
-        <b-col cols="2">
+      <b-row class="my-3" align-v="center" :cols="columns + 1">
+        <b-col>
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
 
@@ -131,10 +131,6 @@
         "getPreview"
       ]),
 
-
-      signals() {
-        return this.getInputs(this.mixEffect);
-      },
       pgm() {
         return this.getProgram(this.mixEffect);
       },
@@ -145,9 +141,9 @@
         var result = [];
 
         if(!this.shift) {
-          result = this.signals.slice(0*this.columns, 1*this.columns);
+          result = this.getInputs(this.mixEffect).slice(0*this.columns, 1*this.columns);
         } else {
-          result = this.signals.slice(1*this.columns, 2*this.columns);
+          result = this.getInputs(this.mixEffect).slice(1*this.columns, 2*this.columns);
         }
 
         return result;
