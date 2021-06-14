@@ -23,4 +23,7 @@ export default {
   setTransitionDuration({ commit }, { name, dur }) {
     commit('SET_TRANSITION_DURATION', { name, dur });
   },
+  setTransitionPreview({ commit }, { name, prev }) {
+    commit('SET_TRANSITION_PREVIEW', { name, prev });
+  },
 };

@@ -11,15 +11,17 @@
           placeholder="ws://example.io/"
           type="url"
           v-model="url"
+          :readonly="connected"
+          :state="inputUrlState"
+          @input="onInput"
         />
       </b-input-group>
 
       <b-button 
-        ref="button-connect" 
-        :variant="getConnected ? 'success' : 'danger'"
-        @click="connect"
+        :variant="error ? 'danger' : 'primary'"
+        @click="onClick"
       >
-        Connect
+        {{ connected ? "Disconnect" : "Connect" }}
       </b-button>
 
     </b-form>
@@ -36,20 +38,45 @@
     props: {},
     data() {
       return {
-        url: ""
+        url: "",
+        urlValid: false,
       };
     },
     methods: {
-      connect() {
-        //Get the url if valid
-        var url = this.$refs['input-url'].checkValidity() ? this.url : "";
-
-        //Set the url on the store
-        this.$store.dispatch('webSocket/connect', url);
+      onClick() {
+        if(this.connected) {
+          //Disconnect
+          this.$store.dispatch('connection/disconnect');
+        } else if(this.urlValid) {
+          //Connect only if the URL is valid
+          this.$store.dispatch('connection/connect', this.url);
+        }
+      },
+      onInput() {
+        const inputUrl = this.$refs['input-url'];
+        this.urlValid = inputUrl ? inputUrl.checkValidity() : false;
       }
     },
     computed: {
-      ...mapGetters('webSocket', ['getConnected'])
+      ...mapGetters('connection', ['getConnected', 'getError']),
+
+      connected() {
+        return this.getConnected;
+      },
+      error() {
+        return this.getError;
+      },
+      inputUrlState() {
+        let result;
+
+        if(this.connected) {
+          result = true;
+        } else {
+          result = this.urlValid ? null : false;
+        }
+
+        return result;
+      }
     }
   }
 </script>

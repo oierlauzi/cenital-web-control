@@ -1,8 +1,8 @@
-import webSocket from "./webSocket";
+import connection from "./connection";
 import mixEffect from "./mixEffect";
 
 const modules = {
-	webSocket,
+	connection,
 	mixEffect
 };
 

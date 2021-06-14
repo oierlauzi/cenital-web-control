@@ -1,6 +1,6 @@
-import webSocket from "./webSocket";
+import connection from "./connection";
 
 export default [
-  webSocket
+  connection
 ];
  

@@ -32,19 +32,20 @@
 
       </b-row>
       <b-row align-h="center" align-v="start" class="my-3">
+
+        <b-col>
+          <b-button variant="outline-warning" :pressed="transitionPreview">
+            Prev
+          </b-button>
+        </b-col>
+        <b-col>
+          <b-button variant="warning" @click="transition">
+            Auto
+          </b-button>
+        </b-col>
         <b-col>
           <b-button variant="warning" @click="cut">
             Cut
-          </b-button>
-        </b-col>
-        <b-col>
-          <b-button variant="warning" @click="preview">
-            Trans
-          </b-button>
-        </b-col>
-        <b-col>
-          <b-button variant="success" @click="transition">
-            Prev
           </b-button>
         </b-col>
 
@@ -84,9 +85,6 @@
       cut() {
         //TODO
       },
-      preview() {
-        //TODO
-      },
       transition() {
         //TODO
       }
@@ -94,7 +92,8 @@
     computed: {
       ...mapGetters("mixEffect", [ 
         "getTransitionType",
-        "getTransitionDuration"
+        "getTransitionDuration",
+        "getTransitionPreview"
       ]),
 
       transitionType() {
@@ -102,6 +101,9 @@
       },
       transitionDuration() {
         return this.getTransitionDuration(this.mixEffect);
+      },
+      transitionPreview() {
+        return this.getTransitionPreview(this.mixEffect);
       },
 
       transitions() {

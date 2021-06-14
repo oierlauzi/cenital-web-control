@@ -8,7 +8,8 @@ export default {
       pgm: -1,
       pvw: -1,
       transitionType: "Mix",
-      transitionDur: 1,
+      transitionDur: 1000,
+      transitionPrev: false
     };
 
     //Push it onto the mix effect map
@@ -34,5 +35,8 @@ export default {
   },
   SET_TRANSITION_DURATION(state, { name, dur }) {
     state.mixEffects[name].transitionDur = dur;
+  },
+  SET_TRANSITION_PREVIEW(state, { name, prev }) {
+    state.mixEffects[name].transitionPrev = prev;
   },
 };

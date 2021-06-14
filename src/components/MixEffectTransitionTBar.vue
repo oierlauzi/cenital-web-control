@@ -18,7 +18,7 @@
 <template>
   <div>
     <div class="mx-4 slider-vertical">
-      <b-form-input :value="position" @input="moved" type="range" min="0" max="1024" />
+      <b-form-input :value="position" @input="handleMove" type="range" min="0" :max="resolution" />
     </div>
   </div>
 </template>
@@ -28,29 +28,23 @@
     name: "MixEffectTransitionTBar",
     components: {},
     props: {
-      value: { type: Number, default: 0.0 }
+      value: { type: Number, default: 0.0 },
+      reverse: { type: Boolean, default: false },
+      resolution: { type: Number, default: 1024 }
     },
     data() {
-      return {
-        reverse: false
-      };
+      return {};
     },
     methods: {
-      moved(value) {
+      handleMove(position) {
         //Calculate the value to be sent
-        value /= 1024;
+        position /= this.resolution;
         if(this.reverse) {
-          value = 1.0 - value;
+          position = 1.0 - position;
         }
 
         //Emit the event
-        this.$emit("input", value);
-
-        //Evaluate if it needs to be reversed
-        if(value === 1.0) {
-          this.reverse = !this.reverse;
-          this.$emit("input", 0.0);
-        }
+        this.$emit("input", position);
       }
     },
     computed: {
@@ -60,7 +54,9 @@
           result = 1.0 - result;
         }
 
-        return 1024*result;
+        result *= this.resolution;
+
+        return result;
       }
     }
   };

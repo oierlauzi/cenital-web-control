@@ -21,7 +21,7 @@
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
 
-        <b-col v-for="(name, index) in layer" :key="'name'+index">
+        <b-col v-for="(name, index) in inputs" :key="'name'+index">
           <b-dropdown 
             variant="outline-dark"
             block
@@ -44,18 +44,37 @@
         </b-col>
       </b-row>
 
+      <!-- Aux row -->
+      <b-row class="my-3" align-v="center" :cols="columns + 1">
+        <b-col>
+          <h3><b-badge variant="warning">AUX</b-badge></h3>
+        </b-col>
+
+        <b-col v-for="(name, index) in inputs" :key="'aux'+index">
+          <b-button
+            block
+            class="w-100"
+            variant="outline-warning" 
+            :pressed="calcIndex(index) === aux"
+            @click="auxClick(index)"
+          >
+            <div class="crosspoint-btn" />
+          </b-button>
+        </b-col>
+      </b-row>
+
       <!-- Program row -->
       <b-row class="my-3" align-v="center" :cols="columns + 1">
         <b-col>
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
 
-        <b-col v-for="(name, index) in layer" :key="'pgm'+index">
+        <b-col v-for="(name, index) in inputs" :key="'pgm'+index">
           <b-button
             block
             class="w-100"
             variant="outline-danger" 
-            :pressed="index + shift*columns === pgm"
+            :pressed="calcIndex(index) === pgm"
             @click="pgmClick(index)"
           >
             <div class="crosspoint-btn" />
@@ -69,12 +88,12 @@
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
 
-        <b-col v-for="(name, index) in layer" :key="'pvw'+index">
+        <b-col v-for="(name, index) in inputs" :key="'pvw'+index">
           <b-button
             block
             class="w-100"
             variant="outline-success" 
-            :pressed="index + shift*columns === pvw"
+            :pressed="calcIndex(index) === pvw"
             @click="pvwClick(index)"
           >
             <div class="crosspoint-btn" />
@@ -90,10 +109,11 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: "MixEffectCrosspoint",
+    name: 'MixEffectCrosspoint',
     components: {},
     props: {
       mixEffect: { type: String, required: true },
+      auxCallback: { type: Function, default: null },
       columns: { type: Number, default: 8 }
     },
     data() {
@@ -102,25 +122,42 @@
       };
     },
     methods: {
-      pgmClick: function(idx) {
-        //Calculate the next index
-        idx += this.shift*this.columns; //Applies the shift
-        if(this.pgm === idx) {
-          //Already in PGM. Uncheck
-          idx = -1;
-        }
-
-        this.$store.dispatch("mixEffect/setProgram", { name: this.mixEffect, index: idx });
+      calcIndex: function(button) {
+        //Account for the offset introduced by shift
+        return button + this.shift*this.columns;
       },
-      pvwClick: function(idx) {
+
+      calcButton: function(idx) {
+        //Account for the offset introduced by shift
+        return idx - this.shift*this.columns;
+      },
+
+      auxClick: function(button) {
+        //eslint-disable-next-line no-unused-vars
+        let index = this.calcIndex(button);
+        //TODO
+      },
+      
+      pgmClick: function(button) {
         //Calculate the next index
-        idx += this.shift*this.columns; //Applies the shift
-        if(this.pvw === idx) {
-          //Already in PVW. Uncheck
-          idx = -1;
+        let index = this.calcIndex(button);
+        if(this.pgm === index) {
+          //Already in PGM. Uncheck
+          index = -1;
         }
 
-        this.$store.dispatch("mixEffect/setPreview", { name: this.mixEffect, index: idx });
+        this.$store.dispatch('mixEffect/setProgram', { name: this.mixEffect, index: index });
+      },
+
+      pvwClick: function(button) {
+        //Calculate the next index
+        let index = this.calcIndex(button);
+        if(this.pvw === index) {
+          //Already in PVW. Uncheck
+          index = -1;
+        }
+
+        this.$store.dispatch('mixEffect/setPreview', { name: this.mixEffect, index: index });
       }
 
     },
@@ -131,22 +168,20 @@
         "getPreview"
       ]),
 
+      aux() {
+        return 0; //TODO
+      },
       pgm() {
         return this.getProgram(this.mixEffect);
       },
       pvw() {
         return this.getPreview(this.mixEffect);
       },
-      layer() {
-        var result = [];
-
-        if(!this.shift) {
-          result = this.getInputs(this.mixEffect).slice(0*this.columns, 1*this.columns);
-        } else {
-          result = this.getInputs(this.mixEffect).slice(1*this.columns, 2*this.columns);
-        }
-
-        return result;
+      inputs() {
+        return this.getInputs(this.mixEffect).slice(
+          this.calcIndex(0), 
+          this.calcIndex(this.columns)
+        );
       }
     }
   };
