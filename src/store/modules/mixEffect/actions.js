@@ -8,9 +8,6 @@ export default {
   setInputCount({ commit }, { name, inputCount }) {
     commit('SET_INPUT_COUNT', { name, inputCount });
   },
-  setInput({ commit }, { name, index, input }) {
-    commit('SET_INPUT', { name, index, input });
-  },
   setProgram({ commit }, { name, index }) {
     commit('SET_PROGRAM', { name, index });
   },

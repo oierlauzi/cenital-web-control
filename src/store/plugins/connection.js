@@ -8,15 +8,17 @@ export default store => {
   socket.addEventListener('open', function() {
     store.commit(modulePrefix + 'SET_CONNECTED', true);
     store.commit(modulePrefix + 'SET_ERROR', false);
+    store.dispatch('fetch');
   });
   socket.addEventListener('close', function() {
     store.commit(modulePrefix + 'SET_CONNECTED', false);
+    store.dispatch('reset');
   });
   socket.addEventListener('error', function() {
     store.commit(modulePrefix + 'SET_ERROR', true);
   });
-  socket.addEventListener('recv', function(tokens) {
-    store.commit(modulePrefix + 'RECV', tokens);
+  socket.addEventListener('recv', function(event) {
+    store.commit(modulePrefix + 'RECV', event.data);
   });
 
   //Subscribe to actions

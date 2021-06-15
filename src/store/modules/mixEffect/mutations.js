@@ -4,7 +4,7 @@ export default {
   ADD(state, name) {
     const me = {
       //Create a empty mix effect
-      inputs: [],
+      inputCount: 0,
       pgm: -1,
       pvw: -1,
       transitionType: "Mix",
@@ -19,10 +19,7 @@ export default {
     Vue.delete(state.mixEffects, name);
   },
   SET_INPUT_COUNT(state, { name, inputCount }) {
-    state.mixEffects[name].inputs.length = inputCount;
-  },
-  SET_INPUT(state, { name, index, input }) {
-    state.mixEffects[name].inputs[index] = input;
+    state.mixEffects[name].inputCount = inputCount;
   },
   SET_PROGRAM(state, { name, index }) {
     state.mixEffects[name].pgm = index;

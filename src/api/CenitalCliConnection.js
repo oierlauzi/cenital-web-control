@@ -40,8 +40,12 @@ CenitalCliConnection.prototype.connect = function(url) {
       self.dispatchEvent(new Event('error'));
     });
     socket.addEventListener('message', function(event) {
+      //Tokenize the data. Remove the \n at the end
+      const tokens = cenitalCli.tokenize(event.data.substring(0, event.data.length-1));
+      
+      //Send the new event with the appropriate format
       const init = {
-        data: cenitalCli.tokenize(event.data),
+        data: tokens,
         origin: event.origin,
         lastEventId: event.lastEventId,
         source: event.source,
@@ -108,15 +112,15 @@ CenitalCliConnection.prototype.sendNoSuccess = function(tokens) {
       self.addEventListener('close', function() {
         reject(); //Connection closed before receiving a response
       });
-      self.addEventListener('recv', function(tokens) {
+      self.addEventListener('recv', function(event) {
         //If the first element of the array is a ACK, resolve
-        if(tokens.length() > 0) {
-          if(tokens[0] === ack) {
+        if(event.data.length > 0) {
+          if(event.data[0] === ack) {
             //Pop the ACK from the tokens
-            tokens.shift();
+            event.data.shift();
 
             //Successfully received a response
-            resolve(tokens);
+            resolve(event);
           }
         }
       });
@@ -131,15 +135,15 @@ CenitalCliConnection.prototype.sendNoSuccess = function(tokens) {
 }
 
 CenitalCliConnection.prototype.send = function(tokens) {
-  return this.sendNoSuccess(tokens).then(tokens => {
+  return this.sendNoSuccess(tokens).then(event => {
     //Check if the first token is OK
-    if(tokens.length > 0) {
-      if(cenitalCli.checkSuccess(tokens[0])) {
+    if(event.data.length > 0) {
+      if(cenitalCli.checkSuccess(event.data[0])) {
         //Pop the success token
-        tokens.shift();
+        event.data.shift();
 
         //Succeeded
-        return Promise.resolve(tokens);
+        return Promise.resolve(event);
       }
     }
 
@@ -149,11 +153,11 @@ CenitalCliConnection.prototype.send = function(tokens) {
 }
 
 CenitalCliConnection.prototype.state = function() {
-  this.socket ? this.socket.readyState : WebSocket.CLOSED;
+  return this.socket ? this.socket.readyState : WebSocket.CLOSED;
 }
 
 CenitalCliConnection.prototype.url = function() {
-  this.socket ? this.socket.url : "";
+  return this.socket ? this.socket.url : "";
 }
 
 export default CenitalCliConnection;

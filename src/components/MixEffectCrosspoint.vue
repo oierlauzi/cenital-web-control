@@ -15,51 +15,33 @@
 <template>
   <div>
     <b-container fluid class="text-center">
-      <!-- Signals -->
-      <b-row class="my-3" align-v="center" :cols="columns + 1">
-        <b-col>
-          <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
-        </b-col>
-
-        <b-col v-for="(name, index) in inputs" :key="'name'+index">
-          <b-dropdown 
-            variant="outline-dark"
-            block
-            menu-class="w-100"
-          >
-            <template #button-content>
-              <div class="dropdown-btn-multiline">
-                {{ name ? name : 'None' }}
-              </div>
-            </template>
-
-            <b-dropdown-item>None</b-dropdown-item>
-            <b-dropdown-divider />
-
-            <!-- TODO add available signals -->
-
-          </b-dropdown>
-
-           
-        </b-col>
-      </b-row>
-
       <!-- Aux row -->
       <b-row class="my-3" align-v="center" :cols="columns + 1">
         <b-col>
           <h3><b-badge variant="warning">AUX</b-badge></h3>
         </b-col>
 
-        <b-col v-for="(name, index) in inputs" :key="'aux'+index">
+        <b-col v-for="index in count" :key="'aux'+index">
           <b-button
             block
             class="w-100"
             variant="outline-warning" 
-            :pressed="calcIndex(index) === aux"
-            @click="auxClick(index)"
+            :pressed="calcIndex(index-1) === aux"
+            @click="auxClick(calcIndex(index-1))"
           >
             <div class="crosspoint-btn" />
           </b-button>
+        </b-col>
+      </b-row>
+
+      <!-- Signals -->
+      <b-row class="my-3" align-v="center" :cols="columns + 1">
+        <b-col>
+          <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
+        </b-col>
+
+        <b-col v-for="index in count" :key="'name'+index">
+          <SourceSelector :element="mixEffect" :input="'videoIn' + calcIndex(index-1)"/>
         </b-col>
       </b-row>
 
@@ -69,13 +51,13 @@
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
 
-        <b-col v-for="(name, index) in inputs" :key="'pgm'+index">
+        <b-col v-for="index in count" :key="'pgm'+index">
           <b-button
             block
             class="w-100"
             variant="outline-danger" 
-            :pressed="calcIndex(index) === pgm"
-            @click="pgmClick(index)"
+            :pressed="calcIndex(index-1) === pgm"
+            @click="pgmClick(calcIndex(index-1))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -88,13 +70,13 @@
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
 
-        <b-col v-for="(name, index) in inputs" :key="'pvw'+index">
+        <b-col v-for="index in count" :key="'pvw'+index">
           <b-button
             block
             class="w-100"
             variant="outline-success" 
-            :pressed="calcIndex(index) === pvw"
-            @click="pvwClick(index)"
+            :pressed="calcIndex(index-1) === pvw"
+            @click="pvwClick(calcIndex(index-1))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -106,11 +88,14 @@
 </template>
 
 <script>
+  import SourceSelector from './SourceSelector'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'MixEffectCrosspoint',
-    components: {},
+    components: {
+      SourceSelector,
+    },
     props: {
       mixEffect: { type: String, required: true },
       auxCallback: { type: Function, default: null },
@@ -132,15 +117,13 @@
         return idx - this.shift*this.columns;
       },
 
-      auxClick: function(button) {
-        //eslint-disable-next-line no-unused-vars
-        let index = this.calcIndex(button);
+
+      //eslint-disable-next-line no-unused-vars
+      auxClick: function(index) {
         //TODO
       },
       
-      pgmClick: function(button) {
-        //Calculate the next index
-        let index = this.calcIndex(button);
+      pgmClick: function(index) {
         if(this.pgm === index) {
           //Already in PGM. Uncheck
           index = -1;
@@ -149,9 +132,7 @@
         this.$store.dispatch('mixEffect/setProgram', { name: this.mixEffect, index: index });
       },
 
-      pvwClick: function(button) {
-        //Calculate the next index
-        let index = this.calcIndex(button);
+      pvwClick: function(index) {
         if(this.pvw === index) {
           //Already in PVW. Uncheck
           index = -1;
@@ -163,7 +144,7 @@
     },
     computed: {
       ...mapGetters("mixEffect", [ 
-        "getInputs",
+        "getInputCount",
         "getProgram",
         "getPreview"
       ]),
@@ -177,11 +158,9 @@
       pvw() {
         return this.getPreview(this.mixEffect);
       },
-      inputs() {
-        return this.getInputs(this.mixEffect).slice(
-          this.calcIndex(0), 
-          this.calcIndex(this.columns)
-        );
+
+      count() {
+        return Math.max(Math.min(this.columns, this.getInputCount(this.mixEffect) - this.calcIndex(0)), 0);
       }
     }
   };

@@ -74,7 +74,7 @@
 </template>
 
 <script>
-  import NavbarConnection from "./NavbarConnection.vue"
+  import NavbarConnection from "./NavbarConnection"
 
   export default {
     name: "TheNavbar",

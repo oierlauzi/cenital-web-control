@@ -1,6 +1,6 @@
 export default {
 	list: state => Object.keys(state.mixEffects),
-	getInputs: state => name => state.mixEffects[name].inputs,
+	getInputCount: state => name => state.mixEffects[name].inputCount,
 	getProgram: state => name => state.mixEffects[name].pgm,
 	getPreview: state => name => state.mixEffects[name].pvw,
 	getTransitionType: state => name => state.mixEffects[name].transitionType,
