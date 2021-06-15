@@ -46,10 +46,10 @@
       onClick() {
         if(this.connected) {
           //Disconnect
-          this.$store.dispatch('connection/disconnect');
+          this.$store.dispatch('connection/disconnect').catch(() => {});
         } else if(this.urlValid) {
           //Connect only if the URL is valid
-          this.$store.dispatch('connection/connect', this.url);
+          this.$store.dispatch('connection/connect', this.url).catch(() => {});
         }
       },
       onInput() {
