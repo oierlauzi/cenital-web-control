@@ -22,7 +22,7 @@ export default {
       { root: true }
     );
   },
-  setInputCount({ dispatch }, { name, inputCount }) {
+  setInputCount({ dispatch }, { name, count }) {
     return dispatch(
       'connection/send', 
       [
@@ -30,7 +30,7 @@ export default {
         name,
         'input:count',
         'set',
-        cenitalCli.generateInteger(inputCount)
+        cenitalCli.generateInteger(count)
       ], 
       { root: true }
     );

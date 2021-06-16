@@ -94,22 +94,32 @@
       },
       handleSubmit() {
         //Return when the form isn't valid
-        if(!this.$refs.form.checkValidity()) {
-          return;
+        if(this.$refs.form.checkValidity()) {
+          //Add the mix effect to the store and configure it
+          this.$store.dispatch('mixEffect/add', this.name)
+          .then(() => {
+            //Configure in parallel
+            return Promise.all([
+              this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: this.inputCount }),
+              //TODO set overlay count
+            ]);
+          });
+
+          //Hide the modal
+          this.$nextTick(() => {
+            this.$bvModal.hide("add-mix-effect");
+          });
         }
 
-        //Add the mix effect to the store
-        //TODO
 
-        //Hide the modal
-        this.$nextTick(() => {
-          this.$bvModal.hide("add-mix-effect");
-        });
+
+
       }
     },
     computed: {
       inputNameValidation() {
-        return this.name != ""; //TODO check if name already exists
+        return  this.name !== '' && 
+                !this.$store.getters['mixEffect/list'].includes(this.name) ;
       }
     }
   };

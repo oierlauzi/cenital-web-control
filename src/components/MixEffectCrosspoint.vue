@@ -32,6 +32,8 @@
             <div class="crosspoint-btn" />
           </b-button>
         </b-col>
+
+        <b-col v-for="index in padding" :key="'auxPadding'+index" />
       </b-row>
 
       <!-- Signals -->
@@ -43,6 +45,8 @@
         <b-col v-for="(signal, index) in signals" :key="'name'+index">
           <SourceSelector :element="mixEffect" :input="signal"/>
         </b-col>
+
+        <b-col v-for="index in padding" :key="'namePadding'+index" />
       </b-row>
 
       <!-- Program row -->
@@ -62,6 +66,8 @@
             <div class="crosspoint-btn" />
           </b-button>
         </b-col>
+
+        <b-col v-for="index in padding" :key="'pgmPadding'+index" />
       </b-row>
 
       <!-- Preview row -->
@@ -81,6 +87,8 @@
             <div class="crosspoint-btn" />
           </b-button>
         </b-col>
+
+        <b-col v-for="index in padding" :key="'pvwPadding'+index" />
       </b-row>
 
     </b-container>
@@ -166,6 +174,9 @@
         const inputs = this.getElementInputs(this.mixEffect);
         const start = this.calcIndex(0);
         return inputs.slice(start, start + this.columns);
+      },
+      padding() {
+        return this.columns - this.signals.length;
       }
     }
   };
