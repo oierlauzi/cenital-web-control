@@ -27,14 +27,16 @@ export default {
   },
 
   reset({ commit }) {
-    commit('RESET');
+    commit('RESET_ELEMENTS');
   },
   fetch({ dispatch, getters, commit }) {
     return dispatch('connection/send', ['enum'], { root: true })
     .then(elements => {
-      elements.forEach(element => commit('ADD_ELEMENT', element));
+      commit('RESET_ELEMENTS'); //Start over
+      elements.forEach(element => commit('ADD_ELEMENT', element)); //Add all the elements
     })
     .then(() => {
+      //For each element fetch I/O
       const elements = getters['getElements'];
       const prom = elements.map(element => {
         return dispatch('fetchElement', element);
@@ -52,9 +54,11 @@ export default {
   fetchElementInputs({ dispatch, getters, commit }, element) {
     return dispatch('connection/send', ['connection:dst', 'enum', element], { root: true })
     .then(inputs => {
-      inputs.forEach(input => commit('ADD_INPUT', { element, input }));
+      commit('RESET_INPUTS', element); //Start over
+      inputs.forEach(input => commit('ADD_INPUT', { element, input })); //Add all inputs
     })
     .then(() => {
+      //For each input fetch its source
       const inputs = getters['getElementInputs'](element);
       const prom = inputs.map(input => {
         return dispatch('fetchElementInputSource', { element, input });
@@ -66,7 +70,8 @@ export default {
   fetchElementOutputs({ dispatch, commit }, element) {
     return dispatch('connection/send', ['connection:src', 'enum', element], { root: true })
     .then(outputs => {
-      outputs.forEach(output => commit('ADD_OUTPUT', { element, output }));
+      commit('RESET_OUTPUTS', element); //Start over
+      outputs.forEach(output => commit('ADD_OUTPUT', { element, output })); //Add all outputs
     });
   },
   fetchElementInputSource({ dispatch, commit }, { element, input }) {
