@@ -29,15 +29,46 @@ export default store => {
                     const dstInput = tokens[3];
                     const srcElement = tokens[4];
                     const srcOutput = tokens[5];
-                    store.commit(modulePrefix + 'CONNECT', { dstElement, dstInput, srcElement, srcOutput });
+
+                    try {
+                      store.commit(
+                        modulePrefix + 'CONNECT', 
+                        { 
+                          dstElement, 
+                          dstInput, 
+                          srcElement, 
+                          srcOutput 
+                        }
+                      );
+                    } catch {
+                      //If the fetch process is going
+                      //slower than the updates, 
+                      //this might fail
+                    }
                   }
+
                   break;
+
                 case 'unset':
                   if(tokens.length === 4) {
                     const dstElement = tokens[2];
                     const dstInput = tokens[3];
-                    store.commit(modulePrefix + 'DISCONNECT', { dstElement, dstInput });
+
+                    try {
+                      store.commit(
+                        modulePrefix + 'DISCONNECT', 
+                        { 
+                          dstElement, 
+                          dstInput
+                        }
+                      );
+                    } catch {
+                      //If the fetch process is going
+                      //slower than the updates, 
+                      //this might fail
+                    }
                   }
+                  
                   break;
               }
               
