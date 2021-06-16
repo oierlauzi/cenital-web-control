@@ -180,6 +180,7 @@ export default {
       dispatch('fetchProgram', name),
       dispatch('fetchPreview', name),
       dispatch('fetchTransitionBar', name),
+      dispatch('fetchTransitionEffects', name),
       dispatch('fetchTransitionEffect', name),
       dispatch('fetchTransitionDuration', name),
       dispatch('fetchTransitionPreview', name),
@@ -256,6 +257,26 @@ export default {
     .then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_BAR', { name, progress: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchTransitionEffects({ dispatch, commit }, name) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config', 
+        name, 
+        'transition:effect',
+        'enum'
+      ],
+      { root: true }
+    )
+    .then(tokens => {
+      commit('RESET_TRANSITION_EFFECTS', name); //Start over
+      tokens.forEach(effect => {
+        commit('ADD_TRANSITION_EFFECT', { name, effect: effect });
+      });
+
+     
     });
   },
   fetchTransitionEffect({ dispatch, commit }, name) {

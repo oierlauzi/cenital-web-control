@@ -16,7 +16,7 @@
       <b-row align-h="center" align-v="start" class="my-3">
         <b-col>
           <b-form-select 
-            :options="transitions" 
+            :options="transitionEffects" 
             :value="transitionEffect"
             @input="onTransitionEffect"
           />
@@ -116,11 +116,15 @@
     },
     computed: {
       ...mapGetters("mixEffect", [
+        "getTransitionEffects",
         "getTransitionEffect",
         "getTransitionDuration",
         "getTransitionPreview"
       ]),
 
+      transitionEffects() {
+        return this.getTransitionEffects(this.mixEffect);
+      },
       transitionEffect() {
         return this.getTransitionEffect(this.mixEffect);
       },
@@ -129,10 +133,6 @@
       },
       transitionPreview() {
         return this.getTransitionPreview(this.mixEffect);
-      },
-
-      transitions() {
-        return ["Mix", "DVE"];
       }
     }
   };

@@ -72,10 +72,13 @@ function cut(store, tokens, name) {
 
 function transition(store, tokens, name) {
   //TODO Until transitions can be displayed properly
-    //Cut if transition preview is not enabled
-    if(!store.getters[modulePrefix + 'getTransitionPreview'](name)) {
-      cut(store, tokens, name);
-    }
+  //Cut if transition preview is not enabled
+  if(!store.getters[modulePrefix + 'getTransitionPreview'](name)) {
+    cut(store, tokens, name);
+  }
+
+  //Ensure that the transition bar is not in the middle
+  store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, progress: 0.0 });
 }
 
 function transitionBar(store, tokens, name) {
