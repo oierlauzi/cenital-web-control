@@ -51,7 +51,6 @@ export default {
   },
   fetchElementInputs({ dispatch, getters, commit }, element) {
     return dispatch('connection/send', ['connection:dst', 'enum', element], { root: true })
-
     .then(inputs => {
       inputs.forEach(input => commit('ADD_INPUT', { element, input }));
     })
@@ -73,10 +72,11 @@ export default {
   fetchElementInputSource({ dispatch, commit }, { element, input }) {
     return dispatch('connection/send', ['connection', 'get', element, input], { root: true })
     .then(source => {
-      if(source.length === 2) {
-        commit('CONNECT', { dstElement: element, dstInput: input, srcElement: source[0], srcOutput: source[1] });
-      } else {
+      if(source.length === 0) {
         commit('DISCONNECT', { dstElement: element, dstInput: input });
+      } else {
+        console.assert(source.length === 2);
+        commit('CONNECT', { dstElement: element, dstInput: input, srcElement: source[0], srcOutput: source[1] });
       }
     });
   },
