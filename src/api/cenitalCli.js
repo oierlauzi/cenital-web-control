@@ -242,6 +242,14 @@ function generateRational(x) {
 }
 
 
+function parseDuration(token) {
+  return parseNumber(token);
+}
+
+function generateDuration(dur) {
+  return dur + 's';
+}
+
 export default {
   makeAck,
   checkSuccess,
@@ -267,5 +275,7 @@ export default {
   parseResolution,
   generateResolution,
   parseRational,
-  generateRational
+  generateRational,
+  parseDuration,
+  generateDuration
 };

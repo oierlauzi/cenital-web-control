@@ -47,8 +47,8 @@ export default store => {
         .catch(mutation.payload.reject);
         break;
 
-    case modulePrefix + 'sendNoAck':
-      socket.sendNAck(mutation.payload.tokens);
+    case modulePrefix + 'SEND_NO_ACK':
+      socket.sendNoAck(mutation.payload.tokens);
       mutation.payload.resolve();
       break;
 

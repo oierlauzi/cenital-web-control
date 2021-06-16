@@ -21,13 +21,13 @@
           <h3><b-badge variant="warning">AUX</b-badge></h3>
         </b-col>
 
-        <b-col v-for="index in count" :key="'aux'+index">
+        <b-col v-for="(signal, index) in signals" :key="'aux'+index">
           <b-button
             block
             class="w-100"
             variant="outline-warning" 
-            :pressed="calcIndex(index-1) === aux"
-            @click="auxClick(calcIndex(index-1))"
+            :pressed="calcIndex(index) === aux"
+            @click="auxClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -40,8 +40,8 @@
           <b-button variant="outline-warning" :pressed.sync="shift">Shift</b-button>
         </b-col>
 
-        <b-col v-for="index in count" :key="'name'+index">
-          <SourceSelector :element="mixEffect" :input="'videoIn' + calcIndex(index-1)"/>
+        <b-col v-for="(signal, index) in signals" :key="'name'+index">
+          <SourceSelector :element="mixEffect" :input="signal"/>
         </b-col>
       </b-row>
 
@@ -51,13 +51,13 @@
           <h3><b-badge variant="danger">PGM</b-badge></h3>
         </b-col>
 
-        <b-col v-for="index in count" :key="'pgm'+index">
+        <b-col v-for="(signal, index) in signals" :key="'pgm'+index">
           <b-button
             block
             class="w-100"
             variant="outline-danger" 
-            :pressed="calcIndex(index-1) === pgm"
-            @click="pgmClick(calcIndex(index-1))"
+            :pressed="calcIndex(index) === pgm"
+            @click="pgmClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -70,13 +70,13 @@
           <h3><b-badge variant="success">PVW</b-badge></h3>
         </b-col>
 
-        <b-col v-for="index in count" :key="'pvw'+index">
+        <b-col v-for="(signal, index) in signals" :key="'pvw'+index">
           <b-button
             block
             class="w-100"
             variant="outline-success" 
-            :pressed="calcIndex(index-1) === pvw"
-            @click="pvwClick(calcIndex(index-1))"
+            :pressed="calcIndex(index) === pvw"
+            @click="pvwClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -144,9 +144,12 @@
     },
     computed: {
       ...mapGetters("mixEffect", [ 
-        "getInputCount",
         "getProgram",
         "getPreview"
+      ]),
+
+      ...mapGetters("mixer", [ 
+        "getElementInputs"
       ]),
 
       aux() {
@@ -159,8 +162,10 @@
         return this.getPreview(this.mixEffect);
       },
 
-      count() {
-        return Math.max(Math.min(this.columns, this.getInputCount(this.mixEffect) - this.calcIndex(0)), 0);
+      signals() {
+        const inputs = this.getElementInputs(this.mixEffect);
+        const start = this.calcIndex(0);
+        return inputs.slice(start, start + this.columns);
       }
     }
   };

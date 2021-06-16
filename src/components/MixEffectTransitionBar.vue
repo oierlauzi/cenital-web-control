@@ -18,14 +18,14 @@
 <template>
   <div>
     <div class="mx-4 slider-vertical">
-      <b-form-input :value="position" @input="handleMove" type="range" min="0" :max="resolution" />
+      <b-form-input :value="position" @input="onMove" type="range" min="0" :max="resolution" />
     </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: "MixEffectTransitionTBar",
+    name: "MixEffectTransitionBar",
     components: {},
     props: {
       value: { type: Number, default: 0.0 },
@@ -36,7 +36,7 @@
       return {};
     },
     methods: {
-      handleMove(position) {
+      onMove(position) {
         //Calculate the value to be sent
         position /= this.resolution;
         if(this.reverse) {

@@ -14,10 +14,6 @@ Vue.config.productionTip = false
 Vue.prototype.$appName = "Cenital Web Control"
 Vue.prototype.$appVersion = "0.1.0"
 
-//Test config
-store.dispatch("mixEffect/add", "ME1");
-store.dispatch("mixEffect/setInputCount", { name: "ME1", inputCount: 16 });
-
 new Vue({
   render: h => h(App),
   router: router,

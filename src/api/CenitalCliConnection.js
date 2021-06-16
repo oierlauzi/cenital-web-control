@@ -121,6 +121,9 @@ CenitalCliConnection.prototype.sendNoSuccess = function(tokens) {
 
             //Successfully received a response
             resolve(event);
+
+            //Unsubscribe
+            self.removeEventListener('recv', this);
           }
         }
       });

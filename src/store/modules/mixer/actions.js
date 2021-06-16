@@ -26,19 +26,20 @@ export default {
     );
   },
 
+
+  
   reset({ commit }) {
     commit('RESET_ELEMENTS');
   },
-  fetch({ dispatch, getters, commit }) {
+  fetch({ dispatch, commit }) {
     return dispatch('connection/send', ['enum'], { root: true })
     .then(elements => {
-      commit('RESET_ELEMENTS'); //Start over
-      elements.forEach(element => commit('ADD_ELEMENT', element)); //Add all the elements
-    })
-    .then(() => {
-      //For each element fetch I/O
-      const elements = getters['getElements'];
+      //Start over
+      commit('RESET_ELEMENTS');
+      
+      //Fetch the members of each element in parallel
       const prom = elements.map(element => {
+        commit('ADD_ELEMENT', element); //Add all the elements
         return dispatch('fetchElement', element);
       });
 
@@ -46,10 +47,11 @@ export default {
     });
   },
   fetchElement({ dispatch }, element) {
-    const inputsPromise = dispatch('fetchElementInputs', element);
-    const outputsPromise = dispatch('fetchElementOutputs', element);
-
-    return Promise.all([inputsPromise, outputsPromise]);
+    //Fetch input and outputs
+    return Promise.all([
+      dispatch('fetchElementInputs', element),
+      dispatch('fetchElementOutputs', element)
+    ]);
   },
   fetchElementInputs({ dispatch, getters, commit }, element) {
     return dispatch('connection/send', ['connection:dst', 'enum', element], { root: true })

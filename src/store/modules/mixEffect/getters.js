@@ -3,7 +3,8 @@ export default {
 	getInputCount: state => name => state.mixEffects[name].inputCount,
 	getProgram: state => name => state.mixEffects[name].pgm,
 	getPreview: state => name => state.mixEffects[name].pvw,
-	getTransitionType: state => name => state.mixEffects[name].transitionType,
-	getTransitionDuration: state => name => state.mixEffects[name].transitionDur,
-	getTransitionPreview: state => name => state.mixEffects[name].transitionPrev
+	getTransitionBar: state => name => state.mixEffects[name].transitionBar,
+	getTransitionEffect: state => name => state.mixEffects[name].transitionEffect,
+	getTransitionDuration: state => name => state.mixEffects[name].transitionDuration,
+	getTransitionPreview: state => name => state.mixEffects[name].transitionPreview
 };
