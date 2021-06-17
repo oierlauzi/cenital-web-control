@@ -2,7 +2,11 @@ import Vue from "vue";
 import Vuex from "vuex";
 import { createLogger } from "vuex";
 
+import state from "./state";
+import getters from "./getters";
+import mutations from "./mutations";
 import actions from "./actions";
+
 import modules from "./modules";
 import plugins from "./plugins";
 
@@ -15,7 +19,11 @@ const loggerPlugin = debug ? [createLogger()] : [];
 
 //Create the Vuex Store
 const store = new Vuex.Store({
+  state: state,
+  getters: getters,
+  mutations: mutations,
   actions: actions,
+  
   modules: modules,
   strict: debug,
   plugins: plugins.concat(loggerPlugin)

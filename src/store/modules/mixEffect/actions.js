@@ -149,6 +149,9 @@ export default {
     commit('RESET_MIX_EFFECTS');
   },
   fetch({ dispatch, commit }) {
+    //Increment the fetching count
+    commit('INC_FETCHING'); 
+
     return dispatch('connection/send', ['enum'], { root: true }) //TODO use mixer's elements once fetched
     .then(elements => {
       //Start over
@@ -167,12 +170,15 @@ export default {
             
             //Fetch its contents
             return dispatch('fetchMixEffect', element);
+          } else {
+            return Promise.resolve();
           }
         });
       });
 
       return Promise.all(prom);
-    });
+    })
+    .then(() => commit('DEC_FETCHING'));
   },
   fetchMixEffect({ dispatch }, name) {
     return Promise.all([

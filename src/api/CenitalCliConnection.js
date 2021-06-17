@@ -107,10 +107,22 @@ CenitalCliConnection.prototype.sendNoSuccess = function(tokens) {
 
       //Subscribe to the message callback
       self.addEventListener('error', function() {
-        reject(); //Error sending the message
+        //Error sending the message
+        reject(); 
+
+        //Unsubscribe
+        self.removeEventListener('recv', this);
+        self.removeEventListener('close', this);
+        self.removeEventListener('error', this);
       });
       self.addEventListener('close', function() {
-        reject(); //Connection closed before receiving a response
+        //Connection closed before receiving a response
+        reject();
+
+        //Unsubscribe
+        self.removeEventListener('recv', this);
+        self.removeEventListener('close', this);
+        self.removeEventListener('error', this);
       });
       self.addEventListener('recv', function(event) {
         //If the first element of the array is a ACK, resolve
@@ -124,6 +136,8 @@ CenitalCliConnection.prototype.sendNoSuccess = function(tokens) {
 
             //Unsubscribe
             self.removeEventListener('recv', this);
+            self.removeEventListener('close', this);
+            self.removeEventListener('error', this);
           }
         }
       });

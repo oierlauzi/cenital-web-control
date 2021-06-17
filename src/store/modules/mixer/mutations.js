@@ -49,4 +49,12 @@ export default {
   DISCONNECT(state, { dstElement, dstInput }) {
     state.elements[dstElement].inputs[dstInput].source = null;
   },
+
+
+  INC_FETCHING(state) {
+    state.fetching++;
+  },
+  DEC_FETCHING(state) {
+    state.fetching--;
+  }
 };

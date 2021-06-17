@@ -32,6 +32,9 @@ export default {
     commit('RESET_ELEMENTS');
   },
   fetch({ dispatch, commit }) {
+    //Increment the fetching count
+    commit('INC_FETCHING'); 
+
     return dispatch('connection/send', ['enum'], { root: true })
     .then(elements => {
       //Start over
@@ -44,7 +47,8 @@ export default {
       });
 
       return Promise.all(prom);
-    });
+    })
+    .then(() => commit('DEC_FETCHING'));
   },
   fetchElement({ dispatch }, element) {
     //Fetch input and outputs

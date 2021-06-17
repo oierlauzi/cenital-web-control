@@ -7,5 +7,7 @@ export default {
 	getTransitionEffects: state => name => Object.keys(state.mixEffects[name].transitionEffects),
 	getTransitionEffect: state => name => state.mixEffects[name].transitionEffect,
 	getTransitionDuration: state => name => state.mixEffects[name].transitionDuration,
-	getTransitionPreview: state => name => state.mixEffects[name].transitionPreview
+	getTransitionPreview: state => name => state.mixEffects[name].transitionPreview,
+
+	getFetching: state => state.fetching,
 };

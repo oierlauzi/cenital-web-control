@@ -31,4 +31,5 @@ export default {
     return state.elements[element].inputs[input].source;
   },
 
+  getFetching: state => state.fetching,
 };

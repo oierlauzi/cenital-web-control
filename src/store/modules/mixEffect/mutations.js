@@ -58,4 +58,12 @@ export default {
   SET_TRANSITION_PREVIEW(state, { name, enabled }) {
     state.mixEffects[name].transitionPreview = enabled;
   },
+
+
+  INC_FETCHING(state) {
+    state.fetching++;
+  },
+  DEC_FETCHING(state) {
+    state.fetching--;
+  }
 };

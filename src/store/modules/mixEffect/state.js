@@ -1,3 +1,4 @@
 export default {
-  mixEffects: Object.create(null)
+  mixEffects: Object.create(null),
+  fetching: 0,
 };
