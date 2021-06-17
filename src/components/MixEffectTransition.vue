@@ -99,7 +99,8 @@
         this.$store.dispatch('mixEffect/setTransitionBar', { name: this.mixEffect, progress: this.transitionBarProgress });
 
         //If it is the end, toggle reverse
-        if(value >= 1.0) {
+        if(this.transitionBarProgress >= 1.0) {
+          this.transitionBarProgress = 0.0;
           this.transitionBarReverse = !this.transitionBarReverse;
         }
       },
