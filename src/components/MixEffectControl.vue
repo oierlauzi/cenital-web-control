@@ -105,12 +105,10 @@
     methods: {},
     computed: {
       uskCount() {
-        //return this.$store.getters["mixEffect/"] //TODO
-        return 4;
+        return this.$store.getters["mixEffect/getUpstreamOverlayCount"](this.name);
       },
       dskCount() {
-        //return this.$store.getters["mixEffect/"] //TODO
-        return 4;
+        return this.$store.getters["mixEffect/getDownstreamOverlayCount"](this.name);
       }
     }
   }

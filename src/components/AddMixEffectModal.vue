@@ -43,7 +43,7 @@
         >
           <b-form-spinbutton 
             ref="usk-count-input" 
-            v-model="uskCount"
+            v-model="usOverlayCount"
             min="0"
             inline
           />
@@ -56,7 +56,7 @@
         >
           <b-form-spinbutton 
             ref="dsk-count-input" 
-            v-model="dskCount"
+            v-model="dsOverlayCount"
             min="0"
             inline
           />
@@ -76,8 +76,8 @@
       return {
         name: '',
         inputCount: 8,
-        uskCount: 4,
-        dskCount: 2
+        usOverlayCount: 4,
+        dsOverlayCount: 2
       };
     },
     methods: {
@@ -101,7 +101,8 @@
             //Configure in parallel
             return Promise.all([
               this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: this.inputCount }),
-              //TODO set overlay count
+              this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.name, count: this.usOverlayCount }),
+              this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.name, count: this.dsOverlayCount }),
             ]);
           });
 

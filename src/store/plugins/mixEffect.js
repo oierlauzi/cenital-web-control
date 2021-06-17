@@ -6,13 +6,49 @@ function setInputCount(store, tokens, name) {
   try {
     const count = cenitalCli.parseInteger(tokens.shift());
     store.commit(modulePrefix + 'SET_INPUT_COUNT',  { name: name, count: count });
-    store.dispatch('mixer/fetchElementInputs', name);
+    store.dispatch('mixer/fetchElementInputs', name); //TODO only fetch the new ones
   } catch {
     //If the fetch process is going
     //slower than the updates, 
     //this might fail
   }
 }
+
+function setUpstreamOverlayCount(store, tokens, name) {
+  try {
+    const oldCount = store.getters[modulePrefix + 'getUpstreamOverlayCount'](name);
+    const count = cenitalCli.parseInteger(tokens.shift());
+    store.commit(modulePrefix + 'SET_UPSTREAM_OVERLAY_COUNT',  { name: name, count: count });
+
+    //Fetch the data of the new keyers
+    for(let i = oldCount; i < count; ++i) {
+      store.dispatch(modulePrefix + 'fetchUpstreamOverlay', { name: name, index: i });
+    }
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setDownstreamOverlayCount(store, tokens, name) {
+  try {
+    const oldCount = store.getters[modulePrefix + 'getDownstreamOverlayCount'](name);
+    const count = cenitalCli.parseInteger(tokens.shift());
+    store.commit(modulePrefix + 'SET_DOWNSTREAM_OVERLAY_COUNT',  { name: name, count: count });
+
+    //Fetch the data of the new keyers
+    for(let i = oldCount; i < count; ++i) {
+      store.dispatch(modulePrefix + 'fetchDownstreamOverlay', { name: name, index: i });
+    }
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+
 
 function setProgram(store, tokens, name) {
   try {
@@ -139,6 +175,9 @@ function transitionPreview(store, tokens, name) {
 }
 
 
+
+
+
 function add(store, tokens) {
   //Check if it is a mix effect
   const type = tokens.shift();
@@ -170,6 +209,24 @@ function config(store, tokens) {
         }
       }
       break;
+
+      case 'us-overlay:count': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setUpstreamOverlayCount(store, tokens, element);
+        }
+      }
+      break;
+
+      case 'ds-overlay:count': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setDownstreamOverlayCount(store, tokens, element);
+        }
+      }
+      break;
+
+
 
       case 'pgm': {
         const set = tokens.shift();

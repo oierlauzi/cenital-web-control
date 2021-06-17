@@ -143,6 +143,33 @@ export default {
     );   
   },
 
+  setUpstreamOverlayCount({ dispatch }, { name, count }) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config',
+        name,
+        'us-overlay:count',
+        'set',
+        cenitalCli.generateInteger(count)
+      ], 
+      { root: true }
+    );   
+  },
+  setDownstreamOverlayCount({ dispatch }, { name, count }) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config',
+        name,
+        'ds-overlay:count',
+        'set',
+        cenitalCli.generateInteger(count)
+      ], 
+      { root: true }
+    );   
+  },
+
 
 
   reset({ commit }) {
@@ -190,6 +217,8 @@ export default {
       dispatch('fetchTransitionEffect', name),
       dispatch('fetchTransitionDuration', name),
       dispatch('fetchTransitionPreview', name),
+      dispatch('fetchUpstreamOverlays', name),
+      dispatch('fetchDownstreamOverlays', name),
     ]);
   },
   fetchInputCount({ dispatch, commit }, name) {
@@ -330,9 +359,69 @@ export default {
     )
     .then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_TRANSITION_PREVIEW', { name, preview: cenitalCli.parseBoolean(tokens[0]) });
+      commit('SET_TRANSITION_PREVIEW', { name, enabled: cenitalCli.parseBoolean(tokens[0]) });
     });
   },
 
+
+
+  fetchOverlays({ dispatch }, name) {
+    return Promise.all([
+      dispatch('fetchUpstreamOverlays', name),
+      dispatch('fetchDownstreamOverlays', name)
+    ]);
+  },
+  fetchUpstreamOverlays({ dispatch, commit }, name) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config', 
+        name, 
+        'us-overlay:count',
+        'get'
+      ],
+      { root: true }
+    )
+    .then(tokens => {
+      const count = cenitalCli.parseInteger(tokens[0]);
+      commit('SET_UPSTREAM_OVERLAY_COUNT', { name, count });
+
+      const prom = new Array(count);
+      for(let i = 0; i < count; ++i) {
+        prom[i] = dispatch('fetchUpstreamOverlay', { name: name, index: i });
+      }
+      return Promise.all(prom);
+    });
+  },
+  fetchDownstreamOverlays({ dispatch, commit }, name) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config', 
+        name, 
+        'ds-overlay:count',
+        'get'
+      ],
+      { root: true }
+    )
+    .then(tokens => {
+      const count = cenitalCli.parseInteger(tokens[0]);
+      commit('SET_DOWNSTREAM_OVERLAY_COUNT', { name, count });
+
+      const prom = new Array(count);
+      for(let i = 0; i < count; ++i) {
+        prom[i] = dispatch('fetchDownstreamOverlay', { name: name, index: i });
+      }
+      return Promise.all(prom);
+    });
+  },
+  //eslint-disable-next-line no-unused-vars
+  fetchUpstreamOverlay({ dispatch }, { name, index }) {
+    return Promise.resolve(); //TODO
+  },
+  //eslint-disable-next-line no-unused-vars
+  fetchDownstreamOverlay({ dispatch }, { name, index }) {
+    return Promise.resolve(); //TODO
+  }
 
 };
