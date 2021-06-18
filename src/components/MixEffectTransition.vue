@@ -76,7 +76,7 @@
       MixEffectTransitionBar
     },
     props: {
-      mixEffect: { type: String, required: true }
+      name: { type: String, required: true }
     },
     data() {
       return {
@@ -86,17 +86,17 @@
     },
     methods: {
       onCut() {
-        this.$store.dispatch('mixEffect/cut', this.mixEffect);
+        this.$store.dispatch('mixEffect/cut', this.name);
       },
       onTransition() {
-        this.$store.dispatch('mixEffect/transition', this.mixEffect);
+        this.$store.dispatch('mixEffect/transition', this.name);
       },
       onTransitionBarMove(value) {
         //Update the value locally, so that it is smooth
         this.transitionBarProgress = value;
 
         //Transmit the new value
-        this.$store.dispatch('mixEffect/setTransitionBar', { name: this.mixEffect, progress: this.transitionBarProgress });
+        this.$store.dispatch('mixEffect/setTransitionBar', { name: this.name, progress: this.transitionBarProgress });
 
         //If it is the end, toggle reverse
         if(this.transitionBarProgress >= 1.0) {
@@ -105,14 +105,14 @@
         }
       },
       onTransitionEffect(effect) {
-        this.$store.dispatch('mixEffect/setTransitionEffect', { name: this.mixEffect, effect: effect });
+        this.$store.dispatch('mixEffect/setTransitionEffect', { name: this.name, effect: effect });
       },
       onTransitionDuration(duration) {
-        this.$store.dispatch('mixEffect/setTransitionDuration', { name: this.mixEffect, duration: duration });
+        this.$store.dispatch('mixEffect/setTransitionDuration', { name: this.name, duration: duration });
       },
       onTransitionPreview() {
         //Toggle the preview value
-        this.$store.dispatch('mixEffect/setTransitionPreview', { name: this.mixEffect, enabled: !this.transitionPreview });
+        this.$store.dispatch('mixEffect/setTransitionPreview', { name: this.name, enabled: !this.transitionPreview });
       }
     },
     computed: {
@@ -124,16 +124,16 @@
       ]),
 
       transitionEffects() {
-        return this.getTransitionEffects(this.mixEffect);
+        return this.getTransitionEffects(this.name);
       },
       transitionEffect() {
-        return this.getTransitionEffect(this.mixEffect);
+        return this.getTransitionEffect(this.name);
       },
       transitionDuration() {
-        return this.getTransitionDuration(this.mixEffect);
+        return this.getTransitionDuration(this.name);
       },
       transitionPreview() {
-        return this.getTransitionPreview(this.mixEffect);
+        return this.getTransitionPreview(this.name);
       }
     }
   };

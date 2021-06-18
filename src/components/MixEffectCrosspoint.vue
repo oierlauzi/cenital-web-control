@@ -43,7 +43,7 @@
         </b-col>
 
         <b-col v-for="(signal, index) in signals" :key="'name'+index">
-          <SourceSelect :name="mixEffect" :input="signal"/>
+          <SourceSelect :name="name" :input="signal"/>
         </b-col>
 
         <b-col v-for="index in padding" :key="'namePadding'+index" />
@@ -96,8 +96,9 @@
 </template>
 
 <script>
-  import SourceSelect from './SourceSelect'
   import { mapGetters } from 'vuex'
+
+  import SourceSelect from './SourceSelect'
 
   export default {
     name: 'MixEffectCrosspoint',
@@ -105,7 +106,7 @@
       SourceSelect,
     },
     props: {
-      mixEffect: { type: String, required: true },
+      name: { type: String, required: true },
       auxCallback: { type: Function, default: null },
       columns: { type: Number, default: 8 }
     },
@@ -137,7 +138,7 @@
           index = -1;
         }
 
-        this.$store.dispatch('mixEffect/setProgram', { name: this.mixEffect, index: index });
+        this.$store.dispatch('mixEffect/setProgram', { name: this.name, index: index });
       },
 
       pvwClick: function(index) {
@@ -146,7 +147,7 @@
           index = -1;
         }
 
-        this.$store.dispatch('mixEffect/setPreview', { name: this.mixEffect, index: index });
+        this.$store.dispatch('mixEffect/setPreview', { name: this.name, index: index });
       }
 
     },
@@ -164,14 +165,14 @@
         return 0; //TODO
       },
       pgm() {
-        return this.getProgram(this.mixEffect);
+        return this.getProgram(this.name);
       },
       pvw() {
-        return this.getPreview(this.mixEffect);
+        return this.getPreview(this.name);
       },
 
       signals() {
-        const inputs = this.getElementInputs(this.mixEffect);
+        const inputs = this.getElementInputs(this.name);
         const start = this.calcIndex(0);
         return inputs.slice(start, start + this.columns);
       },

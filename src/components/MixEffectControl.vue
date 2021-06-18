@@ -5,12 +5,12 @@
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
         <b-col cols="6">
-          <MixEffectCrosspoint :key="name" :mixEffect="name" :columns="8" />
+          <MixEffectCrosspoint :key="name" :name="name" :columns="8" />
         </b-col>
 
         <!-- Transition area -->
         <b-col cols="3">
-          <MixEffectTransition :key="name" :mixEffect="name" />
+          <MixEffectTransition :key="name" :name="name" />
         </b-col>
 
 
@@ -24,7 +24,7 @@
               </b-card-header>
               <b-collapse id="accordion-settings" visible accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectSettings :mixEffect="name" />
+                  <MixEffectSettings :name="name" />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -36,7 +36,7 @@
               </b-card-header>
               <b-collapse id="accordion-transition" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectTransitionSettings :mixEffect="name" />
+                  <MixEffectTransitionSettings :name="name" />
                 </b-card-body>
               </b-collapse>
             </b-card>

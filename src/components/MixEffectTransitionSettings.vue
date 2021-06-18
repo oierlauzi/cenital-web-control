@@ -9,7 +9,7 @@
     name: "MixEffectTransitionSettings",
     components: {},
     props: {
-      mixEffect: { type: String, required: true }
+      name: { type: String, required: true }
     },
     data() {
       return {};

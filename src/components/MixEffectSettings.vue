@@ -1,6 +1,19 @@
 <template>
   <div>
     <b-container fluid>
+      <!-- Delete -->
+      <b-row class="my-3">
+        <b-col sm="12">
+          <b-button 
+            block
+            variant="danger"
+            @click="onDelete"
+          >
+            Delete
+          </b-button>
+        </b-col>
+      </b-row>
+
       <!-- Input count -->
       <b-row class="my-1">
         <b-col sm="6">
@@ -90,60 +103,50 @@
         </b-col>
       </b-row> 
 
-
-
-
-
-      <!-- Delete -->
+      <!-- Video mode -->
       <b-row class="my-1">
         <b-col sm="12">
-          <b-button 
-            block
-            variant="danger"
-            @click="onDelete"
-          >
-            Delete
-          </b-button>
+          <VideoModeConfigure :name="name" />
         </b-col>
       </b-row>
 
     </b-container>
-
-    <h3>TODO: Mix effect settings</h3>
   </div>
 </template>
 
 <script>
   import ScalingModeSelect from './ScalingModeSelect'
   import ScalingFilterSelect from './ScalingFilterSelect'
+  import VideoModeConfigure from './VideoModeConfigure'
 
   export default {
     name: "MixEffectSettings",
     components: {
       ScalingModeSelect,
       ScalingFilterSelect,
+      VideoModeConfigure
     },
     props: {
-      mixEffect: { type: String, required: true }
+      name: { type: String, required: true }
     },
     data() {
       return {};
     },
     methods: {
       onInputCountInput(count) {
-        this.$store.dispatch('mixEffect/setInputCount', { name: this.mixEffect, count: count });
+        this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: count });
       },
       onUpstreamOverlayCountInput(count) {
-        this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.mixEffect, count: count });
+        this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.name, count: count });
       },
       onDownstreamOverlayCountInput(count) {
-        this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.mixEffect, count: count });
+        this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.name, count: count });
       },
       onScalingModeInput(value) {
-        this.$store.dispatch('mixEffect/setScalingMode', { name: this.mixEffect, mode: value });
+        this.$store.dispatch('mixEffect/setScalingMode', { name: this.name, mode: value });
       },
       onScalingFilterInput(value) {
-        this.$store.dispatch('mixEffect/setScalingFilter', { name: this.mixEffect, filter: value });
+        this.$store.dispatch('mixEffect/setScalingFilter', { name: this.name, filter: value });
       },
 
 
@@ -154,19 +157,19 @@
     },
     computed: {
       inputCount() {
-        return this.$store.getters['mixEffect/getInputCount'](this.mixEffect);
+        return this.$store.getters['mixEffect/getInputCount'](this.name);
       },
       upstreamOverlayCount() {
-        return this.$store.getters['mixEffect/getUpstreamOverlayCount'](this.mixEffect);
+        return this.$store.getters['mixEffect/getUpstreamOverlayCount'](this.name);
       },
       downstreamOverlayCount() {
-        return this.$store.getters['mixEffect/getDownstreamOverlayCount'](this.mixEffect);
+        return this.$store.getters['mixEffect/getDownstreamOverlayCount'](this.name);
       },
       scalingMode() {
-        return this.$store.getters['mixEffect/getScalingMode'](this.mixEffect);
+        return this.$store.getters['mixEffect/getScalingMode'](this.name);
       },
       scalingFilter() {
-        return this.$store.getters['mixEffect/getScalingFilter'](this.mixEffect);
+        return this.$store.getters['mixEffect/getScalingFilter'](this.name);
       }
     }
   };
