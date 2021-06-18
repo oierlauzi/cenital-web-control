@@ -14,7 +14,7 @@
 
 <template>
   <div>
-    <b-container fluid class="text-center">
+    <b-container fluid>
       <!-- Aux row -->
       <b-row class="my-3" align-v="center" :cols="columns + 1">
         <b-col>
@@ -43,7 +43,7 @@
         </b-col>
 
         <b-col v-for="(signal, index) in signals" :key="'name'+index">
-          <SourceSelector :element="mixEffect" :input="signal"/>
+          <SourceSelect :name="mixEffect" :input="signal"/>
         </b-col>
 
         <b-col v-for="index in padding" :key="'namePadding'+index" />
@@ -96,13 +96,13 @@
 </template>
 
 <script>
-  import SourceSelector from './SourceSelector'
+  import SourceSelect from './SourceSelect'
   import { mapGetters } from 'vuex'
 
   export default {
     name: 'MixEffectCrosspoint',
     components: {
-      SourceSelector,
+      SourceSelect,
     },
     props: {
       mixEffect: { type: String, required: true },

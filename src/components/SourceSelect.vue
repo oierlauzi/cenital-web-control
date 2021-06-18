@@ -18,10 +18,10 @@
   import { mapGetters } from 'vuex'
 
   export default {
-    name: "SourceSelector",
+    name: "SourceSelect",
     components: {},
     props: {
-      element: { type: String, required: true },
+      name: { type: String, required: true },
       input: { type: String, required: true },
     },
     data() {
@@ -32,14 +32,14 @@
         //FIXME This is set on change, if set onInput, it crashes
         if(value) {
           this.$store.dispatch('mixer/connect', {
-            dstElement: this.element,
+            dstElement: this.name,
             dstInput: this.input,
             srcElement: value.element,
             srcOutput: value.output
           });
         } else {
           this.$store.dispatch('mixer/disconnect', {
-            dstElement: this.element,
+            dstElement: this.name,
             dstInput: this.input
           });
         }
@@ -58,7 +58,7 @@
         });
       },
       value() {
-        let result = this.getSource(this.element, this.input);
+        let result = this.getSource(this.name, this.input);
 
         //Avoid undefined-like values
         if(!result) {

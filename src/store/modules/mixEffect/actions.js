@@ -22,6 +22,7 @@ export default {
       { root: true }
     );
   },
+
   setInputCount({ dispatch }, { name, count }) {
     return dispatch(
       'connection/send', 
@@ -35,6 +36,34 @@ export default {
       { root: true }
     );
   },
+
+  setScalingMode({ dispatch }, { name, mode }) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config',
+        name,
+        'video-scaling:mode',
+        'set',
+        mode
+      ], 
+      { root: true }
+    );
+  },
+  setScalingFilter({ dispatch }, { name, filter }) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config',
+        name,
+        'video-scaling:filter',
+        'set',
+        filter
+      ], 
+      { root: true }
+    );
+  },
+
   setProgram({ dispatch }, { name, index }) {
     //Elaborate the payload depending on if it is setting or unsettling
     const payload = [
@@ -210,6 +239,10 @@ export default {
   fetchMixEffect({ dispatch }, name) {
     return Promise.all([
       dispatch('fetchInputCount', name),
+
+      dispatch('fetchScalingMode', name),
+      dispatch('fetchScalingFilter', name),
+
       dispatch('fetchProgram', name),
       dispatch('fetchPreview', name),
       dispatch('fetchTransitionBar', name),
@@ -221,6 +254,7 @@ export default {
       dispatch('fetchDownstreamOverlays', name),
     ]);
   },
+
   fetchInputCount({ dispatch, commit }, name) {
     return dispatch(
       'connection/send', 
@@ -237,6 +271,40 @@ export default {
       commit('SET_INPUT_COUNT', { name, count: cenitalCli.parseInteger(tokens[0]) });
     });
   },
+
+  fetchScalingMode({ dispatch, commit }, name) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config', 
+        name, 
+        'video-scaling:mode',
+        'get'
+      ],
+      { root: true }
+    )
+    .then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_SCALING_MODE', { name, mode: tokens[0] });
+    });
+  },
+  fetchScalingFilter({ dispatch, commit }, name) {
+    return dispatch(
+      'connection/send', 
+      [
+        'config', 
+        name, 
+        'video-scaling:filter',
+        'get'
+      ],
+      { root: true }
+    )
+    .then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_SCALING_FILTER', { name, filter: tokens[0] });
+    });
+  },
+
   fetchProgram({ dispatch, commit }, name) {
     return dispatch(
       'connection/send', 

@@ -6,13 +6,38 @@ function setInputCount(store, tokens, name) {
   try {
     const count = cenitalCli.parseInteger(tokens.shift());
     store.commit(modulePrefix + 'SET_INPUT_COUNT',  { name: name, count: count });
-    store.dispatch('mixer/fetchElementInputs', name); //TODO only fetch the new ones
+    store.dispatch('mixer/fetchInputs', name); //TODO only fetch the new ones
   } catch {
     //If the fetch process is going
     //slower than the updates, 
     //this might fail
   }
 }
+
+function setScalingMode(store, tokens, name) {
+  try {
+    const mode = tokens.shift();
+    store.commit(modulePrefix + 'SET_SCALING_MODE',  { name: name, mode: mode });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setScalingFilter(store, tokens, name) {
+  try {
+    const filter = tokens.shift();
+    store.commit(modulePrefix + 'SET_SCALING_FILTER',  { name: name, filter: filter });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+
+
 
 function setUpstreamOverlayCount(store, tokens, name) {
   try {
@@ -209,6 +234,24 @@ function config(store, tokens) {
         }
       }
       break;
+
+      case 'video-scaling:mode': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setScalingMode(store, tokens, element);
+        }
+      }
+      break;
+
+      case 'video-scaling:filter': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setScalingFilter(store, tokens, element);
+        }
+      }
+      break;
+
+
 
       case 'us-overlay:count': {
         const set = tokens.shift();

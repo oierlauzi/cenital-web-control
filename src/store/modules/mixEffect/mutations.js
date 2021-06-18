@@ -1,28 +1,15 @@
 import Vue from "vue"
 
-const defaultMixEffectData = {
-  inputCount: 0,
-  pgm: -1,
-  pvw: -1,
-  transitionBar: 0.0,
-  transitionEffects: Object.create(null),
-  transitionEffect: null,
-  transitionDuration: 1,
-  transitionPreview: false,
-  usOverlays: [],
-  dsOverlays: []
-};
-
 const defaultKeyerData = {
   fillIn: -1,
   keyIn: -1,
-  position: { x: 0, y: 0, z: 0},
-  rotation: { x: 0, y: 0, z: 0},
-  scale: { x: 1, y: 1, z: 1},
-  opacity: 1,
-  blendingMode: 'opacity',
-  scalingMode: 'stretch',
-  scalingFilter: 'nearest',
+  position: [0.0, 0.0, 0.0],
+  rotation: [0.0, 0.0, 0.0],
+  scale: [1.0, 1.0, 1.0],
+  opacity: 1.0,
+  blendingMode: null,
+  scalingMode: null,
+  scalingFilter: null,
 };
 
 
@@ -30,18 +17,35 @@ const defaultKeyerData = {
 function resize(arr, size, value) {
   //Insert new elements if necessary
   while(arr.length < size) {
-    arr.push(value);
+    arr.push(Object.assign({}, value));
   }
 
-  //Resize the array to de desired size
-  arr.length = size;
+  //Remove elements if necessary
+  while(arr.length > size) {
+    arr.pop();
+  }
 }
 
 
 export default {
   ADD_MIX_EFFECT(state, name) {
+    const data = {
+      inputCount: 0,
+      scalingMode: null,
+      scalingFilter: null,
+      pgm: -1,
+      pvw: -1,
+      transitionBar: 0.0,
+      transitionEffects: Object.create(null),
+      transitionEffect: null,
+      transitionDuration: 1.0,
+      transitionPreview: false,
+      usOverlays: [],
+      dsOverlays: []
+    };
+
     //Create a empty mix effect
-    Vue.set(state.mixEffects, name, defaultMixEffectData);
+    Vue.set(state.mixEffects, name, data);
   },
   DELETE_MIX_EFFECT(state, name) {
     Vue.delete(state.mixEffects, name);
@@ -78,6 +82,12 @@ export default {
     resize(state.mixEffects[name].dsOverlays, count, defaultKeyerData);
   },
 
+  SET_SCALING_MODE(state, { name, mode }) {
+    state.mixEffects[name].scalingMode = mode;
+  },
+  SET_SCALING_FILTER(state, { name, filter }) {
+    state.mixEffects[name].scalingFilter = filter;
+  },
 
   SET_PROGRAM(state, { name, index }) {
     state.mixEffects[name].pgm = index;

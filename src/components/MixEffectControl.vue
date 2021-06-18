@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid class="text-center">
+    <b-container fluid>
       <!-- Contents -->
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
@@ -9,13 +9,13 @@
         </b-col>
 
         <!-- Transition area -->
-        <b-col cols="2">
+        <b-col cols="3">
           <MixEffectTransition :key="name" :mixEffect="name" />
         </b-col>
 
 
         <!-- Configuration -->
-        <b-col cols="4">
+        <b-col cols="3">
           <div :key="name" class="accordion" role="tablist">
             <!-- Settings -->
             <b-card no-body class="mb-1">
@@ -41,7 +41,7 @@
               </b-collapse>
             </b-card>
 
-            <!-- Up Stream Keyers -->
+            <!-- Up Stream overlays -->
             <b-card v-for="index in uskCount" :key="'usk'+index"
               no-body class="mb-1"
             >
@@ -55,7 +55,7 @@
               </b-collapse>
             </b-card>
 
-            <!-- Down Stream Keyers -->
+            <!-- Down Stream overlays -->
             <b-card v-for="index in dskCount" :key="'dsk'+index"
               no-body class="mb-1"
             >

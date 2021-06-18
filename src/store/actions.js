@@ -1,5 +1,17 @@
+import router from '../router'
+
 export default {
   reset({ dispatch }) {
+    router.push({ name: 'home' }).catch(err => {
+      // Ignore the vuex err regarding  navigating to the page they are already on.
+      if( err.name !== 'NavigationDuplicated' &&
+          !err.message.includes('Avoided redundant navigation to current location') ) 
+      {
+        // But print any other errors to the console
+        console.error(err);
+      }
+    });
+
     dispatch('mixer/reset');
     dispatch('mixEffect/reset');
   },
