@@ -1,7 +1,7 @@
 import Vue from "vue"
 
 export default {
-  ADD_OUTPUT_WINDOW(state, name) {
+  ADD(state, name) {
     const data = {
       scalingMode: null,
       scalingFilter: null,
@@ -16,45 +16,45 @@ export default {
     };
 
     //Create a empty mix effect
-    Vue.set(state.outputWindows, name, data);
+    Vue.set(state.elements, name, data);
   },
-  DELETE_OUTPUT_WINDOW(state, name) {
-    Vue.delete(state.outputWindows, name);
+  DELETE(state, name) {
+    Vue.delete(state.elements, name);
   },
-  RESET_OUTPUT_WINDOWS(state) {
-    state.outputWindows = Object.create(null);
+  RESET(state) {
+    state.elements = Object.create(null);
   },
 
 
   SET_SCALING_MODE(state, { name, value }) {
-    state.outputWindows[name].scalingMode = value;
+    state.elements[name].scalingMode = value;
   },
   SET_SCALING_FILTER(state, { name, value }) {
-    state.outputWindows[name].scalingFilter = value;
+    state.elements[name].scalingFilter = value;
   },
   SET_TITLE(state, { name, value }) {
-    state.outputWindows[name].title = value;
+    state.elements[name].title = value;
   },
   SET_SIZE(state, { name, value }) {
-    state.outputWindows[name].size = value;
+    state.elements[name].size = value;
   },
   SET_POSITION(state, { name, value }) {
-    state.outputWindows[name].position = value;
+    state.elements[name].position = value;
   },
   SET_OPACITY(state, { name, value }) {
-    state.outputWindows[name].opacity = value;
+    state.elements[name].opacity = value;
   },
   SET_RESIZABLE(state, { name, value }) {
-    state.outputWindows[name].resizable = value;
+    state.elements[name].resizable = value;
   },
   SET_DECORATED(state, { name, value }) {
-    state.outputWindows[name].decorated = value;
+    state.elements[name].decorated = value;
   },
   SET_MONITORS(state, { name, value }) {
-    state.outputWindows[name].monitors = value;
+    state.elements[name].monitors = value;
   },
   SET_MONITOR(state, { name, value }) {
-    state.outputWindows[name].monitor = value;
+    state.elements[name].monitor = value;
   },
   
 

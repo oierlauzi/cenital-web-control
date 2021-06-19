@@ -28,7 +28,7 @@ function resize(arr, size, value) {
 
 
 export default {
-  ADD_MIX_EFFECT(state, name) {
+  ADD(state, name) {
     const data = {
       inputCount: 0,
       scalingMode: null,
@@ -45,13 +45,13 @@ export default {
     };
 
     //Create a empty mix effect
-    Vue.set(state.mixEffects, name, data);
+    Vue.set(state.elements, name, data);
   },
-  DELETE_MIX_EFFECT(state, name) {
-    Vue.delete(state.mixEffects, name);
+  DELETE(state, name) {
+    Vue.delete(state.elements, name);
   },
-  RESET_MIX_EFFECTS(state) {
-    state.mixEffects = Object.create(null);
+  RESET(state) {
+    state.elements = Object.create(null);
   },
 
 
@@ -62,50 +62,50 @@ export default {
     };
 
     //Push it onto the mix effect transition effect map
-    Vue.set(state.mixEffects[name].transitionEffects, effect, data);
+    Vue.set(state.elements[name].transitionEffects, effect, data);
   },
   DELETE_TRANSITION_EFFECT(state, { name, effect }) {
-    Vue.delete(state.mixEffects[name].transitionEffects, effect);
+    Vue.delete(state.elements[name].transitionEffects, effect);
   },
   RESET_TRANSITION_EFFECTS(state, name) {
-    state.mixEffects[name].transitionEffects = Object.create(null);
+    state.elements[name].transitionEffects = Object.create(null);
   },
 
 
   SET_INPUT_COUNT(state, { name, count }) {
-    state.mixEffects[name].inputCount = count;
+    state.elements[name].inputCount = count;
   },
   SET_UPSTREAM_OVERLAY_COUNT(state, { name, count }) {
-    resize(state.mixEffects[name].usOverlays, count, defaultKeyerData);
+    resize(state.elements[name].usOverlays, count, defaultKeyerData);
   },
   SET_DOWNSTREAM_OVERLAY_COUNT(state, { name, count }) {
-    resize(state.mixEffects[name].dsOverlays, count, defaultKeyerData);
+    resize(state.elements[name].dsOverlays, count, defaultKeyerData);
   },
 
   SET_SCALING_MODE(state, { name, mode }) {
-    state.mixEffects[name].scalingMode = mode;
+    state.elements[name].scalingMode = mode;
   },
   SET_SCALING_FILTER(state, { name, filter }) {
-    state.mixEffects[name].scalingFilter = filter;
+    state.elements[name].scalingFilter = filter;
   },
 
   SET_PROGRAM(state, { name, index }) {
-    state.mixEffects[name].pgm = index;
+    state.elements[name].pgm = index;
   },
   SET_PREVIEW(state, { name, index }) {
-    state.mixEffects[name].pvw = index;
+    state.elements[name].pvw = index;
   },
   SET_TRANSITION_BAR(state, { name, progress }) {
-    state.mixEffects[name].transitionBar = progress;
+    state.elements[name].transitionBar = progress;
   },
   SET_TRANSITION_EFFECT(state, { name, effect }) {
-    state.mixEffects[name].transitionEffect = effect;
+    state.elements[name].transitionEffect = effect;
   },
   SET_TRANSITION_DURATION(state, { name, duration }) {
-    state.mixEffects[name].transitionDuration = duration;
+    state.elements[name].transitionDuration = duration;
   },
   SET_TRANSITION_PREVIEW(state, { name, enabled }) {
-    state.mixEffects[name].transitionPreview = enabled;
+    state.elements[name].transitionPreview = enabled;
   },
 
 

@@ -111,7 +111,7 @@ export default {
   },
 
   reset({ commit }) {
-    commit('RESET_OUTPUT_WINDOWS');
+    commit('RESET');
   },
   fetch({ dispatch, commit }) {
     //Increment the fetching count
@@ -119,7 +119,7 @@ export default {
 
     return send(dispatch, ['enum']).then(elements => { //TODO use mixer's elements once fetched.
       //Start over
-      commit('RESET_OUTPUT_WINDOWS'); 
+      commit('RESET'); 
 
       //For each element query its type in parallel
       const prom = elements.map(element => {
@@ -129,10 +129,10 @@ export default {
           //If it is a output window, query its attributes
           if(type[0] === 'output-window') {
             //Only add if it is a output window
-            commit('ADD_OUTPUT_WINDOW', element);
+            commit('ADD', element);
             
             //Fetch its contents
-            return dispatch('fetchOutputWindow', element);
+            return dispatch('fetchElement', element);
           } else {
             return Promise.resolve();
           }
@@ -142,7 +142,7 @@ export default {
       return Promise.all(prom);
     }).then(() => commit('DEC_FETCHING'));
   },
-  fetchOutputWindow({ dispatch }, name) {
+  fetchElement({ dispatch }, name) {
     return Promise.all([
       dispatch('fetchScalingMode', name),
       dispatch('fetchScalingFilter', name),

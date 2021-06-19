@@ -209,15 +209,15 @@ function add(store, tokens) {
   if(type === 'mix-effect') {
     //It is a ME, add it
     const name = tokens.shift();
-    store.commit(modulePrefix + 'ADD_MIX_EFFECT', name);
-    store.dispatch(modulePrefix + 'fetchMixEffect', name);
+    store.commit(modulePrefix + 'ADD', name);
+    store.dispatch(modulePrefix + 'fetchElement', name);
   }
 }
 
 function rm(store, tokens) {
   //TODO check if it exists
   const element = tokens.shift();
-  store.commit(modulePrefix + 'DELETE_MIX_EFFECT', element);
+  store.commit(modulePrefix + 'DELETE', element);
 }
 
 function config(store, tokens) {

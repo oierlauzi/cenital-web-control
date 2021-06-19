@@ -14,6 +14,7 @@ export default {
 
     dispatch('mixer/reset');
     dispatch('mixEffect/reset');
+    dispatch('inputNdi/reset');
     dispatch('outputWindow/reset');
   },
   fetch({ dispatch, commit }) {
@@ -23,8 +24,8 @@ export default {
     return Promise.all([
       dispatch('mixer/fetch'),
       dispatch('mixEffect/fetch'),
+      dispatch('inputNdi/fetch'),
       dispatch('outputWindow/fetch')
-    ])
-    .then(() => commit('DEC_FETCHING'))	;
+    ]).then(() => commit('DEC_FETCHING'))	;
   },
 };

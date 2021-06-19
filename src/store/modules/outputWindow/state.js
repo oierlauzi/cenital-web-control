@@ -1,4 +1,4 @@
 export default {
-  outputWindows: Object.create(null),
+  elements: Object.create(null),
   fetching: 0,
 };

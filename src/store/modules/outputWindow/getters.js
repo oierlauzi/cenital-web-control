@@ -1,17 +1,17 @@
 export default {
-	list: state => Object.keys(state.outputWindows),
+	list: state => Object.keys(state.elements),
 
-	getScalingMode: state => name => state.outputWindows[name].scalingMode,
-	getScalingFilter: state => name => state.outputWindows[name].scalingFilter,
+	getScalingMode: state => name => state.elements[name].scalingMode,
+	getScalingFilter: state => name => state.elements[name].scalingFilter,
 
-	getTitle: state => name => state.outputWindows[name].title,
-	getSize: state => name => state.outputWindows[name].size.slice(),
-	getPosition: state => name => state.outputWindows[name].position.slice(),
-	getOpacity: state => name => state.outputWindows[name].opacity,
-	getResizable: state => name => state.outputWindows[name].resizable,
-	getDecorated: state => name => state.outputWindows[name].decorated,
-	getMonitors: state => name => state.outputWindows[name].monitors.slice(),
-	getMonitor: state => name => state.outputWindows[name].monitor,
+	getTitle: state => name => state.elements[name].title,
+	getSize: state => name => state.elements[name].size.slice(),
+	getPosition: state => name => state.elements[name].position.slice(),
+	getOpacity: state => name => state.elements[name].opacity,
+	getResizable: state => name => state.elements[name].resizable,
+	getDecorated: state => name => state.elements[name].decorated,
+	getMonitors: state => name => state.elements[name].monitors.slice(),
+	getMonitor: state => name => state.elements[name].monitor,
 
 	getFetching: state => state.fetching,
 };

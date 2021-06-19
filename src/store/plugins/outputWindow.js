@@ -122,24 +122,24 @@ function add(store, tokens) {
   //Check if it is a mix effect
   const type = tokens.shift();
   if(type === 'output-window') {
-    //It is a ME, add it
+    //It is a window, add it
     const name = tokens.shift();
-    store.commit(modulePrefix + 'ADD_OUTPUT_WINDOW', name);
-    store.dispatch(modulePrefix + 'fetchOutputWindow', name);
+    store.commit(modulePrefix + 'ADD', name);
+    store.dispatch(modulePrefix + 'fetchElement', name);
   }
 }
 
 function rm(store, tokens) {
   //TODO check if it exists
   const element = tokens.shift();
-  store.commit(modulePrefix + 'DELETE_OUTPUT_WINDOW', element);
+  store.commit(modulePrefix + 'DELETE', element);
 }
 
 function config(store, tokens) {
-  //Determine if the object is a ME
+  //Determine if the object is a window
   const element = tokens.shift();
   if(store.getters[modulePrefix + 'list'].includes(element)) {
-    //Object is a ME. Decide what to do
+    //Object is a window. Decide what to do
     const action = tokens.shift();
     switch(action) {
       case 'video-scaling:mode': {

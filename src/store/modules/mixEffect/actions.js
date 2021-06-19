@@ -154,7 +154,7 @@ export default {
 
 
   reset({ commit }) {
-    commit('RESET_MIX_EFFECTS');
+    commit('RESET');
   },
   fetch({ dispatch, commit }) {
     //Increment the fetching count
@@ -162,7 +162,7 @@ export default {
 
     return send(dispatch, ['enum']).then(elements => { //TODO use mixer's elements once fetched.
       //Start over
-      commit('RESET_MIX_EFFECTS'); 
+      commit('RESET'); 
 
       //For each element query its type in parallel
       const prom = elements.map(element => {
@@ -172,10 +172,10 @@ export default {
           //If it is a mix effect, query its attributes
           if(type[0] === 'mix-effect') {
             //Only add if it is a mix-effect
-            commit('ADD_MIX_EFFECT', element);
+            commit('ADD', element);
             
             //Fetch its contents
-            return dispatch('fetchMixEffect', element);
+            return dispatch('fetchElement', element);
           } else {
             return Promise.resolve();
           }
@@ -185,7 +185,7 @@ export default {
       return Promise.all(prom);
     }).then(() => commit('DEC_FETCHING'));
   },
-  fetchMixEffect({ dispatch }, name) {
+  fetchElement({ dispatch }, name) {
     return Promise.all([
       dispatch('fetchInputCount', name),
 
