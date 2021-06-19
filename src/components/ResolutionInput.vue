@@ -5,6 +5,7 @@
       placeholder="width x height"
       :state="state"
       :value="text"
+      :disabled="disabled"
       @input="onInput"
       @change="onChange" 
     />
@@ -23,6 +24,7 @@
     components: {},
     props: {
       value: { type: Object, default: defaultResolution },
+      disabled: { type: Boolean, default: false },
     },
     data() {
       return {

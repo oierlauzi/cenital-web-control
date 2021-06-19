@@ -5,11 +5,12 @@ function send(dispatch, tokens) {
 }
 
 export default {
-  add({ dispatch }, name) {
+  add({ dispatch }, { name, size }) {
     return send(dispatch, [
       'add',
       'output-window',
-      name
+      name,
+      cenitalCli.generateVector2i(size)
     ]);
   },
   delete({ dispatch }, name) {
@@ -19,32 +20,32 @@ export default {
     ]);
   },
 
-  setScalingMode({ dispatch }, { name, mode }) {
+  setScalingMode({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'video-scaling:mode',
       'set',
-      mode
+      value
     ]);
   },
-  setScalingFilter({ dispatch }, { name, filter }) {
+  setScalingFilter({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'video-scaling:filter',
       'set',
-      filter
+      value
     ]);
   },
 
-  setTitle({ dispatch }, { name, title }) {
+  setTitle({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'title',
       'set',
-      title
+      value
     ]);
   },
   setSize({ dispatch }, { name, value }) {
@@ -69,7 +70,7 @@ export default {
     return send(dispatch, [
       'config',
       name,
-      'position',
+      'opacity',
       'set',
       cenitalCli.generateNumber(value)
     ]);
@@ -101,9 +102,9 @@ export default {
     ];
 
     if(value) {
-      payload.push('unset');
-    } else {
       payload.push('set', value);
+    } else {
+      payload.push('unset');
     }
 
     return send(dispatch, payload);

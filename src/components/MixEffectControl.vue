@@ -77,8 +77,6 @@
       </b-row>
 
     </b-container>
-
-
   </div>
 </template>
 

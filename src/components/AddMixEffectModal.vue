@@ -120,7 +120,7 @@
     computed: {
       inputNameValidation() {
         return  this.name !== '' && 
-                !this.$store.getters['mixEffect/list'].includes(this.name) ;
+                !this.$store.getters['mixer/getElements'].includes(this.name) ;
       }
     }
   };

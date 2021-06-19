@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-container fluid>
+    <b-container fluid="sm">
       <!-- Frame Rate -->
       <b-row class="my-1" v-if="showFrameRate">
         <b-col sm="6">
@@ -12,6 +12,7 @@
           <RationalInput
             ref="input-frame-rate"
             :value="frameRate"
+            :disabled="ronlyFrameRate"
             @change="onFrameRateChange"
           />
         </b-col>
@@ -28,6 +29,7 @@
           <ResolutionInput
             ref="input-resolution"
             :value="resolution"
+            :disabled="ronlyResolution"
             @change="onResolutionChange"
           />
         </b-col>
@@ -44,6 +46,7 @@
           <RationalInput
             ref="input-pixel-aspect-ratio"
             :value="pixelAspectRatio"
+            :disabled="ronlyPixelAspectRatio"
             @change="onPixelAspectRatioChange"
           />
         </b-col>

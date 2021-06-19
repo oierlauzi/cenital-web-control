@@ -14,33 +14,55 @@
         <b-navbar-nav>
           <!-- Inputs dropdown -->
           <b-nav-item-dropdown text="Inputs" right>
-            <b-dropdown-item 
-              v-for="(item, index) in inputs" :key="index"
-            >
-              {{ item.name }}
-            </b-dropdown-item>
+            <!-- NDI -->
+            <b-dropdown-group header="NDI">
+              <b-dropdown-item 
+                v-for="(item, index) in empty" :key="index"
+              >
+                {{ item.name }}
+              </b-dropdown-item>
 
-            <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-divider />
 
-            <b-dropdown-item-button v-b-modal="'add-input'">
-              Add Input
-            </b-dropdown-item-button>	
+              <b-dropdown-item-button v-b-modal="'add-input-ndi'">
+                Add NDI
+              </b-dropdown-item-button>	
+            </b-dropdown-group>
 
+            <!-- Media player -->
+            <b-dropdown-group header="Media player">
+              <b-dropdown-item 
+                v-for="(item, index) in empty" :key="index"
+              >
+                {{ item.name }}
+              </b-dropdown-item>
+
+              <b-dropdown-divider />
+
+              <b-dropdown-item-button v-b-modal="'add-input-media-player'">
+                Add media player
+              </b-dropdown-item-button>	
+            </b-dropdown-group>
+            
           </b-nav-item-dropdown>
 
           <!-- Outputs dropdown -->
           <b-nav-item-dropdown text="Outputs" right>
-            <b-dropdown-item 
-              v-for="(item, index) in outputs" :key="index"
-            >
-              {{ item.name }}
-            </b-dropdown-item>
+            <!-- Window -->
+            <b-dropdown-group header="Window">
+              <b-dropdown-item 
+                v-for="(item, index) in outputWindows" :key="index"
+                :to="{ name: 'output-window', params: { name: item }  }"
+              >
+                {{ item }}
+              </b-dropdown-item>
 
-            <b-dropdown-divider></b-dropdown-divider>
+              <b-dropdown-divider />
 
-            <b-dropdown-item-button v-b-modal="'add-output'">
-              Add Output
-            </b-dropdown-item-button>	
+              <b-dropdown-item-button v-b-modal="'add-output-window'">
+                Add window
+              </b-dropdown-item-button>	
+            </b-dropdown-group>
 
           </b-nav-item-dropdown>
 
@@ -53,7 +75,7 @@
               {{ item }}
             </b-dropdown-item>
 
-            <b-dropdown-divider></b-dropdown-divider>
+            <b-dropdown-divider />
 
             <b-dropdown-item-button v-b-modal="'add-mix-effect'">
               Add M/E	
@@ -89,12 +111,14 @@
       mixEffects() {
         return this.$store.getters["mixEffect/list"];
       },
-      inputs() {
+
+      outputWindows() {
+        return this.$store.getters["outputWindow/list"];
+      },
+
+      empty() {
         return [];
       },
-      outputs() {
-        return [];
-      }
     }
   };
 </script>

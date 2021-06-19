@@ -5,6 +5,7 @@
       placeholder="num/den"
       :state="state"
       :value="text"
+      :disabled="disabled"
       @input="onInput" 
       @change="onChange"
     />
@@ -23,6 +24,7 @@
     components: {},
     props: {
       value: { type: Object, default: defaultRational },
+      disabled: { type: Boolean, default: false },
     },
     data() {
       return {

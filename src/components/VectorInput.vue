@@ -1,28 +1,25 @@
 <template>
   <div>
-    <b-container fluid>
-      <b-row class="my-1" :cols="4*this.value.length">
+    <b-input-group>
+      <template v-for="(component, index) in value">
+        <!-- Tag -->
+        <b-input-group-prepend is-text :key="'tag-' + index">
+          {{componentName(index)}}
+        </b-input-group-prepend>
 
-        <!-- Iterate over components -->
-        <b-col sm="4" v-for="(component, index) in value" :key="index">
-          <b-input-group 
-            :prepend="componentName(index)" 
-          >
-            <b-form-input
-              type="number"
-              :value="component"
-              :step="step"
-              @input="onInput(index, $event)"
-              @change="onChange(index, $event)"
-            />
-          </b-input-group>
-        </b-col>
-        
-      </b-row>
-    </b-container>
+        <!-- Compoent -->
+        <b-form-input
+            type="number"
+            :key="'comp-' + index"
+            :value="component"
+            :step="step"
+            :disabled="disabled"
+            @input="onInput(index, $event)"
+            @change="onChange(index, $event)"
+          />
 
-
-
+      </template>
+    </b-input-group>
   </div>
 </template>
 
@@ -37,6 +34,7 @@
     props: {
       value: { type: Array, default: defaultValue },
       step: { type: Number, default: 1 },
+      disabled: { type: Boolean, default: false },
     },
     data() {
       return {};

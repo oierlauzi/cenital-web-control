@@ -103,14 +103,11 @@
         </b-col>
       </b-row> 
 
-      <!-- Video mode -->
-      <b-row class="my-1">
-        <b-col sm="12">
-          <VideoModeConfigure :name="name" />
-        </b-col>
-      </b-row>
-
     </b-container>
+
+    <!-- Video mode -->
+    <VideoModeConfigure :name="name" />
+
   </div>
 </template>
 
@@ -133,6 +130,11 @@
       return {};
     },
     methods: {
+      onDelete() {
+        this.$router.push({ name: 'home' }); //FIXME this should be done on the commit, when it actually gets deleted
+        this.$store.dispatch('mixEffect/delete', this.name);
+      },
+
       onInputCountChange(count) {
         this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: count });
       },
@@ -148,11 +150,6 @@
       onScalingFilterChange(value) {
         this.$store.dispatch('mixEffect/setScalingFilter', { name: this.name, filter: value });
       },
-
-      onDelete() {
-        this.$router.push({ name: 'home' }); //FIXME this should be done on the commit, when it actually gets deleted
-        this.$store.dispatch('mixEffect/delete', this.name);
-      }
     },
     computed: {
       inputCount() {
