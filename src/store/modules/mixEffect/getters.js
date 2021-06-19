@@ -12,6 +12,7 @@ export default {
 	getPreview: state => name => state.mixEffects[name].pvw,
 	getTransitionBar: state => name => state.mixEffects[name].transitionBar,
 	getTransitionEffects: state => name => Object.keys(state.mixEffects[name].transitionEffects),
+	getTransitionEffectType: state => (name, effect) => state.mixEffects[name].transitionEffect[effect].type,
 	getTransitionEffect: state => name => state.mixEffects[name].transitionEffect,
 	getTransitionDuration: state => name => state.mixEffects[name].transitionDuration,
 	getTransitionPreview: state => name => state.mixEffects[name].transitionPreview,

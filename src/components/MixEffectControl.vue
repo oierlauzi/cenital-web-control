@@ -20,7 +20,7 @@
             <!-- Settings -->
             <b-card no-body class="mb-1">
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-settings'" variant="secondary">Settings</b-button>
+                <b-button block v-b-toggle="'accordion-settings'" variant="primary">Settings</b-button>
               </b-card-header>
               <b-collapse id="accordion-settings" visible accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
@@ -29,14 +29,16 @@
               </b-collapse>
             </b-card>
 
-            <!-- Transition settings -->
-            <b-card no-body class="mb-1">
+            <!-- Transitions -->
+            <b-card v-for="effect in transitionEffects" :key="'transition'+effect"
+              no-body class="mb-1"
+            >
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-transition'" variant="secondary">Transition</b-button>
+                <b-button block v-b-toggle="'transition-effect-' + effect" variant="warning">{{effect}} transition</b-button>
               </b-card-header>
-              <b-collapse id="accordion-transition" accordion="mix-effect-accordion" role="tabpanel">
+              <b-collapse :id="'transition-effect-' + effect" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectTransitionSettings :name="name" />
+                  <MixEffectTransitionEffect :name="name" :effect="effect" />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -46,7 +48,7 @@
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-usk' + index" variant="primary">Up Stream Keyer {{index}}</b-button>
+                <b-button block v-b-toggle="'accordion-usk' + index" variant="secondary">Upstream overlay {{index}}</b-button>
               </b-card-header>
               <b-collapse :id="'accordion-usk' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
@@ -60,7 +62,7 @@
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-dsk' + index" variant="info">Down Stream Keyer {{index}}</b-button>
+                <b-button block v-b-toggle="'accordion-dsk' + index" variant="dark">Downstream overlay {{index}}</b-button>
               </b-card-header>
               <b-collapse :id="'accordion-dsk' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
@@ -81,10 +83,12 @@
 </template>
 
 <script>
+  import { mapGetters } from 'vuex'
+
   import MixEffectCrosspoint from "../components/MixEffectCrosspoint"
   import MixEffectTransition from "../components/MixEffectTransition"
   import MixEffectSettings from "../components/MixEffectSettings"
-  import MixEffectTransitionSettings from "../components/MixEffectTransitionSettings"
+  import MixEffectTransitionEffect from "../components/MixEffectTransitionEffect"
   import MixEffectKeyer from "../components/MixEffectKeyer"
 
   export default {
@@ -93,7 +97,7 @@
       MixEffectCrosspoint,
       MixEffectTransition,
       MixEffectSettings,
-      MixEffectTransitionSettings,
+      MixEffectTransitionEffect,
       MixEffectKeyer
     },
     props: {
@@ -104,11 +108,21 @@
     },
     methods: {},
     computed: {
+      ...mapGetters("mixEffect", [ 
+        'getTransitionEffects',
+        'getUpstreamOverlayCount',
+        'getDownstreamOverlayCount',
+      ]),
+
+
+      transitionEffects() {
+        return this.getTransitionEffects(this.name);
+      },
       uskCount() {
-        return this.$store.getters["mixEffect/getUpstreamOverlayCount"](this.name);
+        return this.getUpstreamOverlayCount(this.name);
       },
       dskCount() {
-        return this.$store.getters["mixEffect/getDownstreamOverlayCount"](this.name);
+        return this.getDownstreamOverlayCount(this.name);
       }
     }
   }

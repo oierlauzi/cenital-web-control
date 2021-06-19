@@ -6,11 +6,14 @@
       :state="state"
       :value="text"
       @input="onInput" 
+      @change="onChange"
     />
   </div>
 </template>
 
 <script>
+  import cenitalCli from '../api/cenitalCli'
+
   function defaultRational()  { 
     return { num: 0, den: 1 }; 
   }
@@ -28,29 +31,18 @@
     },
     methods: {
       onInput(value) {
-        //Slipt the string in two parts
-        const halves = value.split('/');
-
-        if(halves.length !== 2) {
-          this.state = false;
-        }  else {
-          //Parse the numerator and denominator
-          const num = parseInt(halves[0], 10);
-          const den = parseInt(halves[1], 10);
-
-          if(!isNaN(num) && !isNaN(den)) {
-            //OK!
-            this.state = null;
-            this.$emit("input", { num, den });
-          } else {
-            this.state = false;
-          }
-        }
+        const rational = cenitalCli.parseRational(value);
+        this.state = rational ? null : false;
+        this.$emit("input", rational);
+      },
+      onChange(value) {
+        const rational = cenitalCli.parseRational(value);
+        this.$emit("change", rational);
       }
     },
     computed: {
       text() {
-        return this.value.num + '/' + this.value.den;
+        return cenitalCli.generateRational(this.value);
       }
     }
   };

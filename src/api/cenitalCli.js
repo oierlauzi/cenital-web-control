@@ -153,20 +153,6 @@ function parseVector(token, separator, length, parser) {
   return result;
 }
 
-function generateVector(x, separator, generator) {
-  let result = "";
-
-  for(let i = 0; i < x.length; ++i) {
-    if(i !== 0) {
-      result += separator;
-    }
-
-    result += generator(x[i]);
-  }
-
-  return result;
-}
-
 function parseVector2b(token) {
   return parseVector(token, ',', 2, parseBoolean);
 }
@@ -201,6 +187,65 @@ function parseVector4i(token) {
 
 function parseVector4f(token) {
   return parseVector(token, ',', 4, parseNumber);
+}
+
+function generateVector(x, separator, generator) {
+  let result = "";
+
+  for(let i = 0; i < x.length; ++i) {
+    if(i !== 0) {
+      result += separator;
+    }
+
+    result += generator(x[i]);
+  }
+
+  return result;
+}
+
+function generateVector2b(value) {
+  console.assert(value.length === 2);
+  return generateVector(value, ',', generateBoolean);
+}
+
+function generateVector2i(value) {
+  console.assert(value.length === 2);
+  return generateVector(value, ',', generateInteger);
+}
+
+function generateVector2f(value) {
+  console.assert(value.length === 2);
+  return generateVector(value, ',', generateNumber);
+}
+
+function generateVector3b(value) {
+  console.assert(value.length === 3);
+  return generateVector(value, ',', generateBoolean);
+}
+
+function generateVector3i(value) {
+  console.assert(value.length === 3);
+  return generateVector(value, ',', generateInteger);
+}
+
+function generateVector3f(value) {
+  console.assert(value.length === 3);
+  return generateVector(value, ',', generateNumber);
+}
+
+function generateVector4b(value) {
+  console.assert(value.length === 4);
+  return generateVector(value, ',', generateBoolean);
+}
+
+function generateVector4i(value) {
+  console.assert(value.length === 4);
+  return generateVector(value, ',', generateInteger);
+}
+
+function generateVector4f(value) {
+  console.assert(value.length === 4);
+  return generateVector(value, ',', generateNumber);
 }
 
 function parseResolution(token) {
@@ -272,6 +317,15 @@ export default {
   parseVector4i,
   parseVector4f,
   generateVector,
+  generateVector2b,
+  generateVector2i,
+  generateVector2f,
+  generateVector3b,
+  generateVector3i,
+  generateVector3f,
+  generateVector4b,
+  generateVector4i,
+  generateVector4f,
   parseResolution,
   generateResolution,
   parseRational,

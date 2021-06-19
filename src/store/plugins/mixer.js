@@ -9,7 +9,7 @@ const modulePrefix = 'mixer/'
 function setFrameRate(store, tokens, name) {
   try {
     const frameRate = cenitalCli.parseRational(tokens.shift());
-    store.commit(modulePrefix + 'SET_FRAME_RATE_VALUE',  { name: name, frameRate: frameRate });
+    store.commit(modulePrefix + 'SET_FRAME_RATE_VALUE',  { name: name, value: frameRate });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -20,7 +20,7 @@ function setFrameRate(store, tokens, name) {
 function setResolution(store, tokens, name) {
   try {
     const resolution = cenitalCli.parseResolution(tokens.shift());
-    store.commit(modulePrefix + 'SET_RESOLUTION_VALUE',  { name: name, resolution: resolution });
+    store.commit(modulePrefix + 'SET_RESOLUTION_VALUE',  { name: name, value: resolution });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -31,7 +31,7 @@ function setResolution(store, tokens, name) {
 function setPixelAspectRatio(store, tokens, name) {
   try {
     const par = cenitalCli.parseRational(tokens.shift());
-    store.commit(modulePrefix + 'SET_PIXEL_ASPECT_RATIO_VALUE',  { name: name, pixelAspectRatio: par });
+    store.commit(modulePrefix + 'SET_PIXEL_ASPECT_RATIO_VALUE',  { name: name, value: par });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -42,7 +42,7 @@ function setPixelAspectRatio(store, tokens, name) {
 function setColorPrimaries(store, tokens, name) {
   try {
     const colorPrimaries = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_PRIMARIES_VALUE',  { name: name, colorPrimaries: colorPrimaries });
+    store.commit(modulePrefix + 'SET_COLOR_PRIMARIES_VALUE',  { name: name, value: colorPrimaries });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -53,7 +53,7 @@ function setColorPrimaries(store, tokens, name) {
 function setColorModel(store, tokens, name) {
   try {
     const colorModel = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_MODEL_VALUE',  { name: name, colorModel: colorModel });
+    store.commit(modulePrefix + 'SET_COLOR_MODEL_VALUE',  { name: name, value: colorModel });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -64,7 +64,7 @@ function setColorModel(store, tokens, name) {
 function setColorTransferFunction(store, tokens, name) {
   try {
     const colorTransferFunction = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_TRANSFER_FUNCTION_VALUE',  { name: name, colorTransferFunction: colorTransferFunction });
+    store.commit(modulePrefix + 'SET_COLOR_TRANSFER_FUNCTION_VALUE',  { name: name, value: colorTransferFunction });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -75,7 +75,7 @@ function setColorTransferFunction(store, tokens, name) {
 function setColorSubsampling(store, tokens, name) {
   try {
     const colorSubsampling = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_SUBSAMPLING_VALUE',  { name: name, colorSubsampling: colorSubsampling });
+    store.commit(modulePrefix + 'SET_COLOR_SUBSAMPLING_VALUE',  { name: name, value: colorSubsampling });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -86,7 +86,7 @@ function setColorSubsampling(store, tokens, name) {
 function setColorRange(store, tokens, name) {
   try {
     const colorRange = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_RANGE_VALUE',  { name: name, colorRange: colorRange });
+    store.commit(modulePrefix + 'SET_COLOR_RANGE_VALUE',  { name: name, value: colorRange });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -97,7 +97,7 @@ function setColorRange(store, tokens, name) {
 function setColorFormat(store, tokens, name) {
   try {
     const colorFormat = tokens.shift();
-    store.commit(modulePrefix + 'SET_COLOR_FORMAT_VALUE',  { name: name, colorFormat: colorFormat });
+    store.commit(modulePrefix + 'SET_COLOR_FORMAT_VALUE',  { name: name, value: colorFormat });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -258,7 +258,7 @@ export default store => {
   //Subscribe to receive
   store.subscribe((mutation) => {
     if(mutation.type === 'connection/RECV') {
-      const tokens = Array.from(mutation.payload); //To avoid mutating the original
+      const tokens = mutation.payload.slice(); //To avoid mutating the original
       
       if(tokens.length > 0) {
         //Decide what to do depending on the action

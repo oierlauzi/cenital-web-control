@@ -5,13 +5,16 @@
       placeholder="width x height"
       :state="state"
       :value="text"
-      @input="onInput" 
+      @input="onInput"
+      @change="onChange" 
     />
   </div>
 </template>
 
 <script>
-  function defaultRational()  { 
+  import cenitalCli from '../api/cenitalCli'
+
+  function defaultResolution()  { 
     return { width: 0, height: 0 }; 
   }
 
@@ -19,7 +22,7 @@
     name: "ResolutionInput",
     components: {},
     props: {
-      value: { type: Object, default: defaultRational },
+      value: { type: Object, default: defaultResolution },
     },
     data() {
       return {
@@ -28,29 +31,18 @@
     },
     methods: {
       onInput(value) {
-        //Slipt the string in two parts
-        const halves = value.split('x');
-
-        if(halves.length !== 2) {
-          this.state = false;
-        }  else {
-          //Parse the width and height
-          const width = parseInt(halves[0], 10);
-          const height = parseInt(halves[1], 10);
-
-          if(!isNaN(width) && !isNaN(height)) {
-            //OK!
-            this.state = null;
-            this.$emit("input", { width, height });
-          } else {
-            this.state = false;
-          }
-        }
+        const resolution = cenitalCli.parseResolution(value);
+        this.state = resolution ? null : false;
+        this.$emit("input", resolution);
+      },
+      onChange(value) {
+        const resolution = cenitalCli.parseResolution(value);
+        this.$emit("change", resolution);
       }
     },
     computed: {
       text() {
-        return this.value.width + 'x' + this.value.height;
+        return cenitalCli.generateResolution(this.value);
       }
     }
   };

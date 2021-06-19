@@ -1,67 +1,51 @@
 import cenitalCli from '../../../api/cenitalCli'
 
+function send(dispatch, tokens) {
+  return dispatch('connection/send', tokens, { root: true });
+}
+
 export default {
   add({ dispatch }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'add',
-        'mix-effect',
-        name
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'add',
+      'mix-effect',
+      name
+    ]);
   },
   delete({ dispatch }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'rm',
-        name
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'rm',
+      name
+    ]);
   },
 
   setInputCount({ dispatch }, { name, count }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'input:count',
-        'set',
-        cenitalCli.generateInteger(count)
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'input:count',
+      'set',
+      cenitalCli.generateInteger(count)
+    ]);
   },
 
   setScalingMode({ dispatch }, { name, mode }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'video-scaling:mode',
-        'set',
-        mode
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'video-scaling:mode',
+      'set',
+      mode
+    ]);
   },
   setScalingFilter({ dispatch }, { name, filter }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'video-scaling:filter',
-        'set',
-        filter
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'video-scaling:filter',
+      'set',
+      filter
+    ]);
   },
 
   setProgram({ dispatch }, { name, index }) {
@@ -78,7 +62,7 @@ export default {
       payload.push('set', cenitalCli.generateInteger(index));
     }
 
-    return dispatch('connection/send', payload, { root: true });
+    return send(dispatch, payload);
   },
   setPreview({ dispatch }, { name, index }) {
     //Elaborate the payload depending on if it is setting or unsettling
@@ -94,109 +78,77 @@ export default {
       payload.push('set', cenitalCli.generateInteger(index));
     }
 
-    return dispatch('connection/send', payload, { root: true });
+    return send(dispatch, payload);
   },
   setTransitionBar({ dispatch }, { name, progress }) {
-    return dispatch(
-      'connection/sendNoAck', //As fast as possible
-      [
-        'config',
-        name,
-        'transition:bar',
-        'set',
-        cenitalCli.generateNumber(progress)
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:bar',
+      'set',
+      cenitalCli.generateNumber(progress)
+    ]);
   },
   setTransitionEffect({ dispatch }, { name, effect }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'transition:effect',
-        'set',
-        effect
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'set',
+      effect
+    ]);
   },
   setTransitionDuration({ dispatch }, { name, duration }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'transition:duration',
-        'set',
-        cenitalCli.generateDuration(duration)
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:duration',
+      'set',
+      cenitalCli.generateDuration(duration)
+    ]);
   },
   setTransitionPreview({ dispatch }, { name, enabled }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'transition:pvw',
-        'set',
-        cenitalCli.generateBoolean(enabled)
-      ], 
-      { root: true }
-    );
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:pvw',
+      'set',
+      cenitalCli.generateBoolean(enabled)
+    ]);
   },
 
   cut({ dispatch }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'cut'
-      ], 
-      { root: true }
-    );   
+    return send(dispatch, [
+      'config',
+      name,
+      'cut'
+    ]);   
   },
   transition({ dispatch }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'transition'
-      ], 
-      { root: true }
-    );   
+    return send(dispatch, [
+      'config',
+      name,
+      'transition'
+    ]);   
   },
 
   setUpstreamOverlayCount({ dispatch }, { name, count }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'us-overlay:count',
-        'set',
-        cenitalCli.generateInteger(count)
-      ], 
-      { root: true }
-    );   
+    return send(dispatch, [
+      'config',
+      name,
+      'us-overlay:count',
+      'set',
+      cenitalCli.generateInteger(count)
+    ]);   
   },
   setDownstreamOverlayCount({ dispatch }, { name, count }) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config',
-        name,
-        'ds-overlay:count',
-        'set',
-        cenitalCli.generateInteger(count)
-      ], 
-      { root: true }
-    );   
+    return send(dispatch, [
+      'config',
+      name,
+      'ds-overlay:count',
+      'set',
+      cenitalCli.generateInteger(count)
+    ]);   
   },
 
 
@@ -208,15 +160,13 @@ export default {
     //Increment the fetching count
     commit('INC_FETCHING'); 
 
-    return dispatch('connection/send', ['enum'], { root: true }) //TODO use mixer's elements once fetched
-    .then(elements => {
+    return send(dispatch, ['enum']).then(elements => { //TODO use mixer's elements once fetched.
       //Start over
       commit('RESET_MIX_EFFECTS'); 
 
       //For each element query its type in parallel
       const prom = elements.map(element => {
-        return dispatch('connection/send', ['config', element, 'type'], { root: true })
-        .then(type => {
+        return send(dispatch, ['config', element, 'type']).then(type => {
           console.assert(type.length === 1);
           
           //If it is a mix effect, query its attributes
@@ -233,8 +183,7 @@ export default {
       });
 
       return Promise.all(prom);
-    })
-    .then(() => commit('DEC_FETCHING'));
+    }).then(() => commit('DEC_FETCHING'));
   },
   fetchMixEffect({ dispatch }, name) {
     return Promise.all([
@@ -256,67 +205,47 @@ export default {
   },
 
   fetchInputCount({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'input:count',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'input:count',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_INPUT_COUNT', { name, count: cenitalCli.parseInteger(tokens[0]) });
     });
   },
 
   fetchScalingMode({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'video-scaling:mode',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'video-scaling:mode',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_SCALING_MODE', { name, mode: tokens[0] });
     });
   },
   fetchScalingFilter({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'video-scaling:filter',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'video-scaling:filter',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_SCALING_FILTER', { name, filter: tokens[0] });
     });
   },
 
   fetchProgram({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'pgm',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'pgm',
+      'get'
+    ]).then(tokens => {
       if(tokens.length === 0) {
         commit('SET_PROGRAM', { name, index: -1 });
       } else {
@@ -326,17 +255,12 @@ export default {
     });
   },
   fetchPreview({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'pvw',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'pvw',
+      'get'
+    ]).then(tokens => {
       if(tokens.length === 0) {
         commit('SET_PREVIEW', { name, index: -1 });
       } else {
@@ -347,85 +271,58 @@ export default {
   },
 
   fetchTransitionBar({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'transition:bar',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:bar',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_BAR', { name, progress: cenitalCli.parseNumber(tokens[0]) });
     });
   },
   fetchTransitionEffects({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'transition:effect',
-        'enum'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:effect',
+      'enum'
+    ]).then(tokens => {
       commit('RESET_TRANSITION_EFFECTS', name); //Start over
       tokens.forEach(effect => {
         commit('ADD_TRANSITION_EFFECT', { name, effect: effect });
       });
-
-     
     });
   },
   fetchTransitionEffect({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'transition:effect',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:effect',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_EFFECT', { name, effect: tokens[0] });
     });
   },
   fetchTransitionDuration({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'transition:duration',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:duration',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_DURATION', { name, duration: cenitalCli.parseDuration(tokens[0]) });
     });
   },
   fetchTransitionPreview({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'transition:pvw',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:pvw',
+      'get'
+    ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_PREVIEW', { name, enabled: cenitalCli.parseBoolean(tokens[0]) });
     });
@@ -440,17 +337,12 @@ export default {
     ]);
   },
   fetchUpstreamOverlays({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'us-overlay:count',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'us-overlay:count',
+      'get'
+    ]).then(tokens => {
       const count = cenitalCli.parseInteger(tokens[0]);
       commit('SET_UPSTREAM_OVERLAY_COUNT', { name, count });
 
@@ -462,17 +354,12 @@ export default {
     });
   },
   fetchDownstreamOverlays({ dispatch, commit }, name) {
-    return dispatch(
-      'connection/send', 
-      [
-        'config', 
-        name, 
-        'ds-overlay:count',
-        'get'
-      ],
-      { root: true }
-    )
-    .then(tokens => {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'ds-overlay:count',
+      'get'
+    ]).then(tokens => {
       const count = cenitalCli.parseInteger(tokens[0]);
       commit('SET_DOWNSTREAM_OVERLAY_COUNT', { name, count });
 

@@ -14,6 +14,7 @@ export default {
 
     dispatch('mixer/reset');
     dispatch('mixEffect/reset');
+    dispatch('outputWindow/reset');
   },
   fetch({ dispatch, commit }) {
     //Increment fetching count
@@ -22,6 +23,7 @@ export default {
     return Promise.all([
       dispatch('mixer/fetch'),
       dispatch('mixEffect/fetch'),
+      dispatch('outputWindow/fetch')
     ])
     .then(() => commit('DEC_FETCHING'))	;
   },

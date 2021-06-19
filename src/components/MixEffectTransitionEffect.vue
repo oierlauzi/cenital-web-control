@@ -1,15 +1,16 @@
 <template>
   <div>
-    <h3>TODO: Mix effect transition settings</h3>
+    <h3>TODO: {{effect}} transition settings</h3>
   </div>
 </template>
 
 <script>
   export default {
-    name: "MixEffectTransitionSettings",
+    name: "MixEffectTransitionEffect",
     components: {},
     props: {
-      name: { type: String, required: true }
+      name: { type: String, required: true },
+      effect: { type: String, required: true },
     },
     data() {
       return {};

@@ -28,7 +28,7 @@
             min="0" 
             step="1"
             :value="inputCount"
-            @input="onInputCountInput"
+            @change="onInputCountChange"
           />
         </b-col>
       </b-row>
@@ -47,7 +47,7 @@
             min="0" 
             step="1"
             :value="upstreamOverlayCount"
-            @input="onUpstreamOverlayCountInput"
+            @change="onUpstreamOverlayCountChange"
           />
         </b-col>
       </b-row>
@@ -66,7 +66,7 @@
             min="0" 
             step="1"
             :value="downstreamOverlayCount"
-            @input="onDownstreamOverlayCountInput"
+            @change="onDownstreamOverlayCountChange"
           />
         </b-col>
       </b-row>
@@ -82,7 +82,7 @@
           <ScalingModeSelect 
             ref="select-scaling-mode"
             :value="scalingMode"
-            @input="onScalingModeInput"
+            @change="onScalingModeChange"
           />
         </b-col>
       </b-row>
@@ -98,7 +98,7 @@
           <ScalingFilterSelect
             ref="select-scaling-filter"
             :value="scalingFilter"
-            @input="onScalingFilterInput"
+            @change="onScalingFilterChange"
           />
         </b-col>
       </b-row> 
@@ -133,26 +133,25 @@
       return {};
     },
     methods: {
-      onInputCountInput(count) {
+      onInputCountChange(count) {
         this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: count });
       },
-      onUpstreamOverlayCountInput(count) {
+      onUpstreamOverlayCountChange(count) {
         this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.name, count: count });
       },
-      onDownstreamOverlayCountInput(count) {
+      onDownstreamOverlayCountChange(count) {
         this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.name, count: count });
       },
-      onScalingModeInput(value) {
+      onScalingModeChange(value) {
         this.$store.dispatch('mixEffect/setScalingMode', { name: this.name, mode: value });
       },
-      onScalingFilterInput(value) {
+      onScalingFilterChange(value) {
         this.$store.dispatch('mixEffect/setScalingFilter', { name: this.name, filter: value });
       },
 
-
       onDelete() {
         this.$router.push({ name: 'home' }); //FIXME this should be done on the commit, when it actually gets deleted
-        this.$store.dispatch('mixEffect/delete', this.mixEffect);
+        this.$store.dispatch('mixEffect/delete', this.name);
       }
     },
     computed: {

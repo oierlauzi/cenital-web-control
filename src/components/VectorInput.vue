@@ -11,7 +11,9 @@
             <b-form-input
               type="number"
               :value="component"
+              :step="step"
               @input="onInput(index, $event)"
+              @change="onChange(index, $event)"
             />
           </b-input-group>
         </b-col>
@@ -34,16 +36,12 @@
     components: {},
     props: {
       value: { type: Array, default: defaultValue },
+      step: { type: Number, default: 1 },
     },
     data() {
       return {};
     },
     methods: {
-      onInput(index, value) {
-        const result = new Array(this.value);
-        result[index] = value;
-        this.$emit("input", result);
-      },
       componentName(index) {
         switch(index) {
         case 0:   return 'X';
@@ -52,7 +50,22 @@
         case 3:   return 'W';
         default:  return '';
         }
-      }
+      },
+      calcNewValue(index, value) {
+        const result = this.value.slice();
+        result[index] = value;
+        return result;
+      },
+
+      onInput(index, value) {
+        const result = this.calcNewValue(index, value);
+        this.$emit("input", result);
+      },
+      onChange(index, value) {
+        const result = this.calcNewValue(index, value);
+        this.$emit("change", result);
+      },
+
     },
     computed: {}
   };

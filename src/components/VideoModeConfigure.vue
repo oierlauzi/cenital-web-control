@@ -12,7 +12,7 @@
           <RationalInput
             ref="input-frame-rate"
             :value="frameRate"
-            @input="onFrameRateInput"
+            @change="onFrameRateChange"
           />
         </b-col>
       </b-row>
@@ -28,7 +28,7 @@
           <ResolutionInput
             ref="input-resolution"
             :value="resolution"
-            @input="onResolutionInput"
+            @change="onResolutionChange"
           />
         </b-col>
       </b-row>
@@ -44,7 +44,7 @@
           <RationalInput
             ref="input-pixel-aspect-ratio"
             :value="pixelAspectRatio"
-            @input="onPixelAspectRatioInput"
+            @change="onPixelAspectRatioChange"
           />
         </b-col>
       </b-row>
@@ -62,7 +62,7 @@
             :value="colorPrimaries"
             :options="colorPrimariesOptions"
             :disabled="ronlyColorPrimaries"
-            @input="onColorPrimariesInput"
+            @change="onColorPrimariesChange"
           />
         </b-col>
       </b-row>
@@ -80,7 +80,7 @@
             :value="colorModel"
             :options="colorModelOptions"
             :disabled="ronlyColorModel"
-            @input="onColorModelInput"
+            @change="onColorModelChange"
           />
         </b-col>
       </b-row>
@@ -98,7 +98,7 @@
             :value="colorTransferFunction"
             :options="colorTransferFunctionOptions"
             :disabled="ronlyColorTransferFunction"
-            @input="onColorTransferFunctionInput"
+            @change="onColorTransferFunctionChange"
           />
         </b-col>
       </b-row>
@@ -116,7 +116,7 @@
             :value="colorSubsampling"
             :options="colorSubsamplingOptions"
             :disabled="ronlyColorSubsampling"
-            @input="onColorSubsamplingInput"
+            @change="onColorSubsamplingChange"
           />
         </b-col>
       </b-row>
@@ -134,7 +134,7 @@
             :value="colorRange"
             :options="colorRangeOptions"
             :disabled="ronlyColorRange"
-            @input="onColorRangeInput"
+            @change="onColorRangeChange"
           />
         </b-col>
       </b-row>
@@ -152,7 +152,7 @@
             :value="colorFormat"
             :options="colorFormatOptions"
             :disabled="ronlyColorFormat"
-            @input="onColorFormatInput"
+            @change="onColorFormatChange"
           />
         </b-col>
       </b-row>
@@ -180,31 +180,37 @@
       return {};
     },
     methods: {
-      onFrameRateInput(value) {
-        this.$store.dispatch('mixer/setFrameRate', { name: this.name, value: value });
+      onFrameRateChange(value) {
+        if(value) {
+          this.$store.dispatch('mixer/setFrameRate', { name: this.name, value: value });
+        }
       },
-      onResolutionInput(value) {
-        this.$store.dispatch('mixer/setResolution', { name: this.name, value: value });
+      onResolutionChange(value) {
+        if(value) {
+          this.$store.dispatch('mixer/setResolution', { name: this.name, value: value });
+        }
       },
-      onPixelAspectRatioInput(value) {
-        this.$store.dispatch('mixer/setPixelAspectRatio', { name: this.name, value: value });
+      onPixelAspectRatioChange(value) {
+        if(value) {
+          this.$store.dispatch('mixer/setPixelAspectRatio', { name: this.name, value: value });
+        }
       },
-      onColorPrimariesInput(value) {
+      onColorPrimariesChange(value) {
         this.$store.dispatch('mixer/setColorPrimaries', { name: this.name, value: value });
       },
-      onColorModelInput(value) {
+      onColorModelChange(value) {
         this.$store.dispatch('mixer/setColorModel', { name: this.name, value: value });
       },
-      onColorTransferFunctionInput(value) {
+      onColorTransferFunctionChange(value) {
         this.$store.dispatch('mixer/setColorTransferFunction', { name: this.name, value: value });
       },
-      onColorSubsamplingInput(value) {
+      onColorSubsamplingChange(value) {
         this.$store.dispatch('mixer/setColorSubsampling', { name: this.name, value: value });
       },
-      onColorRangeInput(value) {
+      onColorRangeChange(value) {
         this.$store.dispatch('mixer/setColorRange', { name: this.name, value: value });
       },
-      onColorFormatInput(value) {
+      onColorFormatChange(value) {
         this.$store.dispatch('mixer/setColorFormat', { name: this.name, value: value });
       }
 

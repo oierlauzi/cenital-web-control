@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-form-select :value="value" :options="options" @input="onInput" />
+    <b-form-select 
+      :value="value" 
+      :options="options" 
+      @input="onInput" 
+      @change="onChange"
+    />
   </div>
 </template>
 
@@ -17,7 +22,11 @@
     methods: {
       onInput(value) {
         this.$emit("input", value);
-      }
+      },
+      onChange(value) {
+        this.$emit("change", value);
+      },
+      
     },
     computed: {
       options() {

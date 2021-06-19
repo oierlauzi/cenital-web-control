@@ -32,7 +32,8 @@ export default {
   },
 
   getSource: state => (name, input) => {
-    return Object.assign({}, state.elements[name].inputs[input].source);
+    const source = state.elements[name].inputs[input].source;
+    return source ? Object.assign({}, source) : null;
   },
 
 

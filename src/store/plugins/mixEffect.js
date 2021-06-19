@@ -345,7 +345,7 @@ export default store => {
   //Subscribe to receive
   store.subscribe((mutation) => {
     if(mutation.type === 'connection/RECV') {
-      const tokens = Array.from(mutation.payload); //To avoid mutating the original
+      const tokens = mutation.payload.slice(); //To avoid mutating the original
       if(tokens.length > 0) {
         //Decide what to do depending on the action
         const action = tokens.shift();
