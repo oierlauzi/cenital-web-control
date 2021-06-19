@@ -17,9 +17,10 @@
             <!-- NDI -->
             <b-dropdown-group header="NDI">
               <b-dropdown-item 
-                v-for="(item, index) in empty" :key="index"
+                v-for="(item, index) in ndiInputs" :key="index"
+                :to="{ name: 'input-ndi', params: { name: item }  }"
               >
-                {{ item.name }}
+                {{ item }}
               </b-dropdown-item>
 
               <b-dropdown-divider />
@@ -110,6 +111,10 @@
     computed: {
       mixEffects() {
         return this.$store.getters["mixEffect/list"];
+      },
+
+      ndiInputs() {
+        return this.$store.getters["inputNdi/list"];
       },
 
       outputWindows() {

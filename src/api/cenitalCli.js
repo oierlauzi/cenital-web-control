@@ -34,8 +34,8 @@ function serialize(tokens) {
 
   //Sanitize spaces and backslashes
   tokens = tokens.map(token => {
-    token = token.replace(escapeChar, escapeChar + escapeChar);
-    token = token.replace(separatorChar, escapeChar + separatorChar);
+    token = token.replaceAll(escapeChar, escapeChar + escapeChar);
+    token = token.replaceAll(separatorChar, escapeChar + separatorChar);
     return token;
   });
 
@@ -83,8 +83,8 @@ function tokenize(msg) {
 
   //Un-sanitize spaces and backslashes
   result = result.map(token => {
-    token = token.replace(escapeChar + escapeChar, escapeChar);
-    token = token.replace(escapeChar + separatorChar, separatorChar);
+    token = token.replaceAll(escapeChar + escapeChar, escapeChar);
+    token = token.replaceAll(escapeChar + separatorChar, separatorChar);
     return token;
   });
 

@@ -1,7 +1,11 @@
 import Home from "../views/Home.vue";
-import MixEffect from "../views/MixEffect.vue";
-import OutputWindow from "../views/OutputWindow.vue";
 import NotFound from "../views/NotFound.vue";
+
+import MixEffect from "../views/MixEffect.vue";
+
+import InputNdi from "../views/InputNdi.vue";
+
+import OutputWindow from "../views/OutputWindow.vue";
 
 import store from "../store"
 
@@ -16,12 +20,22 @@ function mixEffectGuard(to, from, next) {
   }
 }
 
-function outputWindowGuard(to, from, next) {
-  if(store.getters["outputWindow/list"].includes(to.params.name)) {
-    //Mix effect exists on the store
+function inputNdiGuard(to, from, next) {
+  if(store.getters["inputNdi/list"].includes(to.params.name)) {
+    //NDI input exists on the store
     next();
   } else {
-    //Mix effect does not exist on the store
+    //NDI input does not exist on the store
+    next({ name: "not-found" });
+  }
+}
+
+function outputWindowGuard(to, from, next) {
+  if(store.getters["outputWindow/list"].includes(to.params.name)) {
+    //Window exists on the store
+    next();
+  } else {
+    //Window does not exist on the store
     next({ name: "not-found" });
   }
 }
@@ -30,6 +44,7 @@ const routes = [
   //Path						              //Name				        //Component
   {	path: "/", 					          name: "home", 		    component: Home 		                              },
   { path: '/mix-effect/:name', 	  name: "mix-effect",   component: MixEffect, beforeEnter: mixEffectGuard },
+  { path: '/input-ndi/:name',     name: "input-ndi",    component: InputNdi, beforeEnter: inputNdiGuard },
   { path: '/output-window/:name', name: "output-window",component: OutputWindow, beforeEnter: outputWindowGuard },
   
   //Add here

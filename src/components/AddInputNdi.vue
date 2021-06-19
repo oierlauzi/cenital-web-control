@@ -1,8 +1,8 @@
 <template>
   <div>
     <b-modal
-      id="add-output-window"
-      title="Add output window"
+      id="add-input-ndi"
+      title="Add NDI input"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
@@ -23,42 +23,24 @@
           />
         </b-form-group>
 
-        <!-- Size -->
-        <b-form-group
-          label="Size"
-          label-for="size-input"
-        >
-          <VectorInput
-            ref="size-input"
-            v-model="size"
-          />
-        </b-form-group>
-
       </form>
     </b-modal>
   </div>
 </template>
 
 <script>
-  import VectorInput from './VectorInput'
-
   export default {
-    name: "AddOutputWindowModal",
-    components: {
-      VectorInput
-    },
+    name: "AddInputNdi",
+    components: {},
     props: {},
     data() {
       return {
-        name: '',
-        size: [640, 480]
+        name: ''
       };
     },
     methods: {
       resetModal() {
         this.name = '';
-        this.title = '';
-        //Do not reset the size, it might be useful for next calls
       },
       handleOk(event) {
         //Prevent modal from closing
@@ -70,12 +52,12 @@
       handleSubmit() {
         //Return when the form isn't valid
         if(this.$refs.form.checkValidity()) {
-          //Add the window to the store and configure it
-          this.$store.dispatch('outputWindow/add', { name: this.name, size: this.size });
+          //Add the NDI to the store and configure it
+          this.$store.dispatch('inputNdi/add', this.name);
 
           //Hide the modal
           this.$nextTick(() => {
-            this.$bvModal.hide("add-output-window");
+            this.$bvModal.hide("add-input-ndi");
           });
         }
       }

@@ -111,10 +111,6 @@
             this.$bvModal.hide("add-mix-effect");
           });
         }
-
-
-
-
       }
     },
     computed: {
