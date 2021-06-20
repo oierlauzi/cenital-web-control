@@ -169,8 +169,10 @@ export default {
       
       //Fetch the members of each element in parallel
       const prom = elements.map(name => {
-        commit('ADD', name); //Add all the elements
-        return dispatch('fetchElement', name);
+        return send(dispatch, ['config', name, 'type']).then(type => {
+          commit('ADD', { name, type: type[0] }); 
+          return dispatch('fetchElement', name);
+        })
       });
 
       return Promise.all(prom);

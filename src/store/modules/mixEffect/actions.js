@@ -156,34 +156,28 @@ export default {
   reset({ commit }) {
     commit('RESET');
   },
-  fetch({ dispatch, commit }) {
+  fetch({ dispatch, commit, rootGetters }) {
     //Increment the fetching count
     commit('INC_FETCHING'); 
 
-    return send(dispatch, ['enum']).then(elements => { //TODO use mixer's elements once fetched.
-      //Start over
-      commit('RESET'); 
+    //Start over
+    commit('RESET');
 
-      //For each element query its type in parallel
-      const prom = elements.map(element => {
-        return send(dispatch, ['config', element, 'type']).then(type => {
-          console.assert(type.length === 1);
-          
-          //If it is a mix effect, query its attributes
-          if(type[0] === 'mix-effect') {
-            //Only add if it is a mix-effect
-            commit('ADD', element);
-            
-            //Fetch its contents
-            return dispatch('fetchElement', element);
-          } else {
-            return Promise.resolve();
-          }
-        });
-      });
+    //Mixer should be already fetched. Get the elements from it
+    const elements = rootGetters['mixer/getElements'];
+    
+    //Add all the elements which have the correct type
+    const prom = elements.map(element => {
+      const type = rootGetters['mixer/getElementType'](element);
+      if(type === 'mix-effect') {
+        commit('ADD', element);
+        return dispatch('fetchElement', element);
+      } else {
+        return Promise.resolve();
+      }
+    });
 
-      return Promise.all(prom);
-    }).then(() => commit('DEC_FETCHING'));
+    return Promise.all(prom).then(() => commit('DEC_FETCHING'));
   },
   fetchElement({ dispatch }, name) {
     return Promise.all([

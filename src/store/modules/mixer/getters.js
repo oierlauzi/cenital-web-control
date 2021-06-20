@@ -5,6 +5,7 @@ export default {
    * I/O related
    */
 
+  getElementType: state => name => state.elements[name].type,
   getElementInputs: state => name => Object.keys(state.elements[name].inputs),
   getElementOutputs: state => name => Object.keys(state.elements[name].outputs),
 

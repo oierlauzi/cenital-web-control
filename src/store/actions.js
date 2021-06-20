@@ -22,12 +22,14 @@ export default {
     //Increment fetching count
     commit('INC_FETCHING');
 
-    return Promise.all([
-      dispatch('mixer/fetch'),
-      dispatch('mixEffect/fetch'),
-      dispatch('inputNdi/fetch'),
-      dispatch('inputMediaPlayer/fetch'),
-      dispatch('outputWindow/fetch')
-    ]).then(() => commit('DEC_FETCHING'))	;
+    //First fetch the mixer. Then the rest
+    dispatch('mixer/fetch').then(() => 
+      Promise.all([
+        dispatch('mixEffect/fetch'),
+        dispatch('inputNdi/fetch'),
+        dispatch('inputMediaPlayer/fetch'),
+        dispatch('outputWindow/fetch')
+      ])
+    ).then(() => commit('DEC_FETCHING'))
   },
 };

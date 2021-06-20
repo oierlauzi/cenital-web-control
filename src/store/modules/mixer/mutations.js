@@ -11,8 +11,9 @@ export default {
   /*
    * Element management
    */
-  ADD(state, name) {
+  ADD(state, { name, type }) {
     const data = {
+      type: type,
       inputs: Object.create(null),
       outputs: Object.create(null),
       videoMode: {

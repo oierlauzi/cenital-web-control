@@ -114,9 +114,9 @@ function setColorFormat(store, tokens, name) {
  */
 
 function add(store, tokens) {
-  tokens.shift(); //we do not care about the type
+  const type = tokens.shift();
   const name = tokens.shift();
-  store.commit(modulePrefix + 'ADD', name);
+  store.commit(modulePrefix + 'ADD', { name, type });
   store.dispatch(modulePrefix + 'fetchElement', name);
 }
 
