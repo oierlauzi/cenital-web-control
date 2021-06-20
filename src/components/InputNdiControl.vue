@@ -83,14 +83,14 @@
       },
 
       onSourceChange(value) {
-        this.$store.dispatch('inputNdi/setSource', { name: this.name, value: value });
+        this.$store.dispatch('inputNdi/setCurrentSource', { name: this.name, value: value });
       }
 
     },
     computed: {
       ...mapGetters('inputNdi', [ 
         'getSources',
-        'getSource',
+        'getCurrentSource',
  
       ]),
 
@@ -101,7 +101,7 @@
         });
       },
       source() {
-        return this.getSource(this.name);
+        return this.getCurrentSource(this.name);
       }
 
     }

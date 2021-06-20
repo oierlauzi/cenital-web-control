@@ -11,7 +11,7 @@ export default {
 	getResizable: state => name => state.elements[name].resizable,
 	getDecorated: state => name => state.elements[name].decorated,
 	getMonitors: state => name => state.elements[name].monitors.slice(),
-	getMonitor: state => name => state.elements[name].monitor,
+	getCurrentMonitor: state => name => state.elements[name].currentMonitor,
 
 	getFetching: state => state.fetching,
 };

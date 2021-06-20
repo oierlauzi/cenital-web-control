@@ -17,7 +17,7 @@ export default {
     ]);
   },
 
-  setSource({ dispatch }, { name, value }) {
+  setCurrentSource({ dispatch }, { name, value }) {
     //Elaborate the payload depending on if it is setting or unsettling
     const payload = [
       'config',
@@ -69,7 +69,7 @@ export default {
   fetchElement({ dispatch }, name) {
     return Promise.all([
       dispatch('fetchSources', name),
-      dispatch('fetchSource', name)
+      dispatch('fetchCurrentSource', name)
     ]);
   },
   fetchSources({ dispatch, commit }, name) {
@@ -82,7 +82,7 @@ export default {
       commit('SET_SOURCES', { name, value: sources });
     });
   },
-  fetchSource({ dispatch, commit }, name) {
+  fetchCurrentSource({ dispatch, commit }, name) {
     return send(dispatch, [
       'config', 
       name, 
@@ -91,10 +91,10 @@ export default {
     ]).then(tokens => {
       if(tokens.length === 0) {
         //No source
-        commit('SET_SOURCE', { name, value: null });
+        commit('SET_CURRENT_SOURCE', { name, value: null });
       } else {
         console.assert(tokens.length === 1);
-        commit('SET_SOURCE', { name, value: tokens[0] });
+        commit('SET_CURRENT_SOURCE', { name, value: tokens[0] });
       }
     });
   },

@@ -170,20 +170,29 @@
           </label>
         </b-col>
         <b-col sm="6">
-          <b-form-select 
-          ref="select-monitor"
-            :value="monitor" 
-            :options="monitorOptions" 
-            @change="onMonitorChange"
-          >
-            <!--No signal option-->
-            <template #first>
-              <b-form-select-option :value="null">
-                No monitor
-              </b-form-select-option>
-            </template>
+          <b-input-group ref="select-monitor">
+            <!-- Selector -->
+            <b-form-select 
+              :value="monitor" 
+              :options="monitorOptions" 
+              @change="onMonitorChange"
+            >
+              <!--No monitor option-->
+              <template #first>
+                <b-form-select-option :value="null">
+                  No monitor
+                </b-form-select-option>
+              </template>
 
-          </b-form-select>
+            </b-form-select>
+
+            <b-input-group-append>
+              <b-button variant="outline-success" @click="onRefreshMonitors">
+                Refresh
+              </b-button>
+            </b-input-group-append>
+
+          </b-input-group>
         </b-col>
       </b-row>
 
@@ -227,6 +236,10 @@
         this.$store.dispatch('outputWindow/delete', this.name);
       },
 
+      onRefreshMonitors() {
+        this.$store.dispatch('outputWindow/fetchMonitors', this.name);
+      },
+
       onScalingModeChange(value) {
         this.$store.dispatch('outputWindow/setScalingMode', { name: this.name, value: value });
       },
@@ -258,7 +271,7 @@
         this.$store.dispatch('outputWindow/setDecorated', { name: this.name, value: value });
       },
       onMonitorChange(value) {
-        this.$store.dispatch('outputWindow/setMonitor', { name: this.name, value: value });
+        this.$store.dispatch('outputWindow/setCurrentMonitor', { name: this.name, value: value });
       }
 
     },
@@ -273,7 +286,7 @@
         'getResizable',
         'getDecorated',
         'getMonitors',
-        'getMonitor',
+        'getCurrentMonitor',
  
       ]),
 
@@ -308,7 +321,7 @@
         });
       },
       monitor() {
-        return this.getMonitor(this.name);
+        return this.getCurrentMonitor(this.name);
       }
 
     }

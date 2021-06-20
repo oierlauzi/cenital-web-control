@@ -3,7 +3,7 @@ const modulePrefix = 'inputNdi/';
 function setSource(store, tokens, name) {
   try {
     const source = tokens.shift();
-    store.commit(modulePrefix + 'SET_SOURCE',  { name: name, value: source });
+    store.commit(modulePrefix + 'SET_CURRENT_SOURCE',  { name: name, value: source });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -14,7 +14,7 @@ function setSource(store, tokens, name) {
 function unsetSource(store, tokens, name) {
   try {
     console.assert(tokens.length === 0);
-    store.commit(modulePrefix + 'SET_SOURCE',  { name: name, value: null });
+    store.commit(modulePrefix + 'SET_CURRENT_SOURCE',  { name: name, value: null });
   } catch {
     //If the fetch process is going
     //slower than the updates, 

@@ -4,10 +4,10 @@ export default {
   ADD(state, name) {
     const data = {
       sources: [],
-      source: null,
+      currentSource: null,
     };
 
-    //Create a empty mix effect
+    //Create a empty NDI input
     Vue.set(state.elements, name, data);
   },
   DELETE(state, name) {
@@ -21,8 +21,8 @@ export default {
   SET_SOURCES(state, { name, value }) {
     state.elements[name].sources = value;
   },
-  SET_SOURCE(state, { name, value }) {
-    state.elements[name].source = value;
+  SET_CURRENT_SOURCE(state, { name, value }) {
+    state.elements[name].currentSource = value;
   },
   
 

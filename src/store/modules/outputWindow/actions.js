@@ -93,7 +93,7 @@ export default {
       cenitalCli.generateBoolean(value)
     ]);
   },
-  setMonitor({ dispatch }, { name, value }) {
+  setCurrentMonitor({ dispatch }, { name, value }) {
     //Elaborate the payload depending on if it is setting or unsettling
     const payload = [
       'config',
@@ -153,7 +153,7 @@ export default {
       dispatch('fetchResizable', name),
       dispatch('fetchDecorated', name),
       dispatch('fetchMonitors', name),
-      dispatch('fetchMonitor', name)
+      dispatch('fetchCurrentMonitor', name)
     ]);
   },
   fetchScalingMode({ dispatch, commit }, name) {
@@ -254,7 +254,7 @@ export default {
       commit('SET_MONITORS', { name, value: monitors });
     });
   },
-  fetchMonitor({ dispatch, commit }, name) {
+  fetchCurrentMonitor({ dispatch, commit }, name) {
     return send(dispatch, [
       'config', 
       name, 
@@ -263,10 +263,10 @@ export default {
     ]).then(tokens => {
       if(tokens.length === 0) {
         //No monitor
-        commit('SET_MONITOR', { name, value: null });
+        commit('SET_CURRENT_MONITOR', { name, value: null });
       } else {
         console.assert(tokens.length === 1);
-        commit('SET_MONITOR', { name, value: tokens[0] });
+        commit('SET_CURRENT_MONITOR', { name, value: tokens[0] });
       }
     });
   },

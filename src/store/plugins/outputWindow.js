@@ -95,7 +95,7 @@ function setDecorated(store, tokens, name) {
 function setMonitor(store, tokens, name) {
   try {
     const monitor = tokens.shift();
-    store.commit(modulePrefix + 'SET_MONITOR',  { name: name, value: monitor });
+    store.commit(modulePrefix + 'SET_CURRENT_MONITOR',  { name: name, value: monitor });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -106,7 +106,7 @@ function setMonitor(store, tokens, name) {
 function unsetMonitor(store, tokens, name) {
   try {
     console.assert(tokens.length === 0);
-    store.commit(modulePrefix + 'SET_MONITOR',  { name: name, value: null });
+    store.commit(modulePrefix + 'SET_CURRENT_MONITOR',  { name: name, value: null });
   } catch {
     //If the fetch process is going
     //slower than the updates, 

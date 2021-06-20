@@ -12,10 +12,10 @@ export default {
       resizable: false,
       decorated: false,
       monitors: [],
-      monitor: null,
+      currentMonitor: null,
     };
 
-    //Create a empty mix effect
+    //Create a empty window
     Vue.set(state.elements, name, data);
   },
   DELETE(state, name) {
@@ -53,8 +53,8 @@ export default {
   SET_MONITORS(state, { name, value }) {
     state.elements[name].monitors = value;
   },
-  SET_MONITOR(state, { name, value }) {
-    state.elements[name].monitor = value;
+  SET_CURRENT_MONITOR(state, { name, value }) {
+    state.elements[name].currentMonitor = value;
   },
   
 

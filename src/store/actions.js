@@ -15,6 +15,7 @@ export default {
     dispatch('mixer/reset');
     dispatch('mixEffect/reset');
     dispatch('inputNdi/reset');
+    dispatch('inputMediaPlayer/reset');
     dispatch('outputWindow/reset');
   },
   fetch({ dispatch, commit }) {
@@ -25,6 +26,7 @@ export default {
       dispatch('mixer/fetch'),
       dispatch('mixEffect/fetch'),
       dispatch('inputNdi/fetch'),
+      dispatch('inputMediaPlayer/fetch'),
       dispatch('outputWindow/fetch')
     ]).then(() => commit('DEC_FETCHING'))	;
   },
