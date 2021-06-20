@@ -1,24 +1,24 @@
 <template>
   <div>
     <b-modal
-      id="add-input-ndi"
-      title="Add NDI input"
+      id="input-media-player-add-clip"
+      title="Add clip"
       @show="resetModal"
       @hidden="resetModal"
       @ok="handleOk"
     >
       <form ref="form" @submit.stop.prevent="handleSubmit">
-        <!-- Name -->
+        <!-- Path -->
         <b-form-group
-          label="Name"
-          label-for="name-input"
-          invalid-feedback="Name is required"
-          :state="inputNameValidation"
+          label="Path"
+          label-for="path-path"
+          invalid-feedback="Path is required"
+          :state="inputPathValidation"
         >
           <b-form-input
-            ref="name-input"
-            v-model="name"
-            :state="inputNameValidation"
+            ref="path-input"
+            v-model="path"
+            :state="inputPathValidation"
             required
           />
         </b-form-group>
@@ -30,17 +30,19 @@
 
 <script>
   export default {
-    name: "AddInputNdi",
+    name: "AddInputMediaPlayer",
     components: {},
-    props: {},
+    props: {
+      name: { type: String, required: true }
+    },
     data() {
       return {
-        name: ''
+        path: ''
       };
     },
     methods: {
       resetModal() {
-        this.name = '';
+        this.path = '';
       },
       handleOk(event) {
         //Prevent modal from closing
@@ -52,20 +54,20 @@
       handleSubmit() {
         //Return when the form isn't valid
         if(this.$refs.form.checkValidity()) {
-          //Add the NDI to the store and configure it
-          this.$store.dispatch('inputNdi/add', this.name);
+          //Add the media player to the store and configure it
+          this.$store.dispatch('inputMediaPlayer/addClip', { name: this.name, clip: this.path });
 
           //Hide the modal
           this.$nextTick(() => {
-            this.$bvModal.hide("add-input-ndi");
+            this.$bvModal.hide("input-media-player-add-clip");
           });
         }
       }
     },
     computed: {
-      inputNameValidation() {
-        return  this.name !== '' && 
-                !this.$store.getters['mixer/getElements'].includes(this.name) ;
+      inputPathValidation() {
+        return  this.path !== '' && 
+                !this.$store.getters['inputMediaPlayer/getClips'](this.name).includes(this.path) ;
       }
     }
   };

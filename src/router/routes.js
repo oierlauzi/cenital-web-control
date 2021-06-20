@@ -4,6 +4,7 @@ import NotFound from "../views/NotFound.vue";
 import MixEffect from "../views/MixEffect.vue";
 
 import InputNdi from "../views/InputNdi.vue";
+import InputMediaPlayer from "../views/InputMediaPlayer.vue";
 
 import OutputWindow from "../views/OutputWindow.vue";
 
@@ -30,6 +31,17 @@ function inputNdiGuard(to, from, next) {
   }
 }
 
+function inputMediaPlayerGuard(to, from, next) {
+  if(store.getters["inputMediaPlayer/list"].includes(to.params.name)) {
+    //Media player input exists on the store
+    next();
+  } else {
+    //Media player input does not exist on the store
+    next({ name: "not-found" });
+  }
+}
+
+
 function outputWindowGuard(to, from, next) {
   if(store.getters["outputWindow/list"].includes(to.params.name)) {
     //Window exists on the store
@@ -41,11 +53,12 @@ function outputWindowGuard(to, from, next) {
 }
 
 const routes = [
-  //Path						              //Name				        //Component
-  {	path: "/", 					          name: "home", 		    component: Home 		                              },
-  { path: '/mix-effect/:name', 	  name: "mix-effect",   component: MixEffect, beforeEnter: mixEffectGuard },
-  { path: '/input-ndi/:name',     name: "input-ndi",    component: InputNdi, beforeEnter: inputNdiGuard },
-  { path: '/output-window/:name', name: "output-window",component: OutputWindow, beforeEnter: outputWindowGuard },
+  //Path						                  //Name				              //Component
+  {	path: "/", 					              name: "home", 		          component: Home 		                              },
+  { path: '/mix-effect/:name', 	      name: "mix-effect",         component: MixEffect, beforeEnter: mixEffectGuard },
+  { path: '/input-ndi/:name',         name: "input-ndi",          component: InputNdi, beforeEnter: inputNdiGuard },
+  { path: '/input-media-player/:name',name: "input-media-player", component: InputMediaPlayer, beforeEnter: inputMediaPlayerGuard },
+  { path: '/output-window/:name',     name: "output-window",      component: OutputWindow, beforeEnter: outputWindowGuard },
   
   //Add here
   

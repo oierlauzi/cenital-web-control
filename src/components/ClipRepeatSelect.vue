@@ -3,6 +3,7 @@
     <b-form-select 
       :value="value" 
       :options="options" 
+      :disabled="disabled"
       @input="onInput" 
       @change="onChange"
     />
@@ -15,6 +16,7 @@
     components: {},
     props: {
       value: { type: String, default: null },
+      disabled: { type: Boolean, default: false },
     },
     data() {
       return {};

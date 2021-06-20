@@ -8,7 +8,7 @@ export default {
   add({ dispatch }, name) {
     return send(dispatch, [
       'add',
-      'input-ndi',
+      'input-media-player',
       name
     ]);
   },

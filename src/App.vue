@@ -2,7 +2,8 @@
   <div id="app">
     <TheNavbar/>
     <AddMixEffectModal/>
-    <AddInputNdi />
+    <AddInputNdiModal />
+    <AddInputMediaPlayerModal />
     <AddOutputWindowModal />
     <router-view />
   </div>
@@ -11,7 +12,8 @@
 <script>
   import TheNavbar from './components/TheNavbar.vue';
   import AddMixEffectModal from './components/AddMixEffectModal.vue';
-  import AddInputNdi from './components/AddInputNdi.vue';
+  import AddInputNdiModal from './components/AddInputNdiModal.vue';
+  import AddInputMediaPlayerModal from './components/AddInputMediaPlayerModal.vue';
   import AddOutputWindowModal from './components/AddOutputWindowModal.vue';
   
   export default {
@@ -19,7 +21,8 @@
     components: {
       TheNavbar,
       AddMixEffectModal,
-      AddInputNdi,
+      AddInputNdiModal,
+      AddInputMediaPlayerModal,
       AddOutputWindowModal
     }
   }

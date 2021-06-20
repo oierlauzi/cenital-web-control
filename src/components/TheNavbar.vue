@@ -33,12 +33,11 @@
             <!-- Media player -->
             <b-dropdown-group header="Media player">
               <b-dropdown-item 
-                v-for="(item, index) in empty" :key="index"
+                v-for="(item, index) in mediaPlayerInputs" :key="index"
+                :to="{ name: 'input-media-player', params: { name: item }  }"
               >
-                {{ item.name }}
+                {{ item }}
               </b-dropdown-item>
-
-              <b-dropdown-divider />
 
               <b-dropdown-item-button v-b-modal="'add-input-media-player'">
                 Add media player
@@ -115,6 +114,9 @@
 
       ndiInputs() {
         return this.$store.getters["inputNdi/list"];
+      },
+      mediaPlayerInputs() {
+        return this.$store.getters["inputMediaPlayer/list"];
       },
 
       outputWindows() {

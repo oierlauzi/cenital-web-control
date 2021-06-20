@@ -185,36 +185,45 @@
     methods: {
       onFrameRateChange(value) {
         if(value) {
-          this.$store.dispatch('mixer/setFrameRate', { name: this.name, value: value });
+          this.$store.dispatch('mixer/setFrameRate', { name: this.name, value: value })
+          .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
         }
       },
       onResolutionChange(value) {
         if(value) {
-          this.$store.dispatch('mixer/setResolution', { name: this.name, value: value });
+          this.$store.dispatch('mixer/setResolution', { name: this.name, value: value })
+          .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
         }
       },
       onPixelAspectRatioChange(value) {
         if(value) {
-          this.$store.dispatch('mixer/setPixelAspectRatio', { name: this.name, value: value });
+          this.$store.dispatch('mixer/setPixelAspectRatio', { name: this.name, value: value })
+          .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
         }
       },
       onColorPrimariesChange(value) {
-        this.$store.dispatch('mixer/setColorPrimaries', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorPrimaries', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       },
       onColorModelChange(value) {
-        this.$store.dispatch('mixer/setColorModel', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorModel', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       },
       onColorTransferFunctionChange(value) {
-        this.$store.dispatch('mixer/setColorTransferFunction', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorTransferFunction', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       },
       onColorSubsamplingChange(value) {
-        this.$store.dispatch('mixer/setColorSubsampling', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorSubsampling', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       },
       onColorRangeChange(value) {
-        this.$store.dispatch('mixer/setColorRange', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorRange', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       },
       onColorFormatChange(value) {
-        this.$store.dispatch('mixer/setColorFormat', { name: this.name, value: value });
+        this.$store.dispatch('mixer/setColorFormat', { name: this.name, value: value })
+        .then(() => this.$store.dispatch('mixer/fetchVideoMode', this.name)); //Options might change
       }
 
     },

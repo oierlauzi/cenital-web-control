@@ -2,7 +2,8 @@
   <div>
     <b-form-select 
       :value="value" 
-      :options="options" 
+      :options="options"
+      :disabled="disabled"
       @input="onInput" 
       @change="onChange"
     />
@@ -15,6 +16,7 @@
     components: {},
     props: {
       value: { type: String, default: "paused" },
+      disabled: { type: Boolean, default: false },
     },
     data() {
       return {};
