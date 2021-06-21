@@ -5,7 +5,12 @@
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
         <b-col cols="6">
-          <MixEffectCrosspoint :key="name" :name="name" :columns="8" />
+          <MixEffectCrosspoint 
+            :key="name" 
+            :name="name" 
+            :columns="8" 
+            :selectedOverlayFeed="selectedOverlayFeed" 
+          />
         </b-col>
 
         <!-- Transition area -->
@@ -52,7 +57,13 @@
               </b-card-header>
               <b-collapse :id="'accordion-us-overlay' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectOverlay :name="name" overlaySlot="upstream" :index="index-1" />
+                  <MixEffectOverlay 
+                    :name="name" 
+                    overlaySlot="upstream" 
+                    :index="index-1"
+                    :selectedOverlayFeed="selectedOverlayFeed"
+                    @selectOverlayFeed="onSelectedOverlayFeed"
+                  />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -66,7 +77,13 @@
               </b-card-header>
               <b-collapse :id="'accordion-ds-overlay' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectOverlay :name="name" overlaySlot="downstream" :index="index-1" />
+                  <MixEffectOverlay 
+                    :name="name" 
+                    overlaySlot="downstream" 
+                    :index="index-1"
+                    :selectedOverlayFeed="selectedOverlayFeed"
+                    @selectOverlayFeed="onSelectedOverlayFeed"
+                  />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -102,9 +119,15 @@
       name: { type: String, required: true }
     },
     data() {
-      return {};
+      return {
+        selectedOverlayFeed: null
+      };
     },
-    methods: {},
+    methods: {
+      onSelectedOverlayFeed(value) {
+        this.selectedOverlayFeed = value;
+      }
+    },
     computed: {
       ...mapGetters("mixEffect", [ 
         'getTransitionEffects',

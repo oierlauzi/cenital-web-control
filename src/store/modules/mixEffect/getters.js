@@ -18,6 +18,7 @@ export default {
 
 	getOverlayVisible: state => (name, slot, index) => state.elements[name].overlays[slot][index].visible,
 	getOverlayTransition: state => (name, slot, index) => state.elements[name].overlays[slot][index].transition,
+	getOverlayFeed: state => (name, slot, index, feed) => state.elements[name].overlays[slot][index].feeds[feed],
 	getOverlayPosition: state => (name, slot, index) => state.elements[name].overlays[slot][index].position.slice(),
 	getOverlayRotation: state => (name, slot, index) => state.elements[name].overlays[slot][index].rotation.slice(),
 	getOverlayScale: state => (name, slot, index) => state.elements[name].overlays[slot][index].scale.slice(),

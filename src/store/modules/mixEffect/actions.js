@@ -189,6 +189,22 @@ export default {
       cenitalCli.generateVector3f(value)    
     ]);
   },
+  setOverlayFeed({ dispatch }, { name, slot, index, feed, value }) {
+    //Elaborate the payload depending on if it is setting or unsettling
+    const payload = [
+      'config',
+      name,
+      overlaySlotToCommand(slot) + ':feed',
+    ];
+
+    if(value < 0) {
+      payload.push('unset', cenitalCli.generateInteger(index), feed);
+    } else {
+      payload.push('set', cenitalCli.generateInteger(index), feed, cenitalCli.generateInteger(value));
+    }
+
+    return send(dispatch, payload);
+  },
   setOverlayRotation({ dispatch }, { name, slot, index, value }) {
     return send(dispatch, [
       'config', 
@@ -477,6 +493,8 @@ export default {
     return Promise.all([
       dispatch('fetchOverlayVisible', { name, slot, index }),
       dispatch('fetchOverlayTransition', { name, slot, index }),
+      dispatch('fetchOverlayFeed', { name, slot, index, feed: 'fillIn' }),
+      dispatch('fetchOverlayFeed', { name, slot, index, feed: 'keyIn' }),
       dispatch('fetchOverlayPosition', { name, slot, index }),
       dispatch('fetchOverlayRotation', { name, slot, index }),
       dispatch('fetchOverlayScale', { name, slot, index }),
@@ -508,6 +526,23 @@ export default {
     ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_OVERLAY_TRANSITION', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchOverlayFeed({ dispatch, commit }, { name, slot, index, feed }) {
+    return send(dispatch, [
+      'config',
+      name,
+      overlaySlotToCommand(slot) + ':feed',
+      'get',
+      cenitalCli.generateInteger(index),
+      feed
+    ]).then(tokens => {
+      if(tokens.length === 0) {
+        commit('SET_OVERLAY_FEED', { name, slot, index, feed, value: -1 });
+      } else {
+        console.assert(tokens.length === 1);
+        commit('SET_OVERLAY_FEED', { name, slot, index, feed, value: cenitalCli.parseInteger(tokens[0]) });
+      }
     });
   },
   fetchOverlayPosition({ dispatch, commit }, { name, slot, index }) {

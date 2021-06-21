@@ -192,8 +192,9 @@ function setOverlayCount(store, tokens, name, slot) {
   }
 }
 
-function setOverlayVisible(store, tokens, name, slot, index) {
+function setOverlayVisible(store, tokens, name, slot) {
   try {
+    const index = cenitalCli.parseInteger(tokens.shift());
     const visible = cenitalCli.parseBoolean(tokens.shift());
     store.commit(modulePrefix + 'SET_OVERLAY_VISIBLE',  { name, slot, index, value: visible });
   } catch {
@@ -203,10 +204,36 @@ function setOverlayVisible(store, tokens, name, slot, index) {
   }
 }
 
-function setOverlayTransition(store, tokens, name, slot, index) {
+function setOverlayTransition(store, tokens, name, slot) {
   try {
+    const index = cenitalCli.parseInteger(tokens.shift());
     const transition = cenitalCli.parseBoolean(tokens.shift());
     store.commit(modulePrefix + 'SET_OVERLAY_TRANSITION',  { name, slot, index, value: transition });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayFeed(store, tokens, name, slot) {
+  try {
+    const index = cenitalCli.parseInteger(tokens.shift());
+    const feed = tokens.shift();
+    const value = cenitalCli.parseInteger(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_FEED',  { name, slot, index, feed, value });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function unsetOverlayFeed(store, tokens, name, slot) {
+  try {
+    const index = cenitalCli.parseInteger(tokens.shift());
+    const feed = tokens.shift();
+    store.commit(modulePrefix + 'SET_OVERLAY_FEED',  { name, slot, index, feed, value: -1 });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -486,8 +513,7 @@ function config(store, tokens) {
       case 'us-overlay:ena': {
         const set = tokens.shift();
         if(set === 'set') {
-          const index = tokens.shift();
-          setOverlayVisible(store, tokens, element, 'upstream', index);
+          setOverlayVisible(store, tokens, element, 'upstream');
         }
       }
       break;
@@ -495,8 +521,7 @@ function config(store, tokens) {
       case 'ds-overlay:ena': {
         const set = tokens.shift();
         if(set === 'set') {
-          const index = tokens.shift();
-          setOverlayVisible(store, tokens, element, 'downstream', index);
+          setOverlayVisible(store, tokens, element, 'downstream');
         }
       }
       break;
@@ -504,8 +529,7 @@ function config(store, tokens) {
       case 'us-overlay:transition': {
         const set = tokens.shift();
         if(set === 'set') {
-          const index = tokens.shift();
-          setOverlayTransition(store, tokens, element, 'upstream', index);
+          setOverlayTransition(store, tokens, element, 'upstream');
         }
       }
       break;
@@ -513,8 +537,27 @@ function config(store, tokens) {
       case 'ds-overlay:transition': {
         const set = tokens.shift();
         if(set === 'set') {
-          const index = tokens.shift();
-          setOverlayTransition(store, tokens, element, 'downstream', index);
+          setOverlayTransition(store, tokens, element, 'downstream');
+        }
+      }
+      break;
+
+      case 'us-overlay:feed': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setOverlayFeed(store, tokens, element, 'upstream');
+        } else if(set === 'unset') {
+          unsetOverlayFeed(store, tokens, element, 'upstream');
+        }
+      }
+      break;
+
+      case 'ds-overlay:feed': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setOverlayFeed(store, tokens, element, 'downstream');
+        } else if(set === 'unset') {
+          unsetOverlayFeed(store, tokens, element, 'downstream');
         }
       }
       break;

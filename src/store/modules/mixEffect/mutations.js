@@ -1,34 +1,5 @@
 import Vue from "vue"
 
-const defaultOverlayData = {
-  visible: false,
-  transition: false,
-  fillIn: -1,
-  keyIn: -1,
-  position: [0.0, 0.0, 0.0],
-  rotation: [0.0, 0.0, 0.0, 0.0],
-  scale: [1.0, 1.0, 1.0],
-  opacity: 1.0,
-  blendingMode: null,
-  scalingMode: null,
-  scalingFilter: null,
-};
-
-
-
-function resize(arr, size, value) {
-  //Insert new elements if necessary
-  while(arr.length < size) {
-    arr.push(Object.assign({}, value));
-  }
-
-  //Remove elements if necessary
-  while(arr.length > size) {
-    arr.pop();
-  }
-}
-
-
 export default {
   ADD(state, name) {
     const data = {
@@ -66,7 +37,33 @@ export default {
     state.elements[name].inputCount = value;
   },
   SET_OVERLAY_COUNT(state, { name, slot, value }) {
-    resize(state.elements[name].overlays[slot], value, defaultOverlayData);
+    const arr = state.elements[name].overlays[slot];
+
+    //Insert new elements if necessary
+    while(arr.length < value) {
+      const data = {
+        visible: false,
+        transition: false,
+        feeds: {
+          fillIn: -1,
+          keyIn: -1,
+        },
+        position: [0.0, 0.0, 0.0],
+        rotation: [0.0, 0.0, 0.0, 0.0],
+        scale: [1.0, 1.0, 1.0],
+        opacity: 1.0,
+        blendingMode: null,
+        scalingMode: null,
+        scalingFilter: null,
+      };
+
+      arr.push(data);
+    }
+
+    //Remove elements if necessary
+    while(arr.length > value) {
+      arr.pop();
+    }
   },
 
 
@@ -117,6 +114,9 @@ export default {
   },
   SET_OVERLAY_TRANSITION(state, { name, slot, index, value }) {
     state.elements[name].overlays[slot][index].transition = value;
+  },
+  SET_OVERLAY_FEED(state, { name, slot, index, feed, value }) {
+    state.elements[name].overlays[slot][index].feeds[feed] = value;
   },
   SET_OVERLAY_POSITION(state, { name, slot, index, value }) {
     state.elements[name].overlays[slot][index].position = value;

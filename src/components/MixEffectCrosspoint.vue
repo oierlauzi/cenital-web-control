@@ -107,7 +107,7 @@
     },
     props: {
       name: { type: String, required: true },
-      auxCallback: { type: Function, default: null },
+      selectedOverlayFeed: { type: Object, default: null },
       columns: { type: Number, default: 8 }
     },
     data() {
@@ -129,7 +129,21 @@
 
       //eslint-disable-next-line no-unused-vars
       auxClick: function(index) {
-        //TODO
+        if(this.selectedOverlayFeed) {
+          if(this.aux === index) {
+            //Already sleected. Uncheck
+            index = -1;
+          }
+
+          //Update
+          this.$store.dispatch('mixEffect/setOverlayFeed', { 
+            name: this.name,
+            slot: this.selectedOverlayFeed.slot, 
+            index: this.selectedOverlayFeed.index, 
+            feed: this.selectedOverlayFeed.feed,
+            value: index            
+          });
+        }
       },
       
       pgmClick: function(index) {
@@ -153,6 +167,7 @@
     },
     computed: {
       ...mapGetters("mixEffect", [ 
+        "getOverlayFeed",
         "getProgram",
         "getPreview"
       ]),
@@ -162,7 +177,18 @@
       ]),
 
       aux() {
-        return 0; //TODO
+        let result = -1;
+
+        if(this.selectedOverlayFeed) {
+          result = this.getOverlayFeed(
+            this.name, 
+            this.selectedOverlayFeed.slot, 
+            this.selectedOverlayFeed.index, 
+            this.selectedOverlayFeed.feed
+          );
+        }
+
+        return result;
       },
       pgm() {
         return this.getProgram(this.name);

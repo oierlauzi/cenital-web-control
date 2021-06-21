@@ -23,6 +23,36 @@
         </b-col>
       </b-row>
 
+      <!-- Feed -->
+      <b-row class="my-3">
+        <b-col sm="3">
+          <label for="input-position">
+            Aux bus feed:
+          </label>
+        </b-col>
+        <b-col sm="9">
+          <b-button-group>
+            <!-- Fill -->
+            <b-button
+              variant="outline-primary"
+              :pressed="fillInSelected"
+              @click="onFillInSelectClick"
+            >
+              Fill
+            </b-button>
+
+            <!-- Key -->
+            <b-button
+              variant="outline-primary"
+              :pressed="keyInSelected"
+              @click="onKeyInSelectClick"
+            >
+              Key
+            </b-button>
+          </b-button-group>
+        </b-col>
+      </b-row>
+
       <!-- Position -->
       <b-row class="my-1">
         <b-col sm="3">
@@ -171,7 +201,8 @@
     props: {
       name: { type: String, required: true },
       overlaySlot: { type: String, required: true },
-      index: { type: Number, required: true }
+      index: { type: Number, required: true },
+      selectedOverlayFeed: { type: Object, default: null },
     },
     data() {
       return {};
@@ -182,6 +213,14 @@
       },
       onTransitionClick() {
         this.$store.dispatch('mixEffect/setOverlayTransition', { name: this.name, slot: this.overlaySlot, index: this.index, value: !this.transition });
+      },
+      onFillInSelectClick() {
+        const next = this.fillInSelected ? null : this.fillInSelection;
+        this.$emit("selectOverlayFeed", next);
+      },
+      onKeyInSelectClick() {
+        const next = this.keyInSelected ? null : this.keyInSelection;
+        this.$emit("selectOverlayFeed", next);
       },
       onPositionChange(value) {
         if(value) {
@@ -225,11 +264,36 @@
         'getOverlayScalingFilter',
       ]),
 
+      fillInSelection() {
+        return {
+          name: this.name,
+          slot: this.overlaySlot,
+          index: this.index,
+          feed: 'fillIn'
+        }
+      },
+      keyInSelection() {
+        return {
+          name: this.name,
+          slot: this.overlaySlot,
+          index: this.index,
+          feed: 'keyIn'
+        }
+      },
+
+
+
       visible() {
         return this.getOverlayVisible(this.name, this.overlaySlot, this.index);
       },
       transition() {
         return this.getOverlayTransition(this.name, this.overlaySlot, this.index);
+      },
+      fillInSelected() {
+        return this.selectedOverlayFeed === this.fillInSelection;
+      },
+      keyInSelected() {
+        return this.selectedOverlayFeed === this.keyInSelection;
       },
       position() {
         return this.getOverlayPosition(this.name, this.overlaySlot, this.index);
