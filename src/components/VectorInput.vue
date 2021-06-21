@@ -9,10 +9,8 @@
 
         <!-- Compoent -->
         <b-form-input
-            type="number"
             :key="'comp-' + index"
             :value="component"
-            :step="step"
             :disabled="disabled"
             @input="onInput(index, $event)"
             @change="onChange(index, $event)"
@@ -33,7 +31,6 @@
     components: {},
     props: {
       value: { type: Array, default: defaultValue },
-      step: { type: Number, default: 1 },
       disabled: { type: Boolean, default: false },
     },
     data() {

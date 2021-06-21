@@ -1,10 +1,12 @@
 import Vue from "vue"
 
 const defaultOverlayData = {
+  visible: false,
+  transition: false,
   fillIn: -1,
   keyIn: -1,
   position: [0.0, 0.0, 0.0],
-  rotation: [0.0, 0.0, 0.0],
+  rotation: [0.0, 0.0, 0.0, 0.0],
   scale: [1.0, 1.0, 1.0],
   opacity: 1.0,
   blendingMode: null,
@@ -67,12 +69,14 @@ export default {
     resize(state.elements[name].overlays[slot], value, defaultOverlayData);
   },
 
+
   SET_SCALING_MODE(state, { name, value }) {
     state.elements[name].scalingMode = value;
   },
   SET_SCALING_FILTER(state, { name, value }) {
     state.elements[name].scalingFilter = value;
   },
+
 
   SET_PROGRAM(state, { name, value }) {
     state.elements[name].pgm = value;
@@ -107,6 +111,34 @@ export default {
     state.elements[name].transition.selectedEffect = value;
   },
 
+
+  SET_OVERLAY_VISIBLE(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].visible = value;
+  },
+  SET_OVERLAY_TRANSITION(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].transition = value;
+  },
+  SET_OVERLAY_POSITION(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].position = value;
+  },
+  SET_OVERLAY_ROTATION(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].rotation = value;
+  },
+  SET_OVERLAY_SCALE(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].scale = value;
+  },
+  SET_OVERLAY_OPACITY(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].opacity = value;
+  },
+  SET_OVERLAY_BLENDING_MODE(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].blendingMode = value;
+  },
+  SET_OVERLAY_SCALING_MODE(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].scalingMode = value;
+  },
+  SET_OVERLAY_SCALING_FILTER(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].scalingFilter = value;
+  },
 
 
   INC_FETCHING(state) {

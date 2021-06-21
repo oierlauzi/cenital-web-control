@@ -38,43 +38,6 @@ function setScalingFilter(store, tokens, name) {
 
 
 
-
-function setUpstreamOverlayCount(store, tokens, name) {
-  try {
-    const oldCount = store.getters[modulePrefix + 'getOverlayCount'](name, 'upstream');
-    const count = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_OVERLAY_COUNT',  { name: name, slot: 'upstream', value: count });
-
-    //Fetch the data of the new keyers
-    for(let i = oldCount; i < count; ++i) {
-      store.dispatch(modulePrefix + 'fetchUpstreamOverlay', { name: name, index: i });
-    }
-  } catch {
-    //If the fetch process is going
-    //slower than the updates, 
-    //this might fail
-  }
-}
-
-function setDownstreamOverlayCount(store, tokens, name) {
-  try {
-    const oldCount = store.getters[modulePrefix + 'getOverlayCount'](name, 'downstream');
-    const count = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_OVERLAY_COUNT',  { name: name, slot: 'downstream', value: count });
-
-    //Fetch the data of the new keyers
-    for(let i = oldCount; i < count; ++i) {
-      store.dispatch(modulePrefix + 'fetchDownstreamOverlay', { name: name, index: i });
-    }
-  } catch {
-    //If the fetch process is going
-    //slower than the updates, 
-    //this might fail
-  }
-}
-
-
-
 function setProgram(store, tokens, name) {
   try {
     const index = cenitalCli.parseInteger(tokens.shift());
@@ -124,6 +87,17 @@ function cut(store, tokens, name) {
     const pvw = store.getters[modulePrefix + 'getPreview'](name);
     store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, value: pgm });
     store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, value: pvw });
+
+    //Swap the state of the overlays if transition is required
+    ['upstream', 'downstream'].forEach(slot => {
+      const count = store.getters[modulePrefix + 'getOverlayCount'](name, slot);
+      for(let i = 0; i < count; ++i) {
+        if(store.getters[modulePrefix + 'getOverlayTransition'](name, slot, i)) {
+          const visible = store.getters[modulePrefix + 'getOverlayVisible'](name, slot, i);
+          store.dispatch(modulePrefix + 'setOverlayVisible', { name, slot, index: i, value: !visible });
+        }
+      }
+    });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -201,6 +175,184 @@ function setTransitionSelectedEffect(store, tokens, name) {
 
 
 
+function setOverlayCount(store, tokens, name, slot) {
+  try {
+    const oldCount = store.getters[modulePrefix + 'getOverlayCount'](name, slot);
+    const count = cenitalCli.parseInteger(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_COUNT',  { name, slot, value: count });
+
+    //Fetch the data of the new overlays
+    for(let i = oldCount; i < count; ++i) {
+      store.dispatch(modulePrefix + 'fetchOverlay', { name, slot, index: i });
+    }
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayVisible(store, tokens, name, slot, index) {
+  try {
+    const visible = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_VISIBLE',  { name, slot, index, value: visible });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayTransition(store, tokens, name, slot, index) {
+  try {
+    const transition = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_TRANSITION',  { name, slot, index, value: transition });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayPosition(store, tokens, name, slot, index) {
+  try {
+    const position = cenitalCli.parseVector3f(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_POSITION',  { name, slot, index, value: position });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayRotation(store, tokens, name, slot, index) {
+  try {
+    const rotation = cenitalCli.parseVector4f(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_ROTATION',  { name, slot, index, value: rotation });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayScale(store, tokens, name, slot, index) {
+  try {
+    const scale = cenitalCli.parseVector3f(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_SCALE',  { name, slot, index, value: scale });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayOpacity(store, tokens, name, slot, index) {
+  try {
+    const opacity = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_OPACITY',  { name, slot, index, value: opacity });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayBlendingMode(store, tokens, name, slot, index) {
+  try {
+    store.commit(modulePrefix + 'SET_OVERLAY_BLENDING_MODE',  { name, slot, index, value: tokens.shift() });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayScalingMode(store, tokens, name, slot, index) {
+  try {
+    store.commit(modulePrefix + 'SET_OVERLAY_SCALING_MODE',  { name, slot, index, value: tokens.shift() });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setOverlayScalingFilter(store, tokens, name, slot, index) {
+  try {
+    store.commit(modulePrefix + 'SET_OVERLAY_SCALING_FILTER',  { name, slot, index, value: tokens.shift() });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function configOverlay(store, tokens, name, slot) {
+  const index = tokens.shift();
+  const action = tokens.shift();
+
+  switch(action) {
+  case 'transform:pos': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayPosition(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'transform:rot': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayRotation(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'transform:scale': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayScale(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'blending:opacity': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayOpacity(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'blending:mode': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayBlendingMode(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'video-scaling:mode': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayScalingMode(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'video-scaling:filter': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setOverlayScalingFilter(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  }
+
+}
+
 
 
 function add(store, tokens) {
@@ -250,25 +402,6 @@ function config(store, tokens) {
         }
       }
       break;
-
-
-
-      case 'us-overlay:count': {
-        const set = tokens.shift();
-        if(set === 'set') {
-          setUpstreamOverlayCount(store, tokens, element);
-        }
-      }
-      break;
-
-      case 'ds-overlay:count': {
-        const set = tokens.shift();
-        if(set === 'set') {
-          setDownstreamOverlayCount(store, tokens, element);
-        }
-      }
-      break;
-
 
 
       case 'pgm': {
@@ -329,6 +462,75 @@ function config(store, tokens) {
         const set = tokens.shift();
         if(set === 'set') {
           setTransitionSelectedEffect(store, tokens, element);
+        }
+      }
+      break;
+
+
+      case 'us-overlay:count': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setOverlayCount(store, tokens, element, 'upstream');
+        }
+      }
+      break;
+
+      case 'ds-overlay:count': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setOverlayCount(store, tokens, element, 'downstream');
+        }
+      }
+      break;
+
+      case 'us-overlay:ena': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          const index = tokens.shift();
+          setOverlayVisible(store, tokens, element, 'upstream', index);
+        }
+      }
+      break;
+
+      case 'ds-overlay:ena': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          const index = tokens.shift();
+          setOverlayVisible(store, tokens, element, 'downstream', index);
+        }
+      }
+      break;
+
+      case 'us-overlay:transition': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          const index = tokens.shift();
+          setOverlayTransition(store, tokens, element, 'upstream', index);
+        }
+      }
+      break;
+
+      case 'ds-overlay:transition': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          const index = tokens.shift();
+          setOverlayTransition(store, tokens, element, 'downstream', index);
+        }
+      }
+      break;
+
+      case 'us-overlay': {
+        const config = tokens.shift();
+        if(config === 'config') {
+          configOverlay(store, tokens, element, 'upstream');
+        }
+      }
+      break;
+
+      case 'ds-overlay': {
+        const config = tokens.shift();
+        if(config === 'config') {
+          configOverlay(store, tokens, element, 'downstream');
         }
       }
       break;

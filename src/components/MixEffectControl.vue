@@ -44,29 +44,29 @@
             </b-card>
 
             <!-- Up Stream overlays -->
-            <b-card v-for="index in uskCount" :key="'usk'+index"
+            <b-card v-for="index in uskCount" :key="'us-overlay'+index"
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-usk' + index" variant="secondary">Upstream overlay {{index}}</b-button>
+                <b-button block v-b-toggle="'accordion-us-overlay' + index" variant="secondary">Upstream overlay {{index}}</b-button>
               </b-card-header>
-              <b-collapse :id="'accordion-usk' + index" accordion="mix-effect-accordion" role="tabpanel">
+              <b-collapse :id="'accordion-us-overlay' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectKeyer :mixEffect="name" :num="index-1" type="usk" />
+                  <MixEffectOverlay :name="name" overlaySlot="upstream" :index="index-1" />
                 </b-card-body>
               </b-collapse>
             </b-card>
 
             <!-- Down Stream overlays -->
-            <b-card v-for="index in dskCount" :key="'dsk'+index"
+            <b-card v-for="index in dskCount" :key="'ds-overlay'+index"
               no-body class="mb-1"
             >
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'accordion-dsk' + index" variant="dark">Downstream overlay {{index}}</b-button>
+                <b-button block v-b-toggle="'accordion-ds-overlay' + index" variant="dark">Downstream overlay {{index}}</b-button>
               </b-card-header>
-              <b-collapse :id="'accordion-dsk' + index" accordion="mix-effect-accordion" role="tabpanel">
+              <b-collapse :id="'accordion-ds-overlay' + index" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectKeyer :mixEffect="name" :num="index-1" type="dsk" />
+                  <MixEffectOverlay :name="name" overlaySlot="downstream" :index="index-1" />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -87,7 +87,7 @@
   import MixEffectTransition from "../components/MixEffectTransition"
   import MixEffectSettings from "../components/MixEffectSettings"
   import MixEffectTransitionEffect from "../components/MixEffectTransitionEffect"
-  import MixEffectKeyer from "../components/MixEffectKeyer"
+  import MixEffectOverlay from "../components/MixEffectOverlay"
 
   export default {
     name: 'MixEffectControl',
@@ -96,7 +96,7 @@
       MixEffectTransition,
       MixEffectSettings,
       MixEffectTransitionEffect,
-      MixEffectKeyer
+      MixEffectOverlay
     },
     props: {
       name: { type: String, required: true }

@@ -4,6 +4,15 @@ function send(dispatch, tokens) {
   return dispatch('connection/send', tokens, { root: true });
 }
 
+function overlaySlotToCommand(slot) {
+  switch(slot) {
+    case 'upstream': return 'us-overlay';
+    case 'downstream': return 'ds-overlay';
+  }
+}
+
+
+
 export default {
   add({ dispatch }, name) {
     return send(dispatch, [
@@ -19,6 +28,7 @@ export default {
     ]);
   },
 
+
   setInputCount({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
@@ -28,6 +38,7 @@ export default {
       cenitalCli.generateInteger(value)
     ]);
   },
+
 
   setScalingMode({ dispatch }, { name, value }) {
     return send(dispatch, [
@@ -47,6 +58,7 @@ export default {
       value
     ]);
   },
+
 
   setProgram({ dispatch }, { name, value }) {
     //Elaborate the payload depending on if it is setting or unsettling
@@ -80,6 +92,8 @@ export default {
 
     return send(dispatch, payload);
   },
+
+
   setTransitionBar({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
@@ -132,29 +146,120 @@ export default {
     ]);   
   },
 
+
+
   setOverlayCount({ dispatch }, { name, slot, value }) {
-    let slotArg = "";
-    switch(slot) {
-      case 'upstream':
-        slotArg = 'us-overlay:count';
-        break;
-
-      case 'downstream':
-        slotArg = 'ds-overlay:count';
-        break;
-
-      default:
-        console.assert(false);
-        break;
-    }
-
     return send(dispatch, [
       'config',
       name,
-      slotArg,
+      overlaySlotToCommand(slot) + ':count',
       'set',
       cenitalCli.generateInteger(value)
     ]);   
+  },
+  setOverlayVisible({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot) + ':ena',
+      'set',
+      cenitalCli.generateInteger(index),
+      cenitalCli.generateBoolean(value)      
+    ]);
+  },
+  setOverlayTransition({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot) + ':transition',
+      'set',
+      cenitalCli.generateInteger(index),
+      cenitalCli.generateBoolean(value)    
+    ]);
+  },
+  setOverlayPosition({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:pos',
+      'set',
+      cenitalCli.generateVector3f(value)    
+    ]);
+  },
+  setOverlayRotation({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:rot',
+      'set',
+      cenitalCli.generateVector4f(value)      
+    ]);
+  },
+  setOverlayScale({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:scale',
+      'set',
+      cenitalCli.generateVector3f(value)   
+    ]);
+  },
+  setOverlayOpacity({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'blending:opacity',
+      'set',
+      cenitalCli.generateNumber(value)   
+    ]);
+  },
+  setOverlayBlendingMode({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'blending:mode',
+      'set',
+      value
+    ]);
+  },
+  setOverlayScalingMode({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'video-scaling:mode',
+      'set',
+      value
+    ]);
+  },
+  setOverlayScalingFilter({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'video-scaling:filter',
+      'set',
+      value
+    ]);
   },
 
 
@@ -200,9 +305,12 @@ export default {
       dispatch('fetchTransitionEffects', name),
       dispatch('fetchTransitionSelectedEffect', name),
 
-      dispatch('fetchOverlays', name),
+      dispatch('fetchOverlays', { name, slot: 'upstream' }),
+      dispatch('fetchOverlays', { name, slot: 'downstream' }),
     ]);
   },
+
+
 
   fetchInputCount({ dispatch, commit }, name) {
     return send(dispatch, [
@@ -215,6 +323,8 @@ export default {
       commit('SET_INPUT_COUNT', { name, value: cenitalCli.parseInteger(tokens[0]) });
     });
   },
+
+
 
   fetchScalingMode({ dispatch, commit }, name) {
     return send(dispatch, [
@@ -238,6 +348,8 @@ export default {
       commit('SET_SCALING_FILTER', { name, value: tokens[0] });
     });
   },
+
+
 
   fetchProgram({ dispatch, commit }, name) {
     return send(dispatch, [
@@ -269,6 +381,8 @@ export default {
       }
     });
   },
+
+
 
   fetchTransitionBar({ dispatch, commit }, name) {
     return send(dispatch, [
@@ -342,53 +456,157 @@ export default {
 
 
 
-  fetchOverlays({ dispatch }, name) {
+  fetchOverlays({ dispatch, commit }, { name, slot }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot) + ':count',
+      'get'
+    ]).then(tokens => {
+      const count = cenitalCli.parseInteger(tokens[0]);
+      commit('SET_OVERLAY_COUNT', { name, slot, value: count });
+
+      const prom = new Array(count);
+      for(let i = 0; i < count; ++i) {
+        prom[i] = dispatch('fetchOverlay', { name, slot, index: i });
+      }
+      return Promise.all(prom);
+    });
+  },
+  fetchOverlay({ dispatch }, { name, slot, index }) {
     return Promise.all([
-      dispatch('fetchUpstreamOverlays', name),
-      dispatch('fetchDownstreamOverlays', name)
-    ]);
+      dispatch('fetchOverlayVisible', { name, slot, index }),
+      dispatch('fetchOverlayTransition', { name, slot, index }),
+      dispatch('fetchOverlayPosition', { name, slot, index }),
+      dispatch('fetchOverlayRotation', { name, slot, index }),
+      dispatch('fetchOverlayScale', { name, slot, index }),
+      dispatch('fetchOverlayOpacity', { name, slot, index }),
+      dispatch('fetchOverlayBlendingMode', { name, slot, index }),
+      dispatch('fetchOverlayScalingMode', { name, slot, index }),
+      dispatch('fetchOverlayScalingFilter', { name, slot, index }),
+    ])
   },
-  fetchUpstreamOverlays({ dispatch, commit }, name) {
+  fetchOverlayVisible({ dispatch, commit }, { name, slot, index }) {
     return send(dispatch, [
       'config', 
       name, 
-      'us-overlay:count',
-      'get'
+      overlaySlotToCommand(slot) + ':ena',
+      'get',
+      cenitalCli.generateInteger(index)   
     ]).then(tokens => {
-      const count = cenitalCli.parseInteger(tokens[0]);
-      commit('SET_OVERLAY_COUNT', { name, slot: 'upstream', value: count });
-
-      const prom = new Array(count);
-      for(let i = 0; i < count; ++i) {
-        prom[i] = dispatch('fetchUpstreamOverlay', { name: name, index: i });
-      }
-      return Promise.all(prom);
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_VISIBLE', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
     });
   },
-  fetchDownstreamOverlays({ dispatch, commit }, name) {
+  fetchOverlayTransition({ dispatch, commit }, { name, slot, index }) {
     return send(dispatch, [
       'config', 
       name, 
-      'ds-overlay:count',
-      'get'
+      overlaySlotToCommand(slot) + ':transition',
+      'get',
+      cenitalCli.generateInteger(index)
     ]).then(tokens => {
-      const count = cenitalCli.parseInteger(tokens[0]);
-      commit('SET_OVERLAY_COUNT', { name, slot: 'downstream', value: count });
-
-      const prom = new Array(count);
-      for(let i = 0; i < count; ++i) {
-        prom[i] = dispatch('fetchDownstreamOverlay', { name: name, index: i });
-      }
-      return Promise.all(prom);
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_TRANSITION', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
     });
   },
-  //eslint-disable-next-line no-unused-vars
-  fetchUpstreamOverlay({ dispatch }, { name, index }) {
-    return Promise.resolve(); //TODO
+  fetchOverlayPosition({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:pos',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_POSITION', { name, slot, index, value: cenitalCli.parseVector3f(tokens[0]) });
+    });
   },
-  //eslint-disable-next-line no-unused-vars
-  fetchDownstreamOverlay({ dispatch }, { name, index }) {
-    return Promise.resolve(); //TODO
-  }
+  fetchOverlayRotation({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:rot',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_ROTATION', { name, slot, index, value: cenitalCli.parseVector4f(tokens[0]) });
+    });
+  },
+  fetchOverlayScale({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'transform:scale',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_SCALE', { name, slot, index, value: cenitalCli.parseVector3f(tokens[0]) });
+    });
+  },
+  fetchOverlayOpacity({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'blending:opacity',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_OPACITY', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchOverlayBlendingMode({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'blending:mode',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_BLENDING_MODE', { name, slot, index, value: tokens[0] });
+    });
+  },
+  fetchOverlayScalingMode({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'video-scaling:mode',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_SCALING_MODE', { name, slot, index, value: tokens[0] });
+    });
+  },
+  fetchOverlayScalingFilter({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'video-scaling:filter',
+      'get'     
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_SCALING_FILTER', { name, slot, index, value: tokens[0] });
+    });
+  },
 
 };
