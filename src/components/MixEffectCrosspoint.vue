@@ -138,7 +138,7 @@
           index = -1;
         }
 
-        this.$store.dispatch('mixEffect/setProgram', { name: this.name, index: index });
+        this.$store.dispatch('mixEffect/setProgram', { name: this.name, value: index });
       },
 
       pvwClick: function(index) {
@@ -147,7 +147,7 @@
           index = -1;
         }
 
-        this.$store.dispatch('mixEffect/setPreview', { name: this.name, index: index });
+        this.$store.dispatch('mixEffect/setPreview', { name: this.name, value: index });
       }
 
     },

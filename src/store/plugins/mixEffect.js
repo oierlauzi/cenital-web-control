@@ -5,7 +5,7 @@ const modulePrefix = 'mixEffect/';
 function setInputCount(store, tokens, name) {
   try {
     const count = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_INPUT_COUNT',  { name: name, count: count });
+    store.commit(modulePrefix + 'SET_INPUT_COUNT',  { name: name, value: count });
     store.dispatch('mixer/fetchInputs', name); //TODO only fetch the new ones
   } catch {
     //If the fetch process is going
@@ -17,7 +17,7 @@ function setInputCount(store, tokens, name) {
 function setScalingMode(store, tokens, name) {
   try {
     const mode = tokens.shift();
-    store.commit(modulePrefix + 'SET_SCALING_MODE',  { name: name, mode: mode });
+    store.commit(modulePrefix + 'SET_SCALING_MODE',  { name: name, value: mode });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -28,7 +28,7 @@ function setScalingMode(store, tokens, name) {
 function setScalingFilter(store, tokens, name) {
   try {
     const filter = tokens.shift();
-    store.commit(modulePrefix + 'SET_SCALING_FILTER',  { name: name, filter: filter });
+    store.commit(modulePrefix + 'SET_SCALING_FILTER',  { name: name, value: filter });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -41,9 +41,9 @@ function setScalingFilter(store, tokens, name) {
 
 function setUpstreamOverlayCount(store, tokens, name) {
   try {
-    const oldCount = store.getters[modulePrefix + 'getUpstreamOverlayCount'](name);
+    const oldCount = store.getters[modulePrefix + 'getOverlayCount'](name, 'upstream');
     const count = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_UPSTREAM_OVERLAY_COUNT',  { name: name, count: count });
+    store.commit(modulePrefix + 'SET_OVERLAY_COUNT',  { name: name, slot: 'upstream', value: count });
 
     //Fetch the data of the new keyers
     for(let i = oldCount; i < count; ++i) {
@@ -58,9 +58,9 @@ function setUpstreamOverlayCount(store, tokens, name) {
 
 function setDownstreamOverlayCount(store, tokens, name) {
   try {
-    const oldCount = store.getters[modulePrefix + 'getDownstreamOverlayCount'](name);
+    const oldCount = store.getters[modulePrefix + 'getOverlayCount'](name, 'downstream');
     const count = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_DOWNSTREAM_OVERLAY_COUNT',  { name: name, count: count });
+    store.commit(modulePrefix + 'SET_OVERLAY_COUNT',  { name: name, slot: 'downstream', value: count });
 
     //Fetch the data of the new keyers
     for(let i = oldCount; i < count; ++i) {
@@ -78,7 +78,7 @@ function setDownstreamOverlayCount(store, tokens, name) {
 function setProgram(store, tokens, name) {
   try {
     const index = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, index: index });
+    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, value: index });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -88,7 +88,7 @@ function setProgram(store, tokens, name) {
 
 function unsetProgram(store, tokens, name) {
   try {
-    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, index: -1 });
+    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, value: -1 });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -99,7 +99,7 @@ function unsetProgram(store, tokens, name) {
 function setPreview(store, tokens, name) {
   try {
     const index = cenitalCli.parseInteger(tokens.shift());
-    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, index: index });
+    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, value: index });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -109,7 +109,7 @@ function setPreview(store, tokens, name) {
 
 function unsetPreview(store, tokens, name) {
   try {
-    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, index: -1 });
+    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, value: -1 });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -122,8 +122,8 @@ function cut(store, tokens, name) {
     //Swap program and preview
     const pgm = store.getters[modulePrefix + 'getProgram'](name);
     const pvw = store.getters[modulePrefix + 'getPreview'](name);
-    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, index: pgm });
-    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, index: pvw });
+    store.commit(modulePrefix + 'SET_PREVIEW',  { name: name, value: pgm });
+    store.commit(modulePrefix + 'SET_PROGRAM',  { name: name, value: pvw });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -139,25 +139,25 @@ function transition(store, tokens, name) {
   }
 
   //Ensure that the transition bar is not in the middle
-  store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, progress: 0.0 });
+  store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, value: 0.0 });
 }
 
-function transitionBar(store, tokens, name) {
+function setTransitionBar(store, tokens, name) {
   try {
     const progress = cenitalCli.parseNumber(tokens.shift());
     if(progress >= 1.0) {
       //End of the transition. Return to the beginning
-      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, progress: 0.0 });
+      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, value: 0.0 });
 
       //Cut if transition preview is not enabled
       if(!store.getters[modulePrefix + 'getTransitionPreview'](name)) {
         cut(store, tokens, name);
       }
     } else if(progress >= 0.0) {
-      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, progress: progress });
+      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, value: progress });
     } else {
       //Not expected
-      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, progress: 0.0 });
+      store.commit(modulePrefix + 'SET_TRANSITION_BAR',  { name: name, value: 0.0 });
     }
   } catch {
     //If the fetch process is going
@@ -166,21 +166,10 @@ function transitionBar(store, tokens, name) {
   }
 }
 
-function transitionEffect(store, tokens, name) {
-  try {
-    const effect = tokens.shift();
-    store.commit(modulePrefix + 'SET_TRANSITION_EFFECT',  { name: name, effect: effect });
-  } catch {
-    //If the fetch process is going
-    //slower than the updates, 
-    //this might fail
-  }
-}
-
-function transitionDuration(store, tokens, name) {
+function setTransitionDuration(store, tokens, name) {
   try {
     const duration = cenitalCli.parseDuration(tokens.shift());
-    store.commit(modulePrefix + 'SET_TRANSITION_DURATION',  { name: name, duration: duration });
+    store.commit(modulePrefix + 'SET_TRANSITION_DURATION',  { name: name, value: duration });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -188,10 +177,21 @@ function transitionDuration(store, tokens, name) {
   }
 }
 
-function transitionPreview(store, tokens, name) {
+function setTransitionPreview(store, tokens, name) {
   try {
     const enabled = cenitalCli.parseBoolean(tokens.shift());
-    store.commit(modulePrefix + 'SET_TRANSITION_PREVIEW',  { name: name, enabled: enabled });
+    store.commit(modulePrefix + 'SET_TRANSITION_PREVIEW',  { name: name, value: enabled });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setTransitionSelectedEffect(store, tokens, name) {
+  try {
+    const effect = tokens.shift();
+    store.commit(modulePrefix + 'SET_TRANSITION_SELECTED_EFFECT',  { name: name, value: effect });
   } catch {
     //If the fetch process is going
     //slower than the updates, 
@@ -304,15 +304,7 @@ function config(store, tokens) {
       case 'transition:bar': {
         const set = tokens.shift();
         if(set === 'set') {
-          transitionBar(store, tokens, element);
-        }
-      }
-      break;
-
-      case 'transition:effect': {
-        const set = tokens.shift();
-        if(set === 'set') {
-          transitionEffect(store, tokens, element);
+          setTransitionBar(store, tokens, element);
         }
       }
       break;
@@ -320,7 +312,7 @@ function config(store, tokens) {
       case 'transition:duration': {
         const set = tokens.shift();
         if(set === 'set') {
-          transitionDuration(store, tokens, element);
+          setTransitionDuration(store, tokens, element);
         }
       }
       break;
@@ -328,7 +320,15 @@ function config(store, tokens) {
       case 'transition:pvw': {
         const set = tokens.shift();
         if(set === 'set') {
-          transitionPreview(store, tokens, element);
+          setTransitionPreview(store, tokens, element);
+        }
+      }
+      break;
+
+      case 'transition:effect': {
+        const set = tokens.shift();
+        if(set === 'set') {
+          setTransitionSelectedEffect(store, tokens, element);
         }
       }
       break;

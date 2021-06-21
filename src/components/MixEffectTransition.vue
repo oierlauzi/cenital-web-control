@@ -16,7 +16,7 @@
       <b-row align-h="center" align-v="start" class="my-3">
         <b-col>
           <b-form-select 
-            :options="transitionEffects" 
+            :options="transitionEffectOptions" 
             :value="transitionEffect"
             @input="onTransitionEffect"
           />
@@ -96,7 +96,7 @@
         this.transitionBarProgress = value;
 
         //Transmit the new value
-        this.$store.dispatch('mixEffect/setTransitionBar', { name: this.name, progress: this.transitionBarProgress });
+        this.$store.dispatch('mixEffect/setTransitionBar', { name: this.name, value: this.transitionBarProgress });
 
         //If it is the end, toggle reverse
         if(this.transitionBarProgress >= 1.0) {
@@ -105,29 +105,30 @@
         }
       },
       onTransitionEffect(effect) {
-        this.$store.dispatch('mixEffect/setTransitionEffect', { name: this.name, effect: effect });
+        this.$store.dispatch('mixEffect/setTransitionSelectedEffect', { name: this.name, value: effect });
       },
       onTransitionDuration(duration) {
-        this.$store.dispatch('mixEffect/setTransitionDuration', { name: this.name, duration: duration });
+        this.$store.dispatch('mixEffect/setTransitionDuration', { name: this.name, value: duration });
       },
       onTransitionPreview() {
         //Toggle the preview value
-        this.$store.dispatch('mixEffect/setTransitionPreview', { name: this.name, enabled: !this.transitionPreview });
+        this.$store.dispatch('mixEffect/setTransitionPreview', { name: this.name, value: !this.transitionPreview });
       }
     },
     computed: {
       ...mapGetters("mixEffect", [
-        "getTransitionEffects",
-        "getTransitionEffect",
+        "getTransitionBar",
         "getTransitionDuration",
-        "getTransitionPreview"
+        "getTransitionPreview",
+        "getTransitionEffects",
+        "getTransitionSelectedEffect",
       ]),
 
-      transitionEffects() {
+      transitionEffectOptions() {
         return this.getTransitionEffects(this.name);
       },
       transitionEffect() {
-        return this.getTransitionEffect(this.name);
+        return this.getTransitionSelectedEffect(this.name);
       },
       transitionDuration() {
         return this.getTransitionDuration(this.name);

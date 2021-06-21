@@ -19,36 +19,36 @@ export default {
     ]);
   },
 
-  setInputCount({ dispatch }, { name, count }) {
+  setInputCount({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'input:count',
       'set',
-      cenitalCli.generateInteger(count)
+      cenitalCli.generateInteger(value)
     ]);
   },
 
-  setScalingMode({ dispatch }, { name, mode }) {
+  setScalingMode({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'video-scaling:mode',
       'set',
-      mode
+      value
     ]);
   },
-  setScalingFilter({ dispatch }, { name, filter }) {
+  setScalingFilter({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'video-scaling:filter',
       'set',
-      filter
+      value
     ]);
   },
 
-  setProgram({ dispatch }, { name, index }) {
+  setProgram({ dispatch }, { name, value }) {
     //Elaborate the payload depending on if it is setting or unsettling
     const payload = [
       'config',
@@ -56,15 +56,15 @@ export default {
       'pgm',
     ];
 
-    if(index < 0) {
+    if(value < 0) {
       payload.push('unset');
     } else {
-      payload.push('set', cenitalCli.generateInteger(index));
+      payload.push('set', cenitalCli.generateInteger(value));
     }
 
     return send(dispatch, payload);
   },
-  setPreview({ dispatch }, { name, index }) {
+  setPreview({ dispatch }, { name, value }) {
     //Elaborate the payload depending on if it is setting or unsettling
     const payload = [
       'config',
@@ -72,48 +72,48 @@ export default {
       'pvw',
     ];
 
-    if(index < 0) {
+    if(value < 0) {
       payload.push('unset');
     } else {
-      payload.push('set', cenitalCli.generateInteger(index));
+      payload.push('set', cenitalCli.generateInteger(value));
     }
 
     return send(dispatch, payload);
   },
-  setTransitionBar({ dispatch }, { name, progress }) {
+  setTransitionBar({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'transition:bar',
       'set',
-      cenitalCli.generateNumber(progress)
+      cenitalCli.generateNumber(value)
     ]);
   },
-  setTransitionEffect({ dispatch }, { name, effect }) {
+  setTransitionSelectedEffect({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'transition:effect',
       'set',
-      effect
+      value
     ]);
   },
-  setTransitionDuration({ dispatch }, { name, duration }) {
+  setTransitionDuration({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'transition:duration',
       'set',
-      cenitalCli.generateDuration(duration)
+      cenitalCli.generateDuration(value)
     ]);
   },
-  setTransitionPreview({ dispatch }, { name, enabled }) {
+  setTransitionPreview({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
       name,
       'transition:pvw',
       'set',
-      cenitalCli.generateBoolean(enabled)
+      cenitalCli.generateBoolean(value)
     ]);
   },
 
@@ -132,22 +132,28 @@ export default {
     ]);   
   },
 
-  setUpstreamOverlayCount({ dispatch }, { name, count }) {
+  setOverlayCount({ dispatch }, { name, slot, value }) {
+    let slotArg = "";
+    switch(slot) {
+      case 'upstream':
+        slotArg = 'us-overlay:count';
+        break;
+
+      case 'downstream':
+        slotArg = 'ds-overlay:count';
+        break;
+
+      default:
+        console.assert(false);
+        break;
+    }
+
     return send(dispatch, [
       'config',
       name,
-      'us-overlay:count',
+      slotArg,
       'set',
-      cenitalCli.generateInteger(count)
-    ]);   
-  },
-  setDownstreamOverlayCount({ dispatch }, { name, count }) {
-    return send(dispatch, [
-      'config',
-      name,
-      'ds-overlay:count',
-      'set',
-      cenitalCli.generateInteger(count)
+      cenitalCli.generateInteger(value)
     ]);   
   },
 
@@ -189,12 +195,12 @@ export default {
       dispatch('fetchProgram', name),
       dispatch('fetchPreview', name),
       dispatch('fetchTransitionBar', name),
-      dispatch('fetchTransitionEffects', name),
-      dispatch('fetchTransitionEffect', name),
       dispatch('fetchTransitionDuration', name),
       dispatch('fetchTransitionPreview', name),
-      dispatch('fetchUpstreamOverlays', name),
-      dispatch('fetchDownstreamOverlays', name),
+      dispatch('fetchTransitionEffects', name),
+      dispatch('fetchTransitionSelectedEffect', name),
+
+      dispatch('fetchOverlays', name),
     ]);
   },
 
@@ -206,7 +212,7 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_INPUT_COUNT', { name, count: cenitalCli.parseInteger(tokens[0]) });
+      commit('SET_INPUT_COUNT', { name, value: cenitalCli.parseInteger(tokens[0]) });
     });
   },
 
@@ -218,7 +224,7 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_SCALING_MODE', { name, mode: tokens[0] });
+      commit('SET_SCALING_MODE', { name, value: tokens[0] });
     });
   },
   fetchScalingFilter({ dispatch, commit }, name) {
@@ -229,7 +235,7 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_SCALING_FILTER', { name, filter: tokens[0] });
+      commit('SET_SCALING_FILTER', { name, value: tokens[0] });
     });
   },
 
@@ -241,10 +247,10 @@ export default {
       'get'
     ]).then(tokens => {
       if(tokens.length === 0) {
-        commit('SET_PROGRAM', { name, index: -1 });
+        commit('SET_PROGRAM', { name, value: -1 });
       } else {
         console.assert(tokens.length === 1);
-        commit('SET_PROGRAM', { name, index: cenitalCli.parseInteger(tokens[0]) });
+        commit('SET_PROGRAM', { name, value: cenitalCli.parseInteger(tokens[0]) });
       }
     });
   },
@@ -256,10 +262,10 @@ export default {
       'get'
     ]).then(tokens => {
       if(tokens.length === 0) {
-        commit('SET_PREVIEW', { name, index: -1 });
+        commit('SET_PREVIEW', { name, value: -1 });
       } else {
         console.assert(tokens.length === 1);
-        commit('SET_PREVIEW', { name, index: cenitalCli.parseInteger(tokens[0]) });
+        commit('SET_PREVIEW', { name, value: cenitalCli.parseInteger(tokens[0]) });
       }
     });
   },
@@ -272,31 +278,7 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_TRANSITION_BAR', { name, progress: cenitalCli.parseNumber(tokens[0]) });
-    });
-  },
-  fetchTransitionEffects({ dispatch, commit }, name) {
-    return send(dispatch, [
-      'config', 
-      name, 
-      'transition:effect',
-      'enum'
-    ]).then(tokens => {
-      commit('RESET_TRANSITION_EFFECTS', name); //Start over
-      tokens.forEach(effect => {
-        commit('ADD_TRANSITION_EFFECT', { name, effect: effect });
-      });
-    });
-  },
-  fetchTransitionEffect({ dispatch, commit }, name) {
-    return send(dispatch, [
-      'config', 
-      name, 
-      'transition:effect',
-      'get'
-    ]).then(tokens => {
-      console.assert(tokens.length === 1);
-      commit('SET_TRANSITION_EFFECT', { name, effect: tokens[0] });
+      commit('SET_TRANSITION_BAR', { name, value: cenitalCli.parseNumber(tokens[0]) });
     });
   },
   fetchTransitionDuration({ dispatch, commit }, name) {
@@ -307,7 +289,7 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_TRANSITION_DURATION', { name, duration: cenitalCli.parseDuration(tokens[0]) });
+      commit('SET_TRANSITION_DURATION', { name, value: cenitalCli.parseDuration(tokens[0]) });
     });
   },
   fetchTransitionPreview({ dispatch, commit }, name) {
@@ -318,7 +300,43 @@ export default {
       'get'
     ]).then(tokens => {
       console.assert(tokens.length === 1);
-      commit('SET_TRANSITION_PREVIEW', { name, enabled: cenitalCli.parseBoolean(tokens[0]) });
+      commit('SET_TRANSITION_PREVIEW', { name, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchTransitionEffects({ dispatch, commit }, name) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:effect',
+      'enum'
+    ]).then(tokens => {
+      commit('RESET_TRANSITION_EFFECTS', name); //Start over
+      const prom = tokens.map(effect => {
+        return send(dispatch, [
+          'config', 
+          name, 
+          'transition:effect', 
+          'config', 
+          effect, 
+          'type'
+        ]).then(tokens => {
+          console.assert(tokens.length === 1);
+          commit('ADD_TRANSITION_EFFECT', { name, effect: effect, type: tokens[0] });
+        }); //TODO fetch the effect itself
+      });
+
+      return Promise.all(prom);
+    });
+  },
+  fetchTransitionSelectedEffect({ dispatch, commit }, name) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      'transition:effect',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_TRANSITION_SELECTED_EFFECT', { name, value: tokens[0] });
     });
   },
 
@@ -338,7 +356,7 @@ export default {
       'get'
     ]).then(tokens => {
       const count = cenitalCli.parseInteger(tokens[0]);
-      commit('SET_UPSTREAM_OVERLAY_COUNT', { name, count });
+      commit('SET_OVERLAY_COUNT', { name, slot: 'upstream', value: count });
 
       const prom = new Array(count);
       for(let i = 0; i < count; ++i) {
@@ -355,7 +373,7 @@ export default {
       'get'
     ]).then(tokens => {
       const count = cenitalCli.parseInteger(tokens[0]);
-      commit('SET_DOWNSTREAM_OVERLAY_COUNT', { name, count });
+      commit('SET_OVERLAY_COUNT', { name, slot: 'downstream', value: count });
 
       const prom = new Array(count);
       for(let i = 0; i < count; ++i) {

@@ -1,6 +1,6 @@
 import Vue from "vue"
 
-const defaultKeyerData = {
+const defaultOverlayData = {
   fillIn: -1,
   keyIn: -1,
   position: [0.0, 0.0, 0.0],
@@ -35,13 +35,17 @@ export default {
       scalingFilter: null,
       pgm: -1,
       pvw: -1,
-      transitionBar: 0.0,
-      transitionEffects: Object.create(null),
-      transitionEffect: null,
-      transitionDuration: 1.0,
-      transitionPreview: false,
-      usOverlays: [],
-      dsOverlays: []
+      transition: {
+        bar: 0.0,
+        duration: 1.01,
+        preview: false,
+        effects: Object.create(null),
+        selectedEffect: null
+      },
+      overlays: {
+        upstream: [],
+        downstream: []
+      }
     };
 
     //Create a empty mix effect
@@ -56,57 +60,53 @@ export default {
 
 
 
+  SET_INPUT_COUNT(state, { name, value }) {
+    state.elements[name].inputCount = value;
+  },
+  SET_OVERLAY_COUNT(state, { name, slot, value }) {
+    resize(state.elements[name].overlays[slot], value, defaultOverlayData);
+  },
+
+  SET_SCALING_MODE(state, { name, value }) {
+    state.elements[name].scalingMode = value;
+  },
+  SET_SCALING_FILTER(state, { name, value }) {
+    state.elements[name].scalingFilter = value;
+  },
+
+  SET_PROGRAM(state, { name, value }) {
+    state.elements[name].pgm = value;
+  },
+  SET_PREVIEW(state, { name, value }) {
+    state.elements[name].pvw = value;
+  },
+  SET_TRANSITION_BAR(state, { name, value }) {
+    state.elements[name].transition.bar = value;
+  },
+  SET_TRANSITION_DURATION(state, { name, value }) {
+    state.elements[name].transition.duration = value;
+  },
+  SET_TRANSITION_PREVIEW(state, { name, value }) {
+    state.elements[name].transition.preview = value;
+  },
   ADD_TRANSITION_EFFECT(state, { name, effect, type }) {
     const data = {
       type: type
     };
 
     //Push it onto the mix effect transition effect map
-    Vue.set(state.elements[name].transitionEffects, effect, data);
+    Vue.set(state.elements[name].transition.effects, effect, data);
   },
   DELETE_TRANSITION_EFFECT(state, { name, effect }) {
-    Vue.delete(state.elements[name].transitionEffects, effect);
+    Vue.delete(state.elements[name].transition.effects, effect);
   },
   RESET_TRANSITION_EFFECTS(state, name) {
-    state.elements[name].transitionEffects = Object.create(null);
+    state.elements[name].transition.effects = Object.create(null);
+  },
+  SET_TRANSITION_SELECTED_EFFECT(state, { name, value }) {
+    state.elements[name].transition.selectedEffect = value;
   },
 
-
-  SET_INPUT_COUNT(state, { name, count }) {
-    state.elements[name].inputCount = count;
-  },
-  SET_UPSTREAM_OVERLAY_COUNT(state, { name, count }) {
-    resize(state.elements[name].usOverlays, count, defaultKeyerData);
-  },
-  SET_DOWNSTREAM_OVERLAY_COUNT(state, { name, count }) {
-    resize(state.elements[name].dsOverlays, count, defaultKeyerData);
-  },
-
-  SET_SCALING_MODE(state, { name, mode }) {
-    state.elements[name].scalingMode = mode;
-  },
-  SET_SCALING_FILTER(state, { name, filter }) {
-    state.elements[name].scalingFilter = filter;
-  },
-
-  SET_PROGRAM(state, { name, index }) {
-    state.elements[name].pgm = index;
-  },
-  SET_PREVIEW(state, { name, index }) {
-    state.elements[name].pvw = index;
-  },
-  SET_TRANSITION_BAR(state, { name, progress }) {
-    state.elements[name].transitionBar = progress;
-  },
-  SET_TRANSITION_EFFECT(state, { name, effect }) {
-    state.elements[name].transitionEffect = effect;
-  },
-  SET_TRANSITION_DURATION(state, { name, duration }) {
-    state.elements[name].transitionDuration = duration;
-  },
-  SET_TRANSITION_PREVIEW(state, { name, enabled }) {
-    state.elements[name].transitionPreview = enabled;
-  },
 
 
   INC_FETCHING(state) {

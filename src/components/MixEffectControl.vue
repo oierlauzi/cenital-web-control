@@ -108,8 +108,7 @@
     computed: {
       ...mapGetters("mixEffect", [ 
         'getTransitionEffects',
-        'getUpstreamOverlayCount',
-        'getDownstreamOverlayCount',
+        'getOverlayCount',
       ]),
 
 
@@ -117,10 +116,10 @@
         return this.getTransitionEffects(this.name);
       },
       uskCount() {
-        return this.getUpstreamOverlayCount(this.name);
+        return this.getOverlayCount(this.name, 'upstream');
       },
       dskCount() {
-        return this.getDownstreamOverlayCount(this.name);
+        return this.getOverlayCount(this.name, 'downstream');
       }
     }
   }

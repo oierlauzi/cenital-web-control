@@ -136,19 +136,19 @@
       },
 
       onInputCountChange(count) {
-        this.$store.dispatch('mixEffect/setInputCount', { name: this.name, count: count });
+        this.$store.dispatch('mixEffect/setInputCount', { name: this.name, value: count });
       },
       onUpstreamOverlayCountChange(count) {
-        this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.name, count: count });
+        this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'upstream', value: count });
       },
       onDownstreamOverlayCountChange(count) {
-        this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.name, count: count });
+        this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'downstream', value: count });
       },
       onScalingModeChange(value) {
-        this.$store.dispatch('mixEffect/setScalingMode', { name: this.name, mode: value });
+        this.$store.dispatch('mixEffect/setScalingMode', { name: this.name, value: value });
       },
       onScalingFilterChange(value) {
-        this.$store.dispatch('mixEffect/setScalingFilter', { name: this.name, filter: value });
+        this.$store.dispatch('mixEffect/setScalingFilter', { name: this.name, value: value });
       },
     },
     computed: {
@@ -156,10 +156,10 @@
         return this.$store.getters['mixEffect/getInputCount'](this.name);
       },
       upstreamOverlayCount() {
-        return this.$store.getters['mixEffect/getUpstreamOverlayCount'](this.name);
+        return this.$store.getters['mixEffect/getOverlayCount'](this.name, 'upstream');
       },
       downstreamOverlayCount() {
-        return this.$store.getters['mixEffect/getDownstreamOverlayCount'](this.name);
+        return this.$store.getters['mixEffect/getOverlayCount'](this.name, 'downstream');
       },
       scalingMode() {
         return this.$store.getters['mixEffect/getScalingMode'](this.name);
