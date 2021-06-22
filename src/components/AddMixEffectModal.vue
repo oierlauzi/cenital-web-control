@@ -101,8 +101,8 @@
             //Configure in parallel
             return Promise.all([
               this.$store.dispatch('mixEffect/setInputCount', { name: this.name, value: this.inputCount }),
-              this.$store.dispatch('mixEffect/setUpstreamOverlayCount', { name: this.name, value: this.usOverlayCount }),
-              this.$store.dispatch('mixEffect/setDownstreamOverlayCount', { name: this.name, value: this.dsOverlayCount }),
+              this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'upstream', value: this.usOverlayCount }),
+              this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'downstream', value: this.dsOverlayCount }),
             ]);
           });
 
