@@ -23,6 +23,19 @@
           />
         </b-form-group>
 
+        <!-- Resolution -->
+        <b-form-group
+          label="Resolution"
+          label-for="resolution-input"
+        >
+          <b-form-input
+            ref="resolution-input"
+            v-model="resolution"
+            :state="resolutionValidation"
+            required
+          />
+        </b-form-group>
+
         <!-- Input count -->
         <b-form-group
           label="Input count"
@@ -68,6 +81,8 @@
 </template>
 
 <script>
+  import cenitalCli from '../api/cenitalCli'
+
   export default {
     name: "AddMixEffectModal",
     components: {},
@@ -75,6 +90,7 @@
     data() {
       return {
         name: '',
+        resolution: '1920x1080',
         inputCount: 8,
         usOverlayCount: 4,
         dsOverlayCount: 2
@@ -100,6 +116,8 @@
           .then(() => {
             //Configure in parallel
             return Promise.all([
+              this.$store.dispatch('mixer/setResolution', { name: this.name, value: cenitalCli.parseResolution(this.resolution) }),
+              this.$store.dispatch('mixer/setPixelAspectRatio', { name: this.name, value: { num:1, den: 1 } }),
               this.$store.dispatch('mixEffect/setInputCount', { name: this.name, value: this.inputCount }),
               this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'upstream', value: this.usOverlayCount }),
               this.$store.dispatch('mixEffect/setOverlayCount', { name: this.name, slot: 'downstream', value: this.dsOverlayCount }),
@@ -117,6 +135,9 @@
       inputNameValidation() {
         return  this.name !== '' && 
                 !this.$store.getters['mixer/getElements'].includes(this.name) ;
+      },
+      resolutionValidation() {
+        return cenitalCli.parseResolution(this.resolution) != undefined;
       }
     }
   };
