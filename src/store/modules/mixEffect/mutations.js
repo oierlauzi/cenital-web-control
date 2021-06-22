@@ -55,6 +55,27 @@ export default {
         blendingMode: null,
         scalingMode: null,
         scalingFilter: null,
+        linearKey: {
+          enabled: false,
+          inverted: false,
+          channel: ""
+        },
+        lumaKey: {
+          enabled: false,
+          inverted: false,
+          min: 0.0,
+          max: 0.0
+        },
+        chromaKey: {
+          enabled: false,
+          hue: 0.0,
+          hueSpan: 0.0,
+          hueSmoothness: 0.0,
+          saturationThreshold: 0.0,
+          saturationSmoothness: 0.0,
+          brightnessThreshold: 0.0,
+          brightnessSmoothness: 0.0,
+        },
       };
 
       arr.push(data);
@@ -138,6 +159,51 @@ export default {
   },
   SET_OVERLAY_SCALING_FILTER(state, { name, slot, index, value }) {
     state.elements[name].overlays[slot][index].scalingFilter = value;
+  },
+  SET_OVERLAY_LINEAR_KEY_ENABLED(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].linearKey.enabled = value;
+  },
+  SET_OVERLAY_LINEAR_KEY_INVERTED(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].linearKey.inverted = value;
+  },
+  SET_OVERLAY_LINEAR_KEY_CHANNEL(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].linearKey.channel = value;
+  },
+  SET_OVERLAY_LUMA_KEY_ENABLED(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].lumaKey.enabled = value;
+  },
+  SET_OVERLAY_LUMA_KEY_INVERTED(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].lumaKey.inverted = value;
+  },
+  SET_OVERLAY_LUMA_KEY_MIN_THRESHOLD(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].lumaKey.min = value;
+  },
+  SET_OVERLAY_LUMA_KEY_MAX_THRESHOLD(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].lumaKey.max = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_ENABLED(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.enabled = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_HUE(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.hue = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_HUE_SPAN(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.hueSpan = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_HUE_SMOOTHNESS(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.hueSmoothness = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_SATURATION_THRESHOLD(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.saturationThreshold = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_SATURATION_SMOOTHNESS(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.saturationSmoothness = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_THRESHOLD(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.brightnessThreshold = value;
+  },
+  SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_SMOOTHNESS(state, { name, slot, index, value }) {
+    state.elements[name].overlays[slot][index].chromaKey.brightnessSmoothness = value;
   },
 
 

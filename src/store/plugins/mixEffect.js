@@ -315,6 +315,170 @@ function setOverlayScalingFilter(store, tokens, name, slot, index) {
   }
 }
 
+function getLinearKeyEnabled(store, tokens, name, slot, index) {
+  try {
+    const enabled = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LINEAR_KEY_ENABLED',  { name, slot, index, value: enabled });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLinearKeyInverted(store, tokens, name, slot, index) {
+  try {
+    const inverted = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LINEAR_KEY_INVERTED',  { name, slot, index, value: inverted });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLinearKeyChannel(store, tokens, name, slot, index) {
+  try {
+    store.commit(modulePrefix + 'SET_OVERLAY_LINEAR_KEY_CHANNEL',  { name, slot, index, value: tokens.shift() });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLumaKeyEnabled(store, tokens, name, slot, index) {
+  try {
+    const enabled = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LUMA_KEY_ENABLED',  { name, slot, index, value: enabled });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLumaKeyInverted(store, tokens, name, slot, index) {
+  try {
+    const inverted = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LUMA_KEY_INVERTED',  { name, slot, index, value: inverted });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLumaKeyMinThreshold(store, tokens, name, slot, index) {
+  try {
+    const min = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LUMA_KEY_MIN_THRESHOLD',  { name, slot, index, value: min });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getLumaKeyMaxThreshold(store, tokens, name, slot, index) {
+  try {
+    const max = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_LUMA_KEY_MAX_THRESHOLD',  { name, slot, index, value: max });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyEnabled(store, tokens, name, slot, index) {
+  try {
+    const enabled = cenitalCli.parseBoolean(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_ENABLED',  { name, slot, index, value: enabled });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyHue(store, tokens, name, slot, index) {
+  try {
+    const hue = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_HUE',  { name, slot, index, value: hue });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyHueSpan(store, tokens, name, slot, index) {
+  try {
+    const hueSpan = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_HUE_SPAN',  { name, slot, index, value: hueSpan });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyHueSmoothness(store, tokens, name, slot, index) {
+  try {
+    const hueSmoothness = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_HUE_SMOOTHNESS',  { name, slot, index, value: hueSmoothness });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeySaturationThreshold(store, tokens, name, slot, index) {
+  try {
+    const satThreshold = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_SATURATION_THRESHOLD',  { name, slot, index, value: satThreshold });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeySaturationSmoothness(store, tokens, name, slot, index) {
+  try {
+    const satSmoothness = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_SATURATION_SMOOTHNESS',  { name, slot, index, value: satSmoothness });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyBrightnessThreshold(store, tokens, name, slot, index) {
+  try {
+    const brightnessThreshold = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_THRESHOLD',  { name, slot, index, value: brightnessThreshold });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function getChromaKeyBrightnessSmoothness(store, tokens, name, slot, index) {
+  try {
+    const brightnessSmoothness = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_SMOOTHNESS',  { name, slot, index, value: brightnessSmoothness });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
 function configOverlay(store, tokens, name, slot) {
   const index = tokens.shift();
   const action = tokens.shift();
@@ -372,6 +536,126 @@ function configOverlay(store, tokens, name, slot) {
     const set = tokens.shift();
     if(set === 'set') {
       setOverlayScalingFilter(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'linear-key:ena': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLinearKeyEnabled(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'linear-key:inv': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLinearKeyInverted(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'linear-key:ch': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLinearKeyChannel(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'luma-key:ena': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLumaKeyEnabled(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'luma-key:inv': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLumaKeyInverted(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'luma-key:min': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLumaKeyMinThreshold(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'luma-key:max': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getLumaKeyMaxThreshold(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:ena': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyEnabled(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:hue:center': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyHue(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:hue:span': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyHueSpan(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:hue:smooth': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyHueSmoothness(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:sat:min': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeySaturationThreshold(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:sat:smooth': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeySaturationSmoothness(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:val:min': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyBrightnessThreshold(store, tokens, name, slot, index);
+    }
+  }
+  break;
+
+  case 'chroma-key:val:smooth': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      getChromaKeyBrightnessSmoothness(store, tokens, name, slot, index);
     }
   }
   break;

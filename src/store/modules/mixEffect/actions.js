@@ -277,7 +277,186 @@ export default {
       value
     ]);
   },
-
+  setLinearKeyEnabled({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:ena',
+      'set',
+      cenitalCli.generateBoolean(value)
+    ]);
+  },
+  setLinearKeyInverted({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:inv',
+      'set',
+      cenitalCli.generateBoolean(value)
+    ]);
+  },
+  setLinearKeyChannel({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:ch',
+      'set',
+      value
+    ]);
+  },
+  setLumaKeyEnabled({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:ena',
+      'set',
+      cenitalCli.generateBoolean(value)
+    ]);
+  },
+  setLumaKeyInverted({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:inv',
+      'set',
+      cenitalCli.generateBoolean(value)
+    ]);
+  },
+  setLumaKeyMinThreshold({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:min',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setLumaKeyMaxThreshold({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:max',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeyEnabled({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:ena',
+      'set',
+      cenitalCli.generateBoolean(value)
+    ]);
+  },
+  setChromaKeyHue({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:center',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeyHueSpan({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:span',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeyHueSmoothness({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:smooth',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeySaturationThreshold({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:sat:min',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeySaturationSmoothness({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:sat:smooth',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeyBrightnessThreshold({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:val:min',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
+  setChromaKeyBrightnessSmoothness({ dispatch }, { name, slot, index, value }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:val:smooth',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
 
 
   reset({ commit }) {
@@ -493,15 +672,37 @@ export default {
     return Promise.all([
       dispatch('fetchOverlayVisible', { name, slot, index }),
       dispatch('fetchOverlayTransition', { name, slot, index }),
+
       dispatch('fetchOverlayFeed', { name, slot, index, feed: 'fillIn' }),
       dispatch('fetchOverlayFeed', { name, slot, index, feed: 'keyIn' }),
+
       dispatch('fetchOverlayPosition', { name, slot, index }),
       dispatch('fetchOverlayRotation', { name, slot, index }),
       dispatch('fetchOverlayScale', { name, slot, index }),
+
       dispatch('fetchOverlayOpacity', { name, slot, index }),
       dispatch('fetchOverlayBlendingMode', { name, slot, index }),
+
       dispatch('fetchOverlayScalingMode', { name, slot, index }),
       dispatch('fetchOverlayScalingFilter', { name, slot, index }),
+
+      dispatch('fetchLinearKeyEnabled', { name, slot, index }),
+      dispatch('fetchLinearKeyInverted', { name, slot, index }),
+      dispatch('fetchLinearKeyChannel', { name, slot, index }),
+
+      dispatch('fetchLumaKeyEnabled', { name, slot, index }),
+      dispatch('fetchLumaKeyInverted', { name, slot, index }),
+      dispatch('fetchLumaKeyMinThreshold', { name, slot, index }),
+      dispatch('fetchLumaKeyMaxThreshold', { name, slot, index }),
+      
+      dispatch('fetchChromaKeyEnabled', { name, slot, index }),
+      dispatch('fetchChromaKeyHue', { name, slot, index }),
+      dispatch('fetchChromaKeyHueSpan', { name, slot, index }),
+      dispatch('fetchChromaKeyHueSmoothness', { name, slot, index }),
+      dispatch('fetchChromaKeySaturationThreshold', { name, slot, index }),
+      dispatch('fetchChromaKeySaturationSmoothness', { name, slot, index }),
+      dispatch('fetchChromaKeyBrightnessThreshold', { name, slot, index }),
+      dispatch('fetchChromaKeyBrightnessSmoothness', { name, slot, index }),
     ])
   },
   fetchOverlayVisible({ dispatch, commit }, { name, slot, index }) {
@@ -641,6 +842,216 @@ export default {
     ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_OVERLAY_SCALING_FILTER', { name, slot, index, value: tokens[0] });
+    });
+  },
+  fetchLinearKeyEnabled({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:ena',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LINEAR_KEY_ENABLED', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchLinearKeyInverted({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:inv',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LINEAR_KEY_INVERTED', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchLinearKeyChannel({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'linear-key:ch',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LINEAR_KEY_CHANNEL', { name, slot, index, value: tokens[0] });
+    });
+  },
+  fetchLumaKeyEnabled({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:ena',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LUMA_KEY_ENABLED', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchLumaKeyInverted({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:inv',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LUMA_KEY_INVERTED', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchLumaKeyMinThreshold({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:min',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LUMA_KEY_MIN_THRESHOLD', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchLumaKeyMaxThreshold({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'luma-key:max',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_LUMA_KEY_MAX_THRESHOLD', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeyEnabled({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:ena',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_ENABLED', { name, slot, index, value: cenitalCli.parseBoolean(tokens[0]) });
+    });
+  },
+  fetchChromaKeyHue({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:center',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_HUE', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeyHueSpan({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:span',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_HUE_SPAN', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeyHueSmoothness({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:hue:smooth',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_HUE_SMOOTHNESS', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeySaturationThreshold({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:sat:min',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_SATURATION_THRESHOLD', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeySaturationSmoothness({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:sat:smooth',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_SATURATION_SMOOTHNESS', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeyBrightnessThreshold({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:val:min',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_THRESHOLD', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
+    });
+  },
+  fetchChromaKeyBrightnessSmoothness({ dispatch, commit }, { name, slot, index }) {
+    return send(dispatch, [
+      'config', 
+      name, 
+      overlaySlotToCommand(slot),
+      'config',
+      cenitalCli.generateInteger(index),
+      'chroma-key:val:smooth',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_OVERLAY_CHROMA_KEY_BRIGHTNESS_SMOOTHNESS', { name, slot, index, value: cenitalCli.parseNumber(tokens[0]) });
     });
   },
 
