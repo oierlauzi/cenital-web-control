@@ -12,9 +12,10 @@ export default {
 	getTransitionBar: state => name => state.elements[name].transition.bar,
 	getTransitionDuration: state => name => state.elements[name].transition.duration,
 	getTransitionPreview: state => name => state.elements[name].transition.preview,
-	getTransitionEffects: state => name => Object.keys(state.elements[name].transition.effects),
-	getTransitionEffectType: state => (name, effect) => state.elements[name].transition.effects[effect].type,
 	getTransitionSelectedEffect: state => name => state.elements[name].transition.selectedEffect,
+	getMixTransitionEffect: state => name => state.elements[name].transition.effects.mix.effect,
+	getDveTransitionEffect: state => name => state.elements[name].transition.effects.dve.effect,
+	getDveTransitionAngle: state => name => state.elements[name].transition.effects.dve.angle,
 
 	getOverlayVisible: state => (name, slot, index) => state.elements[name].overlays[slot][index].visible,
 	getOverlayTransition: state => (name, slot, index) => state.elements[name].overlays[slot][index].transition,

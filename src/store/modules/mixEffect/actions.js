@@ -103,15 +103,6 @@ export default {
       cenitalCli.generateNumber(value)
     ]);
   },
-  setTransitionSelectedEffect({ dispatch }, { name, value }) {
-    return send(dispatch, [
-      'config',
-      name,
-      'transition:effect',
-      'set',
-      value
-    ]);
-  },
   setTransitionDuration({ dispatch }, { name, value }) {
     return send(dispatch, [
       'config',
@@ -130,7 +121,54 @@ export default {
       cenitalCli.generateBoolean(value)
     ]);
   },
+  setTransitionSelectedEffect({ dispatch }, { name, value }) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'set',
+      value
+    ]);
+  },
+  setMixTransitionEffect({ dispatch }, { name, value }) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'Mix',
+      'effect',
+      'set',
+      value
+    ]);
+  },
+  setDveTransitionEffect({ dispatch }, { name, value }) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'DVE',
+      'effect',
+      'set',
+      value
+    ]);
+  },
+  setDveTransitionAngle({ dispatch }, { name, value }) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'DVE',
+      'angle',
+      'set',
+      cenitalCli.generateNumber(value)
+    ]);
+  },
 
+
+  
   cut({ dispatch }, name) {
     return send(dispatch, [
       'config',
@@ -497,8 +535,10 @@ export default {
       dispatch('fetchTransitionBar', name),
       dispatch('fetchTransitionDuration', name),
       dispatch('fetchTransitionPreview', name),
-      dispatch('fetchTransitionEffects', name),
       dispatch('fetchTransitionSelectedEffect', name),
+      dispatch('fetchMixTransitionEffect', name),
+      dispatch('fetchDveTransitionEffect', name),
+      dispatch('fetchDveTransitionAngle', name),
 
       dispatch('fetchOverlays', { name, slot: 'upstream' }),
       dispatch('fetchOverlays', { name, slot: 'downstream' }),
@@ -612,31 +652,6 @@ export default {
       commit('SET_TRANSITION_PREVIEW', { name, value: cenitalCli.parseBoolean(tokens[0]) });
     });
   },
-  fetchTransitionEffects({ dispatch, commit }, name) {
-    return send(dispatch, [
-      'config', 
-      name, 
-      'transition:effect',
-      'enum'
-    ]).then(tokens => {
-      commit('RESET_TRANSITION_EFFECTS', name); //Start over
-      const prom = tokens.map(effect => {
-        return send(dispatch, [
-          'config', 
-          name, 
-          'transition:effect', 
-          'config', 
-          effect, 
-          'type'
-        ]).then(tokens => {
-          console.assert(tokens.length === 1);
-          commit('ADD_TRANSITION_EFFECT', { name, effect: effect, type: tokens[0] });
-        }); //TODO fetch the effect itself
-      });
-
-      return Promise.all(prom);
-    });
-  },
   fetchTransitionSelectedEffect({ dispatch, commit }, name) {
     return send(dispatch, [
       'config', 
@@ -646,6 +661,48 @@ export default {
     ]).then(tokens => {
       console.assert(tokens.length === 1);
       commit('SET_TRANSITION_SELECTED_EFFECT', { name, value: tokens[0] });
+    });
+  },
+  fetchMixTransitionEffect({ dispatch, commit }, name) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'Mix',
+      'effect',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_MIX_TRANSITION_EFFECT', { name, value: tokens[0] });
+    });
+  },
+  fetchDveTransitionEffect({ dispatch, commit }, name) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'DVE',
+      'effect',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_DVE_TRANSITION_EFFECT', { name, value: tokens[0] });
+    });
+  },
+  fetchDveTransitionAngle({ dispatch, commit }, name) {
+    return send(dispatch, [
+      'config',
+      name,
+      'transition:effect',
+      'config',
+      'DVE',
+      'angle',
+      'get'
+    ]).then(tokens => {
+      console.assert(tokens.length === 1);
+      commit('SET_DVE_TRANSITION_ANGLE', { name, value: cenitalCli.parseNumber(tokens[0]) });
     });
   },
 

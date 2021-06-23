@@ -37,16 +37,30 @@
               </b-collapse>
             </b-card>
 
-            <!-- Transitions -->
-            <b-card v-for="effect in transitionEffects" :key="'transition'+effect"
-              no-body class="mb-1"
-            >
+            <!-- Mix transition -->
+            <b-card no-body class="mb-1">
               <b-card-header header-tag="header" class="p-1" role="tab">
-                <b-button block v-b-toggle="'transition-effect-' + effect" variant="warning">{{effect}} transition</b-button>
+                <b-button block v-b-toggle="'transition-effect-mix'" variant="warning">
+                  Mix transition
+                </b-button>
               </b-card-header>
-              <b-collapse :id="'transition-effect-' + effect" accordion="mix-effect-accordion" role="tabpanel">
+              <b-collapse id="transition-effect-mix" accordion="mix-effect-accordion" role="tabpanel">
                 <b-card-body>
-                  <MixEffectTransitionEffect :name="name" :effect="effect" />
+                  <MixEffectTransitionMix :name="name" />
+                </b-card-body>
+              </b-collapse>
+            </b-card>
+
+            <!-- DVE transition -->
+            <b-card no-body class="mb-1">
+              <b-card-header header-tag="header" class="p-1" role="tab">
+                <b-button block v-b-toggle="'transition-effect-dve'" variant="warning">
+                  DVE transition
+                </b-button>
+              </b-card-header>
+              <b-collapse id="transition-effect-dve" accordion="mix-effect-accordion" role="tabpanel">
+                <b-card-body>
+                  <MixEffectTransitionDve :name="name" />
                 </b-card-body>
               </b-collapse>
             </b-card>
@@ -105,7 +119,8 @@
   import MixEffectCrosspoint from "./MixEffectCrosspoint"
   import MixEffectTransition from "./MixEffectTransition"
   import MixEffectSettings from "./MixEffectSettings"
-  import MixEffectTransitionEffect from "./MixEffectTransitionEffect"
+  import MixEffectTransitionMix from "./MixEffectTransitionMix"
+  import MixEffectTransitionDve from "./MixEffectTransitionDve"
   import MixEffectOverlay from "./MixEffectOverlay"
 
   export default {
@@ -114,7 +129,8 @@
       MixEffectCrosspoint,
       MixEffectTransition,
       MixEffectSettings,
-      MixEffectTransitionEffect,
+      MixEffectTransitionMix,
+      MixEffectTransitionDve,
       MixEffectOverlay
     },
     props: {},
@@ -130,7 +146,6 @@
     },
     computed: {
       ...mapGetters("mixEffect", [ 
-        'getTransitionEffects',
         'getOverlayCount',
       ]),
 
@@ -138,9 +153,6 @@
         return this.$route.params.name;
       },
 
-      transitionEffects() {
-        return this.getTransitionEffects(this.name);
-      },
       uskCount() {
         return this.getOverlayCount(this.name, 'upstream');
       },

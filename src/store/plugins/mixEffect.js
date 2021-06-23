@@ -173,6 +173,89 @@ function setTransitionSelectedEffect(store, tokens, name) {
   }
 }
 
+function setMixTransitionEffect(store, tokens, name) {
+  try {
+    const effect = tokens.shift();
+    store.commit(modulePrefix + 'SET_MIX_TRANSITION_EFFECT',  { name: name, value: effect });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function configMixTransitionEffect(store, tokens, name) {
+  const action = tokens.shift();
+
+  switch(action) {
+  case 'effect': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setMixTransitionEffect(store, tokens, name);
+    }
+  }
+  break;
+  }
+}
+
+function setDveTransitionEffect(store, tokens, name) {
+  try {
+    const effect = tokens.shift();
+    store.commit(modulePrefix + 'SET_DVE_TRANSITION_EFFECT',  { name: name, value: effect });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function setDveTransitionAngle(store, tokens, name) {
+  try {
+    const angle = cenitalCli.parseNumber(tokens.shift());
+    store.commit(modulePrefix + 'SET_DVE_TRANSITION_ANGLE',  { name: name, value: angle });
+  } catch {
+    //If the fetch process is going
+    //slower than the updates, 
+    //this might fail
+  }
+}
+
+function configDveTransitionEffect(store, tokens, name) {
+  const action = tokens.shift();
+
+  switch(action) {
+  case 'effect': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setDveTransitionEffect(store, tokens, name);
+    }
+  }
+  break;
+
+  case 'angle': {
+    const set = tokens.shift();
+    if(set === 'set') {
+      setDveTransitionAngle(store, tokens, name);
+    }
+  }
+  break;
+  }
+}
+
+function configTransitionEffect(store, tokens, name) {
+  const effect = tokens.shift();
+
+  switch(effect) {
+  case 'Mix': 
+    configMixTransitionEffect(store, tokens, name);
+    break;
+
+  case 'DVE': 
+    configDveTransitionEffect(store, tokens, name);
+    break;
+  }
+}
+
 
 
 function setOverlayCount(store, tokens, name, slot) {
@@ -661,7 +744,6 @@ function configOverlay(store, tokens, name, slot) {
   break;
 
   }
-
 }
 
 
@@ -773,6 +855,8 @@ function config(store, tokens) {
         const set = tokens.shift();
         if(set === 'set') {
           setTransitionSelectedEffect(store, tokens, element);
+        } else if(set === 'config') {
+          configTransitionEffect(store, tokens, element);
         }
       }
       break;

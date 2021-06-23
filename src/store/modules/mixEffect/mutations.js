@@ -4,16 +4,24 @@ export default {
   ADD(state, name) {
     const data = {
       inputCount: 0,
-      scalingMode: null,
-      scalingFilter: null,
+      scalingMode: "",
+      scalingFilter: "",
       pgm: -1,
       pvw: -1,
       transition: {
         bar: 0.0,
         duration: 1.01,
         preview: false,
-        effects: Object.create(null),
-        selectedEffect: null
+        effects: {
+          mix: {
+            effect: ""
+          },
+          dve: {
+            effect: "",
+            angle: 0.0
+          },
+        },
+        selectedEffect: ""
       },
       overlays: {
         upstream: [],
@@ -52,9 +60,9 @@ export default {
         rotation: [0.0, 0.0, 0.0, 0.0],
         scale: [1.0, 1.0, 1.0],
         opacity: 1.0,
-        blendingMode: null,
-        scalingMode: null,
-        scalingFilter: null,
+        blendingMode: "",
+        scalingMode: "",
+        scalingFilter: "",
         linearKey: {
           enabled: false,
           inverted: false,
@@ -111,22 +119,17 @@ export default {
   SET_TRANSITION_PREVIEW(state, { name, value }) {
     state.elements[name].transition.preview = value;
   },
-  ADD_TRANSITION_EFFECT(state, { name, effect, type }) {
-    const data = {
-      type: type
-    };
-
-    //Push it onto the mix effect transition effect map
-    Vue.set(state.elements[name].transition.effects, effect, data);
-  },
-  DELETE_TRANSITION_EFFECT(state, { name, effect }) {
-    Vue.delete(state.elements[name].transition.effects, effect);
-  },
-  RESET_TRANSITION_EFFECTS(state, name) {
-    state.elements[name].transition.effects = Object.create(null);
-  },
   SET_TRANSITION_SELECTED_EFFECT(state, { name, value }) {
     state.elements[name].transition.selectedEffect = value;
+  },
+  SET_MIX_TRANSITION_EFFECT(state, { name, value }) {
+    state.elements[name].transition.effects.mix.effect = value;
+  },
+  SET_DVE_TRANSITION_EFFECT(state, { name, value }) {
+    state.elements[name].transition.effects.dve.effect = value;
+  },
+  SET_DVE_TRANSITION_ANGLE(state, { name, value }) {
+    state.elements[name].transition.effects.dve.angle = value;
   },
 
 

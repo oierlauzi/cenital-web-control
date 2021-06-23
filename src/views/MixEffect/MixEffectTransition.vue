@@ -15,8 +15,7 @@
       <!-- Controls -->
       <b-row align-h="center" align-v="start" class="my-3">
         <b-col>
-          <b-form-select 
-            :options="transitionEffectOptions" 
+          <TransitionEffectSelect
             :value="transitionEffect"
             @input="onTransitionEffect"
           />
@@ -64,11 +63,13 @@
   import { mapGetters } from 'vuex'
 
   import TransitionBar from "@/components/TransitionBar"
+  import TransitionEffectSelect from "@/components/TransitionEffectSelect"
 
   export default {
     name: "MixEffectTransition",
     components: {
-      TransitionBar
+      TransitionBar,
+      TransitionEffectSelect
     },
     props: {
       name: { type: String, required: true }
@@ -115,13 +116,9 @@
         "getTransitionBar",
         "getTransitionDuration",
         "getTransitionPreview",
-        "getTransitionEffects",
         "getTransitionSelectedEffect",
       ]),
 
-      transitionEffectOptions() {
-        return this.getTransitionEffects(this.name);
-      },
       transitionEffect() {
         return this.getTransitionSelectedEffect(this.name);
       },
