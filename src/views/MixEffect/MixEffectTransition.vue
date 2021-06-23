@@ -8,7 +8,7 @@
       <!-- T-Bar -->
       <b-row align-h="center" align-v="start" class="my-3">
         <b-col>
-          <MixEffectTransitionBar :value="transitionBarProgress" :reverse="transitionBarReverse" @input="onTransitionBarMove"/>
+          <TransitionBar :value="transitionBarProgress" :reverse="transitionBarReverse" @input="onTransitionBarMove"/>
         </b-col>
       </b-row>
 
@@ -57,23 +57,18 @@
       </b-row>
 
     </b-container>
-
-    <div class="w-100" />
-
-
-
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
 
-  import MixEffectTransitionBar from "./MixEffectTransitionBar"
+  import TransitionBar from "@/components/TransitionBar"
 
   export default {
     name: "MixEffectTransition",
     components: {
-      MixEffectTransitionBar
+      TransitionBar
     },
     props: {
       name: { type: String, required: true }

@@ -1,15 +1,8 @@
 <style scoped>
-  .dropdown-btn-multiline {
-    white-space:normal !important;
-    word-wrap: break-word;
-    text-align: center;
-  }
-
   .crosspoint-btn {
     width: 100%;
     padding-bottom: 100%;
   }
-
 </style>
 
 <template>
@@ -27,7 +20,7 @@
             class="w-100"
             variant="outline-warning" 
             :pressed="calcIndex(index) === aux"
-            @click="auxClick(calcIndex(index))"
+            @click="onAuxClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -61,7 +54,7 @@
             class="w-100"
             variant="outline-danger" 
             :pressed="calcIndex(index) === pgm"
-            @click="pgmClick(calcIndex(index))"
+            @click="onPgmClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -82,7 +75,7 @@
             class="w-100"
             variant="outline-success" 
             :pressed="calcIndex(index) === pvw"
-            @click="pvwClick(calcIndex(index))"
+            @click="onPvwClick(calcIndex(index))"
           >
             <div class="crosspoint-btn" />
           </b-button>
@@ -98,7 +91,7 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  import SourceSelect from './SourceSelect'
+  import SourceSelect from '@/components/SourceSelect'
 
   export default {
     name: 'MixEffectCrosspoint',
@@ -127,8 +120,7 @@
       },
 
 
-      //eslint-disable-next-line no-unused-vars
-      auxClick: function(index) {
+      onAuxClick: function(index) {
         if(this.selectedOverlayFeed) {
           if(this.aux === index) {
             //Already sleected. Uncheck
@@ -146,7 +138,7 @@
         }
       },
       
-      pgmClick: function(index) {
+      onPgmClick: function(index) {
         if(this.pgm === index) {
           //Already in PGM. Uncheck
           index = -1;
@@ -155,7 +147,7 @@
         this.$store.dispatch('mixEffect/setProgram', { name: this.name, value: index });
       },
 
-      pvwClick: function(index) {
+      onPvwClick: function(index) {
         if(this.pvw === index) {
           //Already in PVW. Uncheck
           index = -1;

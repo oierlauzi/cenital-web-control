@@ -2,17 +2,17 @@
   <div>
     <!-- Title -->
     <h1 class="mx-3 my-3 text-center">{{ name }}</h1>
-    <InputMediaPlayerControl :name="name" />
+    <InputNdiSettings :name="name" />
   </div>
 </template>
 
 <script>
-  import InputMediaPlayerControl from '../components/InputMediaPlayerControl'
+  import InputNdiSettings from './InputNdiSettings'
 
   export default {
     name: 'InputNdi',
     components: {
-      InputMediaPlayerControl
+      InputNdiSettings
     },
     props: {},
     data() {

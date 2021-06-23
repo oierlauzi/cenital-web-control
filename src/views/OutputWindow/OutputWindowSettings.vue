@@ -200,7 +200,7 @@
 
 
     <!-- Video mode -->
-    <VideoModeConfigure :name="name" />
+    <VideoModeSettings :name="name" />
 
   </div>
 </template>
@@ -208,19 +208,19 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  import SourceSelect from './SourceSelect'
-  import ScalingModeSelect from './ScalingModeSelect' 
-  import ScalingFilterSelect from './ScalingFilterSelect' 
-  import VectorInput from './VectorInput' 
-  import VideoModeConfigure from './VideoModeConfigure' 
+  import SourceSelect from '@/components/SourceSelect'
+  import ScalingModeSelect from '@/components/ScalingModeSelect' 
+  import ScalingFilterSelect from '@/components/ScalingFilterSelect' 
+  import VectorInput from '@/components/VectorInput' 
+  import VideoModeSettings from '@/components/VideoModeSettings' 
 
   export default {
-    name: 'OutputWindowControl',
+    name: 'OutputWindowSettings',
     components: {
       SourceSelect,
       ScalingModeSelect,
       ScalingFilterSelect,
-      VideoModeConfigure,
+      VideoModeSettings,
       VectorInput,
       
     },

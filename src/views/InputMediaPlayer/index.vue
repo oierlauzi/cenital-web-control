@@ -2,17 +2,22 @@
   <div>
     <!-- Title -->
     <h1 class="mx-3 my-3 text-center">{{ name }}</h1>
-    <InputNdiControl :name="name" />
+    <InputMediaPlayerSettings :name="name" />
+
+    <!-- Add clip modal -->
+    <InputMediaPlayerAddClipModal :name="name" />
   </div>
 </template>
 
 <script>
-  import InputNdiControl from '../components/InputNdiControl'
+  import InputMediaPlayerSettings from './InputMediaPlayerSettings'
+  import InputMediaPlayerAddClipModal from './InputMediaPlayerAddClipModal'
 
   export default {
     name: 'InputNdi',
     components: {
-      InputNdiControl
+      InputMediaPlayerSettings,
+      InputMediaPlayerAddClipModal
     },
     props: {},
     data() {

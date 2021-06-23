@@ -501,17 +501,17 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  import { rad2deg, deg2rad } from '../utils/radian'
-  import { quat2euler, euler2quat } from '../utils/quaternion'
+  import { rad2deg, deg2rad } from '@/utils/radian'
+  import { quat2euler, euler2quat } from '@/utils/quaternion'
 
-  import VectorInput from './VectorInput'
-  import BlendingModeSelect from './BlendingModeSelect'
-  import ScalingModeSelect from './ScalingModeSelect'
-  import ScalingFilterSelect from './ScalingFilterSelect'
-  import LinearKeyChannelSelect from './LinearKeyChannelSelect'
+  import VectorInput from '@/components/VectorInput'
+  import BlendingModeSelect from '@/components/BlendingModeSelect'
+  import ScalingModeSelect from '@/components/ScalingModeSelect'
+  import ScalingFilterSelect from '@/components/ScalingFilterSelect'
+  import LinearKeyChannelSelect from '@/components/LinearKeyChannelSelect'
 
   export default {
-    name: "MixEffectKeyer",
+    name: "MixEffectOverlay",
     components: {
       VectorInput,
       BlendingModeSelect,

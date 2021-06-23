@@ -25,7 +25,7 @@
 
 <script>
   export default {
-    name: "MixEffectTransitionBar",
+    name: "TransitionBar",
     components: {},
     props: {
       value: { type: Number, default: 0.0 },

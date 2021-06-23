@@ -101,27 +101,27 @@
             @change="onScalingFilterChange"
           />
         </b-col>
-      </b-row> 
+      </b-row>
 
     </b-container>
 
     <!-- Video mode -->
-    <VideoModeConfigure :name="name" />
+    <VideoModeSettings :name="name" />
 
   </div>
 </template>
 
 <script>
-  import ScalingModeSelect from './ScalingModeSelect'
-  import ScalingFilterSelect from './ScalingFilterSelect'
-  import VideoModeConfigure from './VideoModeConfigure'
+  import ScalingModeSelect from '@/components/ScalingModeSelect'
+  import ScalingFilterSelect from '@/components/ScalingFilterSelect'
+  import VideoModeSettings from '@/components/VideoModeSettings'
 
   export default {
     name: "MixEffectSettings",
     components: {
       ScalingModeSelect,
       ScalingFilterSelect,
-      VideoModeConfigure
+      VideoModeSettings
     },
     props: {
       name: { type: String, required: true }

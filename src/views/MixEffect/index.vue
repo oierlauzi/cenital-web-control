@@ -1,7 +1,10 @@
 <template>
   <div>
+    <!-- Title -->
+    <h1 class="mx-3 my-3 text-center">{{ name }}</h1>
+
+    <!-- Contents -->
     <b-container fluid>
-      <!-- Contents -->
       <b-row align-h="start" align-v="start">
         <!-- Cross-point -->
         <b-col cols="6">
@@ -18,10 +21,10 @@
           <MixEffectTransition :key="name" :name="name" />
         </b-col>
 
-
         <!-- Configuration -->
         <b-col cols="3">
           <div :key="name" class="accordion" role="tablist">
+
             <!-- Settings -->
             <b-card no-body class="mb-1">
               <b-card-header header-tag="header" class="p-1" role="tab">
@@ -92,7 +95,6 @@
         </b-col>
 
       </b-row>
-
     </b-container>
   </div>
 </template>
@@ -100,14 +102,14 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  import MixEffectCrosspoint from "../components/MixEffectCrosspoint"
-  import MixEffectTransition from "../components/MixEffectTransition"
-  import MixEffectSettings from "../components/MixEffectSettings"
-  import MixEffectTransitionEffect from "../components/MixEffectTransitionEffect"
-  import MixEffectOverlay from "../components/MixEffectOverlay"
+  import MixEffectCrosspoint from "./MixEffectCrosspoint"
+  import MixEffectTransition from "./MixEffectTransition"
+  import MixEffectSettings from "./MixEffectSettings"
+  import MixEffectTransitionEffect from "./MixEffectTransitionEffect"
+  import MixEffectOverlay from "./MixEffectOverlay"
 
   export default {
-    name: 'MixEffectControl',
+    name: 'MixEffect',
     components: {
       MixEffectCrosspoint,
       MixEffectTransition,
@@ -115,9 +117,7 @@
       MixEffectTransitionEffect,
       MixEffectOverlay
     },
-    props: {
-      name: { type: String, required: true }
-    },
+    props: {},
     data() {
       return {
         selectedOverlayFeed: null
@@ -134,6 +134,9 @@
         'getOverlayCount',
       ]),
 
+      name() {
+        return this.$route.params.name;
+      },
 
       transitionEffects() {
         return this.getTransitionEffects(this.name);

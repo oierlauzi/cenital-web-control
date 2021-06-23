@@ -107,29 +107,23 @@
 
           {{time}}s / {{duration}}s
         </b-col>
-
       </b-row>
 
     </b-container>
-
-    <!-- Add clip modal -->
-    <InputMediaPlayerAddClipModal :name="name" />
   </div>
 </template>
 
 <script>
   import { mapGetters } from 'vuex'
 
-  import InputMediaPlayerAddClipModal from './InputMediaPlayerAddClipModal'
-  import ClipStateSelect from './ClipStateSelect'
-  import ClipRepeatSelect from './ClipRepeatSelect'
+  import ClipStateSelect from '@/components/ClipStateSelect'
+  import ClipRepeatSelect from '@/components/ClipRepeatSelect'
 
   export default {
-    name: 'InputMediaPlayerControl',
+    name: 'InputMediaPlayerSettings',
     components: {
       ClipStateSelect,
-      ClipRepeatSelect,
-      InputMediaPlayerAddClipModal
+      ClipRepeatSelect
     },
     props: {
       name: { type: String, required: true }

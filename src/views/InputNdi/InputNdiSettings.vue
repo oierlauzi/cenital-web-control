@@ -52,7 +52,7 @@
 
 
     <!-- Video mode -->
-    <VideoModeConfigure :name="name" />
+    <VideoModeSettings :name="name" />
 
   </div>
 </template>
@@ -60,12 +60,12 @@
 <script>
   import { mapGetters } from 'vuex'
 
-  import VideoModeConfigure from './VideoModeConfigure' 
+  import VideoModeSettings from '@/components/VideoModeSettings' 
 
   export default {
-    name: 'InputNdiControl',
+    name: 'InputNdiSettings',
     components: {
-      VideoModeConfigure
+      VideoModeSettings
     },
     props: {
       name: { type: String, required: true }

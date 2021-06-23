@@ -171,7 +171,7 @@
   import ResolutionInput from './ResolutionInput'
 
   export default {
-    name: "VideoModeConfigure",
+    name: "VideoModeSettings",
     components: {
       RationalInput,
       ResolutionInput,
