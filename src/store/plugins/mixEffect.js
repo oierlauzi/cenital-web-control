@@ -94,7 +94,7 @@ function cut(store, tokens, name) {
       for(let i = 0; i < count; ++i) {
         if(store.getters[modulePrefix + 'getOverlayTransition'](name, slot, i)) {
           const visible = store.getters[modulePrefix + 'getOverlayVisible'](name, slot, i);
-          store.dispatch(modulePrefix + 'setOverlayVisible', { name, slot, index: i, value: !visible });
+          store.commit(modulePrefix + 'SET_OVERLAY_VISIBLE', { name, slot, index: i, value: !visible });
         }
       }
     });
